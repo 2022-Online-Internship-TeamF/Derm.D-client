@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import {createTheme, ThemeProvider } from '@mui/material/styles';
 import logo from "../images/Logo.png";
 import styled from "styled-components";
-import { Link} from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import axios from 'axios'
 
 const Logo = styled.span`
@@ -24,15 +24,77 @@ const Logo = styled.span`
 const theme = createTheme();
 
 export default function Login() {
-  // form 전송
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      ID: data.get('id'),
-      password: data.get('password'),
+  const useGetData = () => {
+    const [account, setAccount] = useState({
+        id: "",
+        password: "",
     });
-  };
+
+    const onAccountHandler = (event) => {
+      setAccount({
+          ...account,
+          [event.target.name]: event.target.value,
+      });
+    }
+    
+    const postData = async () => {
+      const postUrl = "http://localhost:8000/auth/login";
+      const postValue = {
+          id: account.id,
+          password: account.password,
+      }
+      // console.log(postVal);
+      await axios.post(postUrl, postValue)
+      .then((response) => {
+          if (response.data.status == "fail") {
+              alert(response.data.message);
+          }
+          else if (response.data.status == "success"){
+              localStorage.clear();
+              localStorage.setItem("token", response.data.auth_token);
+              localStorage.setItem("id", account.id);
+              alert(response.data.message);
+              navigate("/",{replace:true});
+          }
+      });
+    }
+
+    const onSubmit = (event) => {
+      event.preventDefault();
+      //잘 등록 되는지 콘솔로 확인
+      const data = new FormData(event.currentTarget);
+      console.log({
+        ID: data.get('id'),
+        password: data.get('password'),
+      });
+      // 위 주석부터 여기까지 나중에 지울 예정
+      if(!(account.id && account.password)){
+        return alert('전부 다 입력하셔야 합니다.')
+      }
+      /* 아이디와 비밀번호 일치하지 않을 때 예외처리
+      else if(){
+
+      }
+      */
+     else{
+      postData();
+     }
+    };
+
+    return {
+      onAccountHandler,
+      onSubmit,
+    }
+  }  
+
+  const navigate = useNavigate();
+  const { onAccountHandler, onSubmit } = useGetData();
+
+  useEffect(() => {
+    if (localStorage.getItem('token') !== null) {
+      navigate("/",{replace:true});
+    } 
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -40,7 +102,7 @@ export default function Login() {
         <CssBaseline />
         <Grid item xs={false} sm={4} md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/1500x1300/?Reading)',
+            backgroundImage: 'url(https://source.unsplash.com/1500x1300/?studying)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -64,7 +126,7 @@ export default function Login() {
             <Typography component="h1" variant="h5">
               로그인
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
               <FormControl component="fieldset" variant="standard">
                 <Grid container spacing={2}>  
                   <Grid item xs={12}>
@@ -76,6 +138,7 @@ export default function Login() {
                       name="id"
                       label="아이디"
                       autoFocus
+                      onChange={onAccountHandler}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -87,6 +150,7 @@ export default function Login() {
                       id="password"
                       name="password"
                       label="비밀번호"
+                      onChange={onAccountHandler}
                     />
                   </Grid>
                 </Grid>

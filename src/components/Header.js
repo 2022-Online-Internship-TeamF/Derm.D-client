@@ -45,14 +45,13 @@ function Header(){
       }
     }, [localStorage.getItem('token')])
     
-    const handleLogout = async () => {
-      const postUrl = "http://localhost:5000/auth/logout";
-      const postVal = {
+    const onLogoutHandler = async () => {
+      const postUrl = "http://localhost:8000/auth/logout";
+      const postValue = {
         quit: true,
       }
-      await axios.post(postUrl, postVal, {
+      await axios.post(postUrl, postValue, {
         headers: {
-          'Content-type' : 'application/json',
           'Authorization' : `JWT ${localStorage.getItem("token")}`,
         }
       })
@@ -70,11 +69,11 @@ function Header(){
 
     return {
       auth,
-      handleLogout,
+      onLogoutHandler,
     }
   }
 
-  const { auth, handleLogout } = useGetData();
+  const { auth, onLogoutHandler } = useGetData();
      
     return (
         <HeaderUp className="headerContainer">
@@ -89,14 +88,16 @@ function Header(){
             <Nav className="headerright">
               {auth ? 
               <>
-              <div> 
-                안녕하세요 (유저네임 변수)님!
+              <div> //get 사용해서 받아와야 될듯?
+                안녕하세요 (유저네임 변수)님! 
               <Right>
-                <Button 
-                  style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
-                  variant="outlined">
-                    로그아웃
-                </Button>
+                <Link to="/" onClick={onLogoutHandler} style={{ textDecoration: 'none' }}>
+                  <Button 
+                    style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
+                    variant="outlined">
+                      로그아웃
+                  </Button>
+                </Link>
               </Right>
               </div>
               </>
