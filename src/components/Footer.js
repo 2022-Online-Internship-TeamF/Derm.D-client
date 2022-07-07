@@ -17,7 +17,6 @@ const Left = styled.span`
     display: inline-block;
     margin-top: 20px;
     margin-right: 50px;
-    font-family: "Poppins";
 `;
 
 const Right = styled.span`

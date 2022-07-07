@@ -46,10 +46,10 @@ export default function Login() {
       // console.log(postVal);
       await axios.post(postUrl, postValue)
       .then((response) => {
-          if (response.data.status == "fail") {
+          if (response.data.status === "fail") {
               alert(response.data.message);
           }
-          else if (response.data.status == "success"){
+          else if (response.data.status === "success"){
               localStorage.clear();
               localStorage.setItem("token", response.data.auth_token);
               localStorage.setItem("id", account.id);

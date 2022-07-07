@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/Header"
 import { Button } from 'reactstrap';
 import styled from "styled-components";
-import { Link, useLocation} from "react-router-dom";
-import Grid from '@mui/material/Grid';
+import {Link} from "react-router-dom";
 
 const Studyresult = styled.div`
     height: 800px;
@@ -39,8 +38,8 @@ const Title = styled.p`
 `;
 
 const Bottom = styled.div`
-    position : absolute;
-    bottom: 40px;
+    width:15%;
+    margin:0 auto;
 `;
 
 function Result(){
@@ -74,15 +73,15 @@ function Result(){
                         </P>
                     </Content>
                 </Studyresult>
-                <Grid container justify="center">
-                <Link to="/" style={{ textDecoration: 'none' }}>
-                    <Button 
-                    style={{fontSize: "40px", textTransform: "none", width:"400px", height:"200px"}} 
-                    outline color="primary">
-                        홈으로 돌아가기
-                    </Button>
-                </Link>
-                </Grid>
+                <Bottom>
+                    <Link to="/" style={{ textDecoration: 'none' }}>
+                        <Button 
+                        style={{fontSize: "40px", textTransform: "none", width:"400px", height:"200px"}} 
+                        outline color="primary">
+                            홈으로 돌아가기
+                        </Button>
+                    </Link>
+                </Bottom>
             </div>
         </>
     );

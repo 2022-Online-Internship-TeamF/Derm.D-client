@@ -7,30 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import Grid from '@mui/material/Grid';
-import styled from "styled-components";
 
-const columns = [
-  { id: 'rank', label: '순위', minWidth: 50, align: 'center'}, 
-  { id: 'name', label: '아이디', minWidth: 170, align: 'center' },
-  {
-    id: 'score',
-    label: '점수',
-    minWidth: 170,
-    align: 'center'
-  },
-  {
-    id: 'time',
-    label: '시작시간?끝난 시간',
-    minWidth: 170,
-    align: 'center'
-  },
-];
-
-function createData(rank, name, score, time) {
-  return { rank, name, score, time };
-}
-
+//랭킹 더미 데이터
 const rows = [
   createData('1', 'IN', 1324171354, 3287263),
   createData('2', 'CN', 1403500365, 9596961),
@@ -54,6 +32,27 @@ const rows = [
   createData('20', 'ES', 200962647, 923158),
   createData('21', 'QR', 200964837, 923538),
 ];
+
+const columns = [
+  { id: 'rank', label: '순위', minWidth: 50, align: 'center'}, 
+  { id: 'name', label: '아이디', minWidth: 170, align: 'center' },
+  {
+    id: 'score',
+    label: '점수',
+    minWidth: 170,
+    align: 'center'
+  },
+  {
+    id: 'time',
+    label: '시작시간?끝난 시간',
+    minWidth: 170,
+    align: 'center'
+  },
+];
+
+function createData(rank, name, score, time) {
+  return { rank, name, score, time };
+}
 
 export default function StickyHeadTable() {
   const [page, setPage] = React.useState(0);

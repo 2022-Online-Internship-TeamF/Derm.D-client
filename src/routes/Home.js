@@ -3,7 +3,6 @@ import Header from "../components/Header"
 import Footer from "../components/Footer"
 import Ranking from "../components/Ranking"
 import styled from "styled-components";
-import Box from '@mui/material/Box';
 import { Link } from "react-router-dom";
 import { Button } from 'reactstrap';
 

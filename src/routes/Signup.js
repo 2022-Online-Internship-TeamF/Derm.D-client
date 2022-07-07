@@ -48,13 +48,13 @@ export default function Signup() {
       }
       await axios.post(postUrl, postValue)  //then부분부터는 약간 얘기를 해봐야할듯?
       .then((response) => {
-          if (response.data.status == "success") {
+          if (response.data.status === "success") {
               localStorage.clear();
               localStorage.setItem("token", response.data.auth_token);
               alert(response.data.message);
               navigate("/login",{replace:true});
           }
-          else if (response.data.status == "fail"){
+          else if (response.data.status === "fail"){
               alert(response.data.message);
           }
       });

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/Header"
 import { Button } from 'reactstrap';
 import styled from "styled-components";
-import { Link, Route, BrowserRouter} from "react-router-dom";
+import { Link} from "react-router-dom";
 import Box from '@mui/material/Box';
 
 const Wrapper = styled.div`
