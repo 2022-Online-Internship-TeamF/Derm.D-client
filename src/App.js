@@ -7,7 +7,7 @@ import Header from "./components/Header"
 import Result from "./routes/Result"
 import Study from "./routes/Study"
 import "bootstrap/dist/css/bootstrap.min.css";
-import {Routes, Route, Switch, Link } from "react-router-dom";
+import {Routes, Route } from "react-router-dom";
 
 function App() {
   return (

@@ -10,15 +10,14 @@ import { Button } from 'reactstrap';
 const Wrapper = styled.div`
   height: auto;
   min-height: 100%;
-  padding-bottom: 1500px;
+  padding-bottom: 150px;
   text-align: center;
-  margin-top: 30px;
+  margin-top: 70px;
 `;
 
-const Viewranking = styled.span`
-    font-size: 48px;
-    font-weight: 800;
-    left: 40px;
+const Viewranking = styled.div`
+  width:65%;
+  margin:0 auto;
   `;
 
 function Home() {
@@ -26,10 +25,9 @@ function Home() {
       <div>
           <Header />
           <Wrapper>
-            <div>
-              <Viewranking> User Ranking </Viewranking>
+            <Viewranking> 
               <Ranking />
-            </div>
+            </Viewranking>
             <Link to="/Study" style={{ textDecoration: 'none' }}>
                 <Button 
                     style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 

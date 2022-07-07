@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { Link, Route, BrowserRouter} from "react-router-dom";
 import Button from '@mui/material/Button';
 import logo from "../images/Logo.png";
-import font from "../styles/MICEGothic Bold.ttf";
 import { editableInputTypes } from "@testing-library/user-event/dist/utils";
 import userEvent from "@testing-library/user-event";
 

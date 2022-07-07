@@ -4,20 +4,25 @@ import { Button } from 'reactstrap';
 import { Link } from "react-router-dom";
 
 const Footerbottom = styled.footer`
+    background: white;
     position: fixed;
     bottom: 0;
     width: 100%;
-    height : 100px;
+    height : 120px;
     text-align: center;
     margin: 0 auto;
 `;
 
 const Left = styled.span`
+    display: inline-block;
+    margin-top: 20px;
     margin-right: 50px;
+    font-family: "Poppins";
 `;
 
 const Right = styled.span`
-    margin-left: 50px;
+    display: inline-block;
+    margin-left: 50px;    
 `;
 
 const Div = styled.div`
