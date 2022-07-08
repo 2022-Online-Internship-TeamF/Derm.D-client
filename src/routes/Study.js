@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Header from "../components/Header"
 import { Button } from 'reactstrap';
 import styled from "styled-components";
 import { Link} from "react-router-dom";
-import Box from '@mui/material/Box';
+import Webcam from "react-webcam";
 
 const Wrapper = styled.div`
   height: auto;
@@ -36,13 +36,34 @@ const Timer = styled.div`
 `;
 
 const Timer2 = styled.p`
-    border:1px solid red;
     width:50%;
     margin:0 auto;
     text-align:center;
 `;
 
 function Selfmonitoring(){
+  const webcamRef = useRef(null);
+  const canvasRef = useRef(null);
+
+  const detect = async () => {
+    // Check data is available
+    if (
+      typeof webcamRef.current !== "undefined" &&
+      webcamRef.current !== null &&
+      webcamRef.current.video.readyState === 4
+    ) {
+      // Get Video Properties
+      const video = webcamRef.current.video;
+      const videoWidth = webcamRef.current.video.videoWidth;
+      const videoHeight = webcamRef.current.video.videoHeight;
+
+      // Set video width
+      webcamRef.current.video.width = videoWidth;
+      webcamRef.current.video.height = videoHeight;
+
+    }
+  };
+
     return(
         <div>
             <Header />
@@ -53,19 +74,23 @@ function Selfmonitoring(){
             </Date>
             </Timer>
             <Wrapper>
-                <div>
-                    <Box
-                    sx={{
-                        width: 500,
-                        height: 500,
-                        backgroundColor: 'primary.dark',
-                        '&:hover': {
-                        backgroundColor: 'primary.main',
-                        opacity: [0.9, 0.8, 0.7],
-                        },
-                    }}
-                    />
-                </div>
+                <div className="App">
+                        <Webcam
+                        ref={webcamRef}
+                        muted={true} 
+                        style={{
+                            position: "absolute",
+                            marginLeft: "auto",
+                            marginRight: "auto",
+                            left: 0,
+                            right: 0,
+                            textAlign: "center",
+                            zindex: 9,
+                            width: 1200,
+                            height: 1200,
+                        }}
+                        />
+                </div>                
             </Wrapper>
             </body>
             <Left>
