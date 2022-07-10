@@ -6,11 +6,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
 import {createTheme, ThemeProvider} from "@mui/material";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const theme = createTheme({
   typography: {
     fontFamily: "'Poppins', sans-serif",
-  }
+  },
 })
 
 axios.defaults.baseURL = "";

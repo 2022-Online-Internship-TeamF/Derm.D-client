@@ -108,7 +108,7 @@ export default function Signup() {
         <CssBaseline />
         <Grid item xs={false} sm={4} md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/1500x1300/?Reading)',
+            backgroundImage: 'url(https://source.unsplash.com/1500x1300/?clinic)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -186,14 +186,15 @@ export default function Signup() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                size="large">
+                size="large"
+                color = "success">
                 회원가입
               </Button>
             </FormControl>
             </Box>
             <Logo>
                 <Link to="/" style={{ textDecoration: 'none' }}>
-                    <img width="400px" height="120px" classname="camture" src={logo} alt="wrapkit" />
+                    <img width="400px" height="100px" classname="camture" src={logo} alt="wrapkit" />
                 </Link>
             </Logo>
           </Box>

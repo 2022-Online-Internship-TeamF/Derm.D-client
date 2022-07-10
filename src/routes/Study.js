@@ -3,7 +3,6 @@ import Header from "../components/Header"
 import { Button } from 'reactstrap';
 import styled from "styled-components";
 import { Link} from "react-router-dom";
-import Webcam from "react-webcam";
 
 const Wrapper = styled.div`
   height: auto;

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { Link, Route, BrowserRouter} from "react-router-dom";
-import Button from '@mui/material/Button';
 import logo from "../images/Logo.png";
+import Button from 'react-bootstrap/Button'
 import { editableInputTypes } from "@testing-library/user-event/dist/utils";
 import userEvent from "@testing-library/user-event";
 
@@ -91,11 +91,13 @@ function Header(){
                 안녕하세요 (유저네임 변수)님! 
               <Right>
                 <Link to="/" onClick={onLogoutHandler} style={{ textDecoration: 'none' }}>
+                  {/* 
                   <Button 
                     style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
                     variant="outlined">
                       로그아웃
                   </Button>
+                  */}
                 </Link>
               </Right>
               </div>
@@ -103,19 +105,25 @@ function Header(){
               :
               <>
               <Link to="/Login" style={{ textDecoration: 'none' }}>
+                <Button variant="outline-success" size="lg">로그인</Button>{' '}
+                {/*  
                 <Button 
                   style={{ fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
                   variant="outlined" >
                     로그인
                 </Button>
+                */}
               </Link>
               <Right>
               <Link to="/Signup" style={{ textDecoration: 'none' }}>
+              <Button variant="outline-success" size="lg">회원가입</Button>{' '}
+                {/* 
                 <Button 
                   style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
                   variant="outlined">
                     회원가입
                 </Button>
+                */}
               </Link>
               </Right>
               </>

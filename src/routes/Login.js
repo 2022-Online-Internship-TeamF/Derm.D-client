@@ -102,7 +102,7 @@ export default function Login() {
         <CssBaseline />
         <Grid item xs={false} sm={4} md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/1500x1300/?studying)',
+            backgroundImage: 'url(https://source.unsplash.com/1500x1300/?clinic)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -159,14 +159,15 @@ export default function Login() {
                   fullWidth 
                   variant="contained" 
                   sx={{ mt: 3, mb: 2 }}
-                  size="large">
+                  size="large"
+                  color = "success">
                   로그인
                 </Button>
                 <Grid container>
                   <Grid item xs>
                   </Grid>
                   <Grid item >
-                    <Link to="/Signup" style={{ textDecoration: 'none' }} variant="body2"> 
+                    <Link to="/Signup" style={{ textDecoration: 'none', color:'#168d63' }} variant="body2"> 
                       {"회원가입"}
                     </Link>
                   </Grid>
@@ -175,7 +176,7 @@ export default function Login() {
             </Box>
             <Logo>
               <Link to="/" style={{ textDecoration: 'none' }}>
-                  <img width="400px" height="120px" classname="camture" src={logo} alt="wrapkit" />
+                  <img width="400px" height="100px" classname="camture" src={logo} alt="wrapkit" />
               </Link>
             </Logo>
           </Box>
