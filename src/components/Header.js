@@ -79,7 +79,7 @@ function Header(){
         <div className="headerleft">
             <Logo>
                 <Link to="/" style={{ textDecoration: 'none' }}>
-                    <img width="400px" height="120px" classname="camture" src={logo} alt="wrapkit" />
+                    <img width="400px" height="100px" classname="camture" src={logo} alt="wrapkit" />
                 </Link>
             </Logo>
         </div>

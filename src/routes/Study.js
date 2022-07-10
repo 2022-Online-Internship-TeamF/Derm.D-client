@@ -42,28 +42,6 @@ const Timer2 = styled.p`
 `;
 
 function Selfmonitoring(){
-  const webcamRef = useRef(null);
-  const canvasRef = useRef(null);
-
-  const detect = async () => {
-    // Check data is available
-    if (
-      typeof webcamRef.current !== "undefined" &&
-      webcamRef.current !== null &&
-      webcamRef.current.video.readyState === 4
-    ) {
-      // Get Video Properties
-      const video = webcamRef.current.video;
-      const videoWidth = webcamRef.current.video.videoWidth;
-      const videoHeight = webcamRef.current.video.videoHeight;
-
-      // Set video width
-      webcamRef.current.video.width = videoWidth;
-      webcamRef.current.video.height = videoHeight;
-
-    }
-  };
-
     return(
         <div>
             <Header />
@@ -74,22 +52,7 @@ function Selfmonitoring(){
             </Date>
             </Timer>
             <Wrapper>
-                <div className="App">
-                        <Webcam
-                        ref={webcamRef}
-                        muted={true} 
-                        style={{
-                            position: "absolute",
-                            marginLeft: "auto",
-                            marginRight: "auto",
-                            left: 0,
-                            right: 0,
-                            textAlign: "center",
-                            zindex: 9,
-                            width: 1200,
-                            height: 1200,
-                        }}
-                        />
+                <div>
                 </div>                
             </Wrapper>
             </body>
