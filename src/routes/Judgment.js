@@ -57,7 +57,7 @@ const itemData = [
     },
   ];
 
-function Selfmonitoring(){
+function Judgment(){
     return(
         <div>
             <Header />
@@ -68,7 +68,7 @@ function Selfmonitoring(){
                   판단 결과
                 </Typography>
                 <br/>
-                <Grid container spacing={5} align="left">
+                <Grid container spacing={10} align="left">
                     <Grid item xs={6}>
                         <img src="https://source.unsplash.com/random"  width='800px' height='1000px'/>
                     </Grid>                    
@@ -110,4 +110,4 @@ function Selfmonitoring(){
     );
 }
 
-export default Selfmonitoring
+export default Judgment

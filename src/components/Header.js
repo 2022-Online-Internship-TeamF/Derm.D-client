@@ -12,22 +12,39 @@ const Logo = styled.span`
     display: flex;
 `;
 
-const HeaderUp = styled.header`
-  position: relative;
+const Top = styled.div`
   width: 100%;
-  font-weight: 600;
+  height: 50px;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  z-index: 999;
+  font-family: "Josefin Sans", sans-serif;
+  margin-top: 2em;
 `;
 
-const Nav = styled.span`
-  float: right;
-  margin-right: 100px;
-  margin-top: -90px;
+const TopLeft = styled.div`
+  flex: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
-const Right = styled.span`
-  float: right;
-  margin-right: 50px;
-  margin-left: 50px;
+const TopRight = styled.div`
+  flex: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const TopCenter = styled.div`
+  flex: 6;
+`;
+
+const TopListItem = styled.div`
+  margin-right: 20px;
 `;
 
 function Header(){
@@ -74,21 +91,21 @@ function Header(){
   const { auth, onLogoutHandler } = useGetData();
      
     return (
-        <HeaderUp className="headerContainer">
-        <div className="headerleft">
+        <Top>
+        <TopLeft>
             <Logo>
                 <Link to="/" style={{ textDecoration: 'none' }}>
-                    <img width="400px" height="100px" classname="camture" src={logo} alt="wrapkit" />
+                    <img width="400px" height="100px" classname="Homedoc" src={logo} alt="wrapkit" />
                 </Link>
             </Logo>
-        </div>
-        <div className="headeritem">
-            <Nav className="headerright">
+        </TopLeft>
+        <TopCenter/>
+        <TopRight>
               {auth ? 
               <>
-              <div> //get 사용해서 받아와야 될듯?
+                //get 사용해서 받아와야 될듯?
                 안녕하세요 (유저네임 변수)님! 
-              <Right>
+                <TopListItem>
                 <Link to="/" onClick={onLogoutHandler} style={{ textDecoration: 'none' }}>
                   <Button 
                     style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
@@ -96,32 +113,32 @@ function Header(){
                       로그아웃
                   </Button>
                 </Link>
-              </Right>
-              </div>
+              </TopListItem>
               </>
               :
               <>
-              <Link to="/Login" style={{ textDecoration: 'none' }}>
-                <Button 
-                  style={{ fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
-                  variant="outline-success" >
-                    로그인
-                </Button>
-              </Link>
-              <Right>
-              <Link to="/Signup" style={{ textDecoration: 'none' }}>
-                <Button 
-                  style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
-                  variant="outline-success">
-                    회원가입
-                </Button>
-              </Link>
-              </Right>
+              <TopListItem>
+                <Link to="/Login" style={{ textDecoration: 'none' }}>
+                  <Button 
+                    style={{ fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
+                    variant="outline-success" >
+                      로그인
+                  </Button>
+                </Link>
+              </TopListItem>
+              <TopListItem>
+                <Link to="/Signup" style={{ textDecoration: 'none' }}>
+                  <Button 
+                    style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
+                    variant="outline-success">
+                      회원가입
+                  </Button>
+                </Link>
+              </TopListItem>
               </>
               }
-            </Nav>
-        </div>
-      </HeaderUp>
+        </TopRight>
+      </Top>
     );
   }
 
