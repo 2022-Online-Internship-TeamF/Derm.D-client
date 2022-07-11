@@ -91,13 +91,11 @@ function Header(){
                 안녕하세요 (유저네임 변수)님! 
               <Right>
                 <Link to="/" onClick={onLogoutHandler} style={{ textDecoration: 'none' }}>
-                  {/* 
                   <Button 
                     style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
-                    variant="outlined">
+                    variant="success">
                       로그아웃
                   </Button>
-                  */}
                 </Link>
               </Right>
               </div>
@@ -105,25 +103,19 @@ function Header(){
               :
               <>
               <Link to="/Login" style={{ textDecoration: 'none' }}>
-                <Button variant="outline-success" size="lg">로그인</Button>{' '}
-                {/*  
                 <Button 
                   style={{ fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
-                  variant="outlined" >
+                  variant="outline-success" >
                     로그인
                 </Button>
-                */}
               </Link>
               <Right>
               <Link to="/Signup" style={{ textDecoration: 'none' }}>
-              <Button variant="outline-success" size="lg">회원가입</Button>{' '}
-                {/* 
                 <Button 
                   style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
-                  variant="outlined">
+                  variant="outline-success">
                     회원가입
                 </Button>
-                */}
               </Link>
               </Right>
               </>
