@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { Link, Route, BrowserRouter} from "react-router-dom";
+import { Link} from "react-router-dom";
 import logo from "../images/Logo.png";
 import Button from 'react-bootstrap/Button'
-import { editableInputTypes } from "@testing-library/user-event/dist/utils";
-import userEvent from "@testing-library/user-event";
+import Navbar from 'react-bootstrap/Navbar'
 
 const Logo = styled.span`
     margin-top: 20px;

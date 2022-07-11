@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import Header from "../components/Header"
 import Button from 'react-bootstrap/Button'
 import styled from "styled-components";
+import Container from '@mui/material/Container';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Typography from '@mui/material/Typography';
@@ -10,25 +11,11 @@ import { Link} from "react-router-dom";
 
 const Wrapper = styled.div`
   height: auto;
-  min-height: 100%;
+  width: 80%;
+  margin:0 auto;
   text-align: center;
+  border-radius: 0px;
   padding-bottom: 20px;
-`;
-
-const Left = styled.span`
-    position : absolute;
-    bottom: 40px;
-    left: 200px;
-`;
-
-const Right = styled.span`
-    position : absolute;
-    bottom: 40px;
-    right : 200px;
-`;
-
-const PaddingUp = styled.div`
-    padding:60px;
 `;
 
 const itemData = [
@@ -65,20 +52,8 @@ const itemData = [
       title: 'Fern',
     },
     {
-      img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-      title: 'Mushrooms',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-      title: 'Tomato basil',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-      title: 'Sea star',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-      title: 'Bike',
+      img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
+      title: 'Fern',
     },
   ];
 
@@ -86,16 +61,19 @@ function Selfmonitoring(){
     return(
         <div>
             <Header />
-            <PaddingUp>
-            </PaddingUp>
+            <br/><br/><br/><br/><br/>
             <Wrapper>
-                <Grid container spacing={4}>
+            <Container maxWidth={"false"}>
+                <Typography variant="h2" gutterBottom component="div" align="left" style={{ textDecoration: 'none', color:'#168d63' }}>
+                  판단 결과
+                </Typography>
+                <br/>
+                <Grid container spacing={5} align="left">
                     <Grid item xs={6}>
-                        <img src="https://source.unsplash.com/700x1000/?hamburger" />
-                    </Grid>
-                    
-                    <Grid item xs={6}>
-                        <ImageList sx={{ width: 800, height: 700 }} cols={4} rowHeight={164}>
+                        <img src="https://source.unsplash.com/random"  width='800px' height='1000px'/>
+                    </Grid>                    
+                    <Grid item xs={6} align="left">
+                        <ImageList sx={{ width: 900, height: 900 }} cols={3}>
                             {itemData.map((item) => (
                                 <ImageListItem key={item.img}>
                                 <img
@@ -113,19 +91,21 @@ function Selfmonitoring(){
                                 {itemData[0].title}
                             </Link> 
                             " 으로 보여집니다.
-                        </Typography>
-                    </Grid>
-                </Grid>                
+                        </Typography>                  
+                      </Grid>
+                </Grid> 
+                <br/><br/><br/>
+                <Grid item xs={12} align="right">
+                  <Link to="/Scrap" style={{ textDecoration: 'none' }}>
+                    <Button                     
+                      style={{fontSize: "60px", textTransform: "none", padding: "30px 40px" }} 
+                      variant="outline-success">
+                          스크랩 하기
+                    </Button>
+                  </Link>
+                </Grid>
+                </Container>               
             </Wrapper>
-            <Right>
-                <Link to="/Scrap" style={{ textDecoration: 'none' }}>
-                    <Button 
-                    style={{fontSize: "60px", textTransform: "none", padding: "30px 40px" }} 
-                    variant="outline-success">
-                        스크랩 하기
-                </Button>
-            </Link>
-            </Right>
         </div>
     );
 }

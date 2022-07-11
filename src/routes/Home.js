@@ -21,6 +21,7 @@ export default function Home() {
     return (
       <div>
           <Header />
+          <br />
           <Wrapper>
           <Grid container spacing={2}>
             <Grid item xs={6}>
