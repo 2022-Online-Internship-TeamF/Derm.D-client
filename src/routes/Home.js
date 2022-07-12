@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Header from "../components/Header"
-import Listdisease from "../components/List"
+import Listdisease from "../components/Listdisease"
 import styled from "styled-components";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -36,13 +36,6 @@ export default function Home() {
                   <Form.Label>사진을 입력하세요</Form.Label>
                   <Form.Control type="file" />
                 </Form.Group>
-                  <Link to="/Question" style={{ textDecoration: 'none' }}>
-                    <Button 
-                    style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
-                    variant="success">
-                      질문으로 가기
-                    </Button>
-                  </Link>
                   <Link to="/Judgment" style={{ textDecoration: 'none' }}>
                     <Button 
                     style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 

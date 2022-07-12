@@ -18,6 +18,7 @@ const Wrapper = styled.div`
   padding-bottom: 20px;
 `;
 
+//임시 더미데이터
 const itemData = [
     {
       img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
@@ -57,6 +58,7 @@ const itemData = [
     },
   ];
 
+ // 이건 좀 수정해야됨
 function Judgment(){
     return(
         <div>
