@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { Link} from "react-router-dom";
 import logo from "../images/Logo.png";
 import Button from 'react-bootstrap/Button'
-import Navbar from 'react-bootstrap/Navbar'
 
 const Logo = styled.span`
     margin-top: 20px;
@@ -14,15 +13,13 @@ const Logo = styled.span`
 
 const Top = styled.div`
   width: 100%;
-  height: 50px;
+  height: 120px;
   background-color: white;
   position: sticky;
   top: 0;
   display: flex;
   align-items: center;
   z-index: 999;
-  font-family: "Josefin Sans", sans-serif;
-  margin-top: 2em;
 `;
 
 const TopLeft = styled.div`
@@ -37,6 +34,7 @@ const TopRight = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 20px;
 `;
 
 const TopCenter = styled.div`
@@ -45,6 +43,12 @@ const TopCenter = styled.div`
 
 const TopListItem = styled.div`
   margin-right: 20px;
+`;
+
+const Line = styled.hr`
+  height: 12px;
+  border: 0;
+  box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
 `;
 
 function Header(){
@@ -91,6 +95,7 @@ function Header(){
   const { auth, onLogoutHandler } = useGetData();
      
     return (
+      <>
         <Top>
         <TopLeft>
             <Logo>
@@ -138,7 +143,9 @@ function Header(){
               </>
               }
         </TopRight>
-      </Top>
+      </Top> 
+      <Line />
+      </>
     );
   }
 

@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Container from '@mui/material/Container';
+import axios from 'axios'
+import test from "../images/test.png";
 
 const Wrapper = styled.div`
   height: auto;
@@ -31,11 +33,13 @@ export default function Home() {
                 <Listdisease/>
               </Grid>
 
-              <Grid item xs={6}>
+              <Grid item xs={6} >
                 <Form.Group controlId="formFile" className="mb-3">
-                  <Form.Label>사진을 입력하세요</Form.Label>
+                  <Form.Label>진단받고 싶은 사진을 입력하세요</Form.Label>
                   <Form.Control type="file" />
                 </Form.Group>
+                <img className="phoneImage" alt="iPhone_01" src={test} width="100%"/>
+                <Grid item xs={12} align='center'>
                   <Link to="/Judgment" style={{ textDecoration: 'none' }}>
                     <Button 
                     style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
@@ -50,6 +54,7 @@ export default function Home() {
                       스크랩으로 가기
                     </Button>
                   </Link>
+                </Grid>
               </Grid>
             </Grid> 
           </Container>
