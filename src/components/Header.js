@@ -23,7 +23,7 @@ const Top = styled.div`
 `;
 
 const TopLeft = styled.div`
-  flex: 100;
+  flex: 110;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -108,6 +108,15 @@ function Header(){
         <TopRight>
               {auth ? 
               <>
+              <TopListItem>
+              <Link to="/Scrap" style={{ textDecoration: 'none' }}>
+                <Button 
+                  style={{fontSize: "20px", textTransform: "none", padding: "20px 30px" }} 
+                  variant="success">
+                  MY 스크랩
+                </Button>
+              </Link>
+              </TopListItem>
                 //get 사용해서 받아와야 될듯?
                 안녕하세요 (유저네임 변수)님! 
                 <TopListItem>
@@ -122,6 +131,17 @@ function Header(){
               </>
               :
               <>
+              {/* 나중에 지울꺼 */}
+              <TopListItem>
+              <Link to="/Scrap" style={{ textDecoration: 'none' }}>
+                <Button 
+                  style={{fontSize: "20px", textTransform: "none", padding: "20px 30px" }} 
+                  variant="success">
+                  MY 스크랩
+                </Button>
+              </Link>
+              </TopListItem>
+              {/* 여기까지 */}
               <TopListItem>
                 <Link to="/Login" style={{ textDecoration: 'none' }}>
                   <Button 

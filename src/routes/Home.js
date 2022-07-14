@@ -11,7 +11,8 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Container from '@mui/material/Container';
 import axios from 'axios'
-import test from "../images/test.png";
+import Defaultimage from "../images/Default.png";
+
 
 const Wrapper = styled.div`
   height: auto;
@@ -22,6 +23,19 @@ const Wrapper = styled.div`
 `;
 
 export default function Home() { 
+  const [fileImage, setFileImage] = useState(Defaultimage);
+
+  const saveFileImage  = (event) => {
+    setFileImage(URL.createObjectURL(event.target.files[0]));
+    const file = event.target.files[0];
+    console.log(file);
+  };
+
+  const deleteFileImage = (event) => {
+    URL.revokeObjectURL(fileImage);
+    setFileImage(Defaultimage);
+  };
+
     return (
       <div>
           <Header />
@@ -34,12 +48,35 @@ export default function Home() {
               </Grid>
 
               <Grid item xs={6} >
-                <Form.Group controlId="formFile" className="mb-3">
-                  <Form.Label>진단받고 싶은 사진을 입력하세요</Form.Label>
-                  <Form.Control type="file" />
+                <Form.Group controlId="formFileLg" className="mb-3">
+                  <Form.Label style={{fontSize: "30px"}}>진단받고 싶은 사진을 선택하세요</Form.Label>
+                  <Grid container spacing={2}>
+                    <Grid item xs={9} >
+                      <Form.Control type="file" size="lg" name="img" accept="image/*" onChange={saveFileImage}/>
+                    </Grid>   
+                    <Grid item xs={3} >
+                      <Button
+                        style={{fontSize: "20px", textTransform: "none", padding: "10px 20px" }}
+                        variant="secondary" 
+                        onClick={() => deleteFileImage()}>
+                        삭제
+                      </Button>
+                    </Grid>     
+                  </Grid>
                 </Form.Group>
-                <img className="phoneImage" alt="iPhone_01" src={test} width="100%"/>
+                <Box width="100%" height="80%" >
+                  <img className="diseaseImage" alt="diseaseImage" src={fileImage} width="100%" height="100%"/>    
+                </Box>                          
+                <br/><br/>
+                
                 <Grid item xs={12} align='center'>
+                  {fileImage === Defaultimage ? (
+                      <Button 
+                      style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
+                      variant="success">
+                        진단하기로 가기
+                      </Button>
+                  ) : (                
                   <Link to="/Judgment" style={{ textDecoration: 'none' }}>
                     <Button 
                     style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
@@ -47,13 +84,7 @@ export default function Home() {
                       진단하기로 가기
                     </Button>
                   </Link>
-                  <Link to="/Scrap" style={{ textDecoration: 'none' }}>
-                    <Button 
-                      style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
-                      variant="success">
-                      스크랩으로 가기
-                    </Button>
-                  </Link>
+                )}
                 </Grid>
               </Grid>
             </Grid> 

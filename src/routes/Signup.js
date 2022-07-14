@@ -1,4 +1,5 @@
 import React, { useState, useEffect} from 'react';
+import Popup from '../components/Popup'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -27,6 +28,7 @@ const theme = createTheme();
 
 export default function Signup() {
   const useGetData = () => {
+    const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
     const [isdoctor, setIsdoctor] = useState(false);
     const [account, setAccount] = useState({
         id: "",
@@ -81,10 +83,10 @@ export default function Signup() {
       // 위 주석부터 여기까지 나중에 지울 예정
 
       if(!(account.id && account.email && account.password && account.confirmpassword)){
-        return alert('전부 다 입력하셔야 합니다.')
+        setPopup({open: true, title: "회원가입 에러!", message: "전부 입력하셔야 합니다."});
       }
       else if(account.password !== account.confirmpassword) {
-        return alert('비밀번호와 비밀번호확인은 같아야 합니다.')
+        setPopup({open: true, title: "회원가입 에러!", message: "비밀번호와 비밀번호확인은 같아야 합니다."});
       }
       /*
       else if(name === ){ //프론트에서 아이디 주면 백엔드에서 처리해서 에러 주기
@@ -101,11 +103,13 @@ export default function Signup() {
       onSubmit,
       onChangeDoctor,
       isdoctor,
+      popup,
+      setPopup,
     }
   }
 
   const navigate = useNavigate();
-  const { onAccountHandler, onSubmit, onChangeDoctor, isdoctor } = useGetData();
+  const { onAccountHandler, onSubmit, onChangeDoctor, isdoctor, popup, setPopup  } = useGetData();
 
   useEffect(() => {
     if (localStorage.getItem('token') !== null) {
@@ -115,6 +119,8 @@ export default function Signup() {
 
   return (
     <ThemeProvider theme={theme}>
+      <Popup open = {popup.open} setPopup = {setPopup} title = {popup.title} message = {popup.message} callback = {popup.callback}/>
+
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid item xs={false} sm={4} md={7}

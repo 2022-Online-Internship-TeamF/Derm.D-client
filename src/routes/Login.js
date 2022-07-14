@@ -1,4 +1,5 @@
 import React, { useState, useEffect} from 'react';
+import Popup from '../components/Popup'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -25,6 +26,7 @@ const theme = createTheme();
 
 export default function Login() {
   const useGetData = () => {
+    const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
     const [account, setAccount] = useState({
         id: "",
         password: "",
@@ -69,7 +71,7 @@ export default function Login() {
       });
       // 위 주석부터 여기까지 나중에 지울 예정
       if(!(account.id && account.password)){
-        return alert('전부 다 입력하셔야 합니다.')
+        setPopup({open: true, title: "로그인 에러!", message: "전부 입력하셔야 합니다."});
       }
       /* 아이디와 비밀번호 일치하지 않을 때 예외처리
       else if(){
@@ -84,11 +86,13 @@ export default function Login() {
     return {
       onAccountHandler,
       onSubmit,
+      popup,
+      setPopup,
     }
   }  
 
   const navigate = useNavigate();
-  const { onAccountHandler, onSubmit } = useGetData();
+  const { onAccountHandler, onSubmit, popup, setPopup } = useGetData();
 
   useEffect(() => {
     if (localStorage.getItem('token') !== null) {
@@ -98,6 +102,8 @@ export default function Login() {
 
   return (
     <ThemeProvider theme={theme}>
+      <Popup open = {popup.open} setPopup = {setPopup} title = {popup.title} message = {popup.message} callback = {popup.callback}/>
+
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid item xs={false} sm={4} md={7}

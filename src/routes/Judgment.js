@@ -65,17 +65,17 @@ function Judgment(){
             <Header />
             <br/><br/><br/><br/><br/>
             <Wrapper>
-            <Container maxWidth={"false"}>
+            <Container maxWidth={"xl"}>
                 <Typography variant="h2" gutterBottom component="div" align="left" style={{ textDecoration: 'none', color:'#168d63' }}>
                   판단 결과
                 </Typography>
                 <br/>
                 <Grid container spacing={10} align="left">
                     <Grid item xs={6}>
-                        <img src="https://source.unsplash.com/random"  width='800px' height='1000px'/>
+                        <img src="https://source.unsplash.com/random"  width='100%' height='1000px'/>
                     </Grid>                    
                     <Grid item xs={6} align="left">
-                        <ImageList sx={{ width: 900, height: 900 }} cols={3}>
+                        <ImageList sx={{ width: '120%', height: 900 }} cols={3}>
                             {itemData.map((item) => (
                                 <ImageListItem key={item.img}>
                                 <img
