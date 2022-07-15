@@ -115,7 +115,7 @@ export default function Scrap(){
                           <Button 
                           style={{fontSize: "40px", textTransform: "none", width: "100%", height: "150px" }} 
                           variant="success">
-                            질문으로 가기
+                            질문하러 가기
                           </Button>
                         </Link>
                       </Grid>

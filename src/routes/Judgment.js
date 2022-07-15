@@ -89,7 +89,7 @@ function Judgment(){
                         </ImageList>
                         <Typography variant="h2" gutterBottom component="div" align="left">
                             이 환부는 "
-                            <Link to="/Signup" style={{ textDecoration: 'none', color:'#168d63' }} variant="body2"> 
+                            <Link to="/Infodisease" style={{ textDecoration: 'none', color:'#168d63' }} variant="body2"> 
                                 {itemData[0].title}
                             </Link> 
                             " 으로 보여집니다.

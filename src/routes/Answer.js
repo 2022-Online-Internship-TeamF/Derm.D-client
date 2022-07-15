@@ -97,7 +97,7 @@ export default function Question(){
             <Header/>
 
             <Typography variant="h2" gutterBottom component="div" align="center" style={{ textDecoration: 'none', color:'#168d63' }}>
-              증상 질문
+              증상 질문에 대한 답변
             </Typography>
 
             <Formik>
@@ -107,10 +107,10 @@ export default function Question(){
                         <Box height={20} />
                         <TextField
                             id="filled-multiline-static"
-                            label="질문 내용"
+                            label="답변 내용"
                             multiline
                             minRows={20}
-                            placeholder="질문하고 싶은 질환에 대해 적으세요."
+                            placeholder="답변을 적으세요."
                             variant="filled"
                             inputProps={{style: {fontSize: 20}}} 
                             InputLabelProps={{style: {fontSize: 20}}} 

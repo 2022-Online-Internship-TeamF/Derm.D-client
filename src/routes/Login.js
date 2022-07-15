@@ -39,28 +39,6 @@ export default function Login() {
       });
     }
     
-    const postData = async () => {
-      const postUrl = "http://localhost:8000/auth/login";
-      const postValue = {
-          id: account.id,
-          password: account.password,
-      }
-      // console.log(postVal);
-      await axios.post(postUrl, postValue)
-      .then((response) => {
-          if (response.data.status === "fail") {
-              alert(response.data.message);
-          }
-          else if (response.data.status === "success"){
-              localStorage.clear();
-              localStorage.setItem("token", response.data.auth_token);
-              localStorage.setItem("id", account.id);
-              alert(response.data.message);
-              navigate("/",{replace:true});
-          }
-      });
-    }
-
     const onSubmit = (event) => {
       event.preventDefault();
       //잘 등록 되는지 콘솔로 확인
@@ -82,6 +60,28 @@ export default function Login() {
       postData();
      }
     };
+    
+    const postData = async () => {
+      const postUrl = "http://localhost:8000/auth/login";
+      const postValue = {
+          id: account.id,
+          password: account.password,
+      }
+      // console.log(postVal);
+      await axios.post(postUrl, postValue)
+      .then((response) => {
+          if (response.data.status === "fail") {
+              alert(response.data.message);
+          }
+          else if (response.data.status === "success"){
+              localStorage.clear();
+              localStorage.setItem("token", response.data.auth_token);
+              localStorage.setItem("id", account.id);
+              alert(response.data.message);
+              navigate("/",{replace:true});
+          }
+      });
+    }
 
     return {
       onAccountHandler,
