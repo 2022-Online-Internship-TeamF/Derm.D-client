@@ -12,7 +12,7 @@ import Judgment from "./routes/Judgment"
 import "bootstrap/dist/css/bootstrap.min.css";
 import {Routes, Route } from "react-router-dom";
 
-function App() {
+function App() {  
   return (
     <div>
         <Routes>
@@ -28,6 +28,8 @@ function App() {
         </Routes>
     </div>
   );
+
 }
+
 
 export default App;

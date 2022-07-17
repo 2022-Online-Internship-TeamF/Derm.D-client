@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { Link} from "react-router-dom";
+import Popup from '../components/Popup'
+import { Link, useNavigate} from "react-router-dom";
 import logo from "../images/Logo.png";
 import Button from 'react-bootstrap/Button'
 
@@ -53,49 +54,88 @@ const Line = styled.hr`
 
 function Header(){
   const useGetData = () => {
-    const [auth, setAuth] = useState("");
+    const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
+    const [authTokens, setAuthTokens] = useState("");
     
     useEffect(() => {
       if (localStorage.getItem('token') !== null){
-        setAuth(true);
+        setAuthTokens(true);
       }
       else {
-        setAuth(false);
+        setAuthTokens(false);
       }
     }, [localStorage.getItem('token')])
-    
-    const onLogoutHandler = async () => {
-      const postUrl = "http://localhost:8000/auth/logout";
+
+    useEffect(() => {
+      const fourMinutes = 1000 * 60 * 4
+
+      const interval = setInterval(()=> {
+        if(authTokens){
+          updateToken()
+        }
+      }, fourMinutes)
+      return ()=> clearInterval(interval)
+    }, [authTokens])
+
+    const updateToken = async ()=> {
+      const postUrl = "/members/refresh/";
+      const postValue = {
+        refresh : localStorage.getItem('token'),
+      }
+      await axios.post(postUrl, postValue)
+      .then((response) => {
+        if(response.data.status == 205){
+          localStorage.setItem("token", response.data.refresh);
+        }
+        else{
+          onLogoutHandler();
+        }
+      }).catch(function(error){
+        console.log(error);
+      });
+    }
+
+    const onLogoutHandler = async (event) => {
+      event.preventDefault()
+
+      const postUrl = "/members/logout/";
       const postValue = {
         quit: true,
       }
-      await axios.post(postUrl, postValue, {
-        headers: {
-          'Authorization' : `JWT ${localStorage.getItem("token")}`,
-        }
-      })
+      await axios.post(postUrl, postValue)
       .then((response) => {
-        if(response.data.status == "success"){
-          alert(response.data.message);
-          setAuth(false);
+        if(response.data.status == 205){
+          setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
+            navigate("/",{replace:true});
+          }});
+          setAuthTokens(false);
           localStorage.clear();
         }
-        else{
-          alert(response.data.message);
+        else if(response.data.status == 400){
+          setPopup({open: true, title: "실패!", message: (response.data.message), callback: function(){
+            navigate("/",{replace:true});
+          }});
         }
-      })
+      }).catch(function(error){
+        console.log(error);
+      });
     }
 
     return {
-      auth,
+      authTokens,
       onLogoutHandler,
+      popup,
+      setPopup,
     }
   }
 
-  const { auth, onLogoutHandler } = useGetData();
+  const username = localStorage.getItem('username');
+  const navigate = useNavigate();
+  const { authTokens, onLogoutHandler, popup, setPopup } = useGetData();
      
     return (
       <>
+        <Popup open = {popup.open} setPopup = {setPopup} title = {popup.title} message = {popup.message} callback = {popup.callback}/>
         <Top>
         <TopLeft>
             <Logo>
@@ -106,42 +146,29 @@ function Header(){
         </TopLeft>
         <TopCenter/>
         <TopRight>
-              {auth ? 
+              {authTokens ? 
               <>
+              <TopListItem> 안녕하세요 {username}님! </TopListItem>    
               <TopListItem>
-              <Link to="/Scrap" style={{ textDecoration: 'none' }}>
-                <Button 
-                  style={{fontSize: "20px", textTransform: "none", padding: "20px 30px" }} 
-                  variant="success">
-                  MY 스크랩
-                </Button>
-              </Link>
-              </TopListItem>
-                //get 사용해서 받아와야 될듯?
-                안녕하세요 (유저네임 변수)님! 
-                <TopListItem>
-                <Link to="/" onClick={onLogoutHandler} style={{ textDecoration: 'none' }}>
+                <Link to="/Scrap" style={{ textDecoration: 'none' }}>
                   <Button 
-                    style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
-                    variant="success">
-                      로그아웃
+                    style={{fontSize: "20px", textTransform: "none", padding: "20px 30px" }} 
+                    variant="outline-success">
+                    MY 스크랩
                   </Button>
                 </Link>
+              </TopListItem>          
+              <TopListItem>
+                <Button 
+                  style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
+                  variant="outline-success"
+                  onClick={onLogoutHandler}>
+                    로그아웃
+                </Button>
               </TopListItem>
               </>
               :
               <>
-              {/* 나중에 지울꺼 */}
-              <TopListItem>
-              <Link to="/Scrap" style={{ textDecoration: 'none' }}>
-                <Button 
-                  style={{fontSize: "20px", textTransform: "none", padding: "20px 30px" }} 
-                  variant="success">
-                  MY 스크랩
-                </Button>
-              </Link>
-              </TopListItem>
-              {/* 여기까지 */}
               <TopListItem>
                 <Link to="/Login" style={{ textDecoration: 'none' }}>
                   <Button 

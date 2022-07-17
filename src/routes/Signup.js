@@ -49,24 +49,25 @@ export default function Signup() {
     });
 
     const postData = async () => {
-      const postUrl = "http://localhost:8000/auth/signup";
-      const postValue = {
-          id: account.id,
-          email: account.email,
-          password: account.password,
-          doctor_flag: isdoctor,
+      const postUrl = "/members/register/";
+      const postValue = {        
+        email: account.email,
+        password: account.password,
+        nickname: account.id,
+        doctor_flag: isdoctor,
       }
-      await axios.post(postUrl, postValue)  //then부분부터는 약간 얘기를 해봐야할듯?
+      await axios.post(postUrl, postValue)  
       .then((response) => {
-          if (response.data.status === "success") {
-              localStorage.clear();
-              localStorage.setItem("token", response.data.auth_token);
-              alert(response.data.message);
+          if (response.data.status === 200) {
+            localStorage.clear();
+            setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
               navigate("/login",{replace:true});
+            }});
+          } else {
+            setPopup({open: true, title: "실패!", message: "이상이 생겼습니다."});
           }
-          else if (response.data.status === "fail"){
-              alert(response.data.message);
-          }
+      }).catch(function(error){
+        console.log(error);
       });
     }
 
@@ -78,6 +79,7 @@ export default function Signup() {
         id: account.id,
         email: account.email,
         password: account.password,
+        confirmpassword: account.confirmpassword,
         doctor_flag: isdoctor,
       });
       // 위 주석부터 여기까지 나중에 지울 예정
@@ -92,10 +94,10 @@ export default function Signup() {
       else if(name === ){ //프론트에서 아이디 주면 백엔드에서 처리해서 에러 주기
         return alert('이미 존재하는 아이디입니다.')
       }
+      */
       else{
         postData();
       }
-      */
     }
 
     return{

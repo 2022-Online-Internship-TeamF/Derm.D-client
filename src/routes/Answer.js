@@ -34,7 +34,7 @@ const Formquestion = styled.form`
 `;
 
 
-export default function Question(){
+export default function Answer(){
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
     const [fileImage, setFileImage] = useState('');
     const [content, setContent] = useState('');

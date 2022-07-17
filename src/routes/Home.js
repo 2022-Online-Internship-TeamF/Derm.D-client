@@ -53,7 +53,7 @@ export default function Home() {
   }
 
   const postData = async () => {
-    const postUrl = "http://localhost:8000/auth/login";
+    const postUrl = "/conditions/classify/";
     const postValue = {
       img: fileImage,
     }

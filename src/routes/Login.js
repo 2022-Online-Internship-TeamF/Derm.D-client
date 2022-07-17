@@ -51,35 +51,37 @@ export default function Login() {
       if(!(account.id && account.password)){
         setPopup({open: true, title: "로그인 에러!", message: "전부 입력하셔야 합니다."});
       }
-      /* 아이디와 비밀번호 일치하지 않을 때 예외처리
-      else if(){
-
-      }
-      */
      else{
       postData();
      }
     };
     
     const postData = async () => {
-      const postUrl = "http://localhost:8000/auth/login";
+      const postUrl = "/members/login/";
       const postValue = {
-          id: account.id,
-          password: account.password,
+        //일단 이메일로 적는데 이건 말해야 될듯
+        email: account.id,
+        password: account.password,
       }
       // console.log(postVal);
       await axios.post(postUrl, postValue)
       .then((response) => {
-          if (response.data.status === "fail") {
-              alert(response.data.message);
+          if (response.data.status === 400) {
+            setPopup({open: true, title: "실패!", message: (response.data.message)});
           }
-          else if (response.data.status === "success"){
-              localStorage.clear();
-              localStorage.setItem("token", response.data.auth_token);
-              localStorage.setItem("id", account.id);
-              alert(response.data.message);
+          
+          else if (response.data.status === 201){
+            localStorage.clear();
+            localStorage.setItem("token", response.data.access);
+            localStorage.setItem("username", response.data.username);
+
+            setPopup({open: true, title: "성공!", message: "안녕하세요! "+(response.data.username)+"님!", callback: function(){
               navigate("/",{replace:true});
+            }});
           }
+          
+      }).catch(function(error){
+        console.log(error);
       });
     }
 

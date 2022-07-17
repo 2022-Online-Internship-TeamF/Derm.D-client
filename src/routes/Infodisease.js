@@ -81,7 +81,7 @@ const QnaData = [
   },
 ];
 
-export default function Scrap(){
+export default function Infodisease(){
   const [select, setSelect] = useState(1);
 
   const onClickone = () => {
@@ -152,12 +152,14 @@ export default function Scrap(){
                                   <Typography>
                                     {qnaitem.contentquestion}
                                   </Typography>
-                                </AccordionSummary>
+                                </AccordionSummary>                  
                                 <AccordionDetails>
+                                <Link to="/Qna" style={{ textDecoration: 'none' }}>
                                   <Typography>
                                     {qnaitem.contentanswer}
                                   </Typography>
-                                </AccordionDetails>
+                                </Link>
+                                </AccordionDetails>                                
                             </Accordion>
                             ))}
                             </>

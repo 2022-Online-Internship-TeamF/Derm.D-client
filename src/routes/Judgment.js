@@ -59,7 +59,7 @@ const itemData = [
   ];
 
  // 이건 좀 수정해야됨
-function Judgment(){
+ export default function Judgment(){
     return(
         <div>
             <Header />
@@ -111,5 +111,3 @@ function Judgment(){
         </div>
     );
 }
-
-export default Judgment
