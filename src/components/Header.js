@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Cookies, useCookies } from 'react-cookie';
 import styled from "styled-components";
 import Popup from '../components/Popup'
 import { Link, useNavigate} from "react-router-dom";
@@ -57,6 +58,8 @@ function Header(){
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
     const [authTokens, setAuthTokens] = useState("");
     
+    const cookies = new Cookies();
+    
     useEffect(() => {
       if (localStorage.getItem('token') !== null){
         setAuthTokens(true);
@@ -65,7 +68,7 @@ function Header(){
         setAuthTokens(false);
       }
     }, [localStorage.getItem('token')])
-
+/*
     useEffect(() => {
       const fourMinutes = 1000 * 60 * 4
 
@@ -76,15 +79,15 @@ function Header(){
       }, fourMinutes)
       return ()=> clearInterval(interval)
     }, [authTokens])
-
+*/
     const updateToken = async ()=> {
       const postUrl = "/members/refresh/";
       const postValue = {
-        refresh : localStorage.getItem('token'),
+        refresh : cookies.get("jwt"),
       }
       await axios.post(postUrl, postValue)
       .then((response) => {
-        if(response.data.status == 205){
+        if(response.data.status === 205){
           localStorage.setItem("token", response.data.refresh);
         }
         else{
@@ -100,18 +103,19 @@ function Header(){
 
       const postUrl = "/members/logout/";
       const postValue = {
-        quit: true,
+        refresh: localStorage.getItem('token'),
       }
       await axios.post(postUrl, postValue)
       .then((response) => {
-        if(response.data.status == 205){
+        if(response.data.status === 205){
           setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
             navigate("/",{replace:true});
           }});
           setAuthTokens(false);
+          cookies.remove("jwt");
           localStorage.clear();
         }
-        else if(response.data.status == 400){
+        else if(response.data.status === 400){
           setPopup({open: true, title: "실패!", message: (response.data.message), callback: function(){
             navigate("/",{replace:true});
           }});

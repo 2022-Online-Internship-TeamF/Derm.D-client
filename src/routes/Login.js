@@ -27,8 +27,9 @@ const theme = createTheme();
 export default function Login() {
   const useGetData = () => {
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
+    //const [username, setUsername] = useState("");
     const [account, setAccount] = useState({
-        id: "",
+        nickname: "",
         password: "",
     });
 
@@ -44,23 +45,33 @@ export default function Login() {
       //잘 등록 되는지 콘솔로 확인
       const data = new FormData(event.currentTarget);
       console.log({
-        ID: data.get('id'),
+        nickname: data.get('nickname'),
         password: data.get('password'),
       });
       // 위 주석부터 여기까지 나중에 지울 예정
-      if(!(account.id && account.password)){
+      if(!(account.nickname && account.password)){
         setPopup({open: true, title: "로그인 에러!", message: "전부 입력하셔야 합니다."});
       }
      else{
       postData();
      }
     };
-    
+    /*
+    const getData = async () => {
+      const postUrl = "/members/nickname/";
+      await axios.get(postUrl)
+      .then((response) => {
+        setUsername(response.data);
+        console.log("성공");
+      }).catch(function(error){
+        console.log("실패");
+      });
+    }
+    */
     const postData = async () => {
       const postUrl = "/members/login/";
       const postValue = {
-        //일단 이메일로 적는데 이건 말해야 될듯
-        email: account.id,
+        nickname: account.nickname,
         password: account.password,
       }
       // console.log(postVal);
@@ -70,10 +81,11 @@ export default function Login() {
             setPopup({open: true, title: "실패!", message: (response.data.message)});
           }
           
-          else if (response.data.status === 201){
+          else if (response.data.status === 200){
             localStorage.clear();
             localStorage.setItem("token", response.data.access);
             localStorage.setItem("username", response.data.username);
+            //getData();
 
             setPopup({open: true, title: "성공!", message: "안녕하세요! "+(response.data.username)+"님!", callback: function(){
               navigate("/",{replace:true});
@@ -142,8 +154,8 @@ export default function Login() {
                       required
                       fullWidth
                       type="id"
-                      id="id"                
-                      name="id"
+                      id="nickname"                
+                      name="nickname"
                       label="아이디"
                       autoFocus
                       onChange={onAccountHandler}

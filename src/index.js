@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import axios from 'axios'
+import { CookiesProvider } from 'react-cookie';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -21,9 +22,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
-          <App/>
-      </BrowserRouter>
+      <CookiesProvider>
+        <BrowserRouter>
+            <App/>
+        </BrowserRouter>
+      </CookiesProvider>
     </ThemeProvider>
   </React.StrictMode>
 );

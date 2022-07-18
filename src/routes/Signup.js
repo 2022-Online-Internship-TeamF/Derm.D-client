@@ -31,9 +31,9 @@ export default function Signup() {
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
     const [isdoctor, setIsdoctor] = useState(false);
     const [account, setAccount] = useState({
-        id: "",
-        email: "",
+        nickname: "",
         password: "",
+        email: "",
         confirmpassword: "",
     });
 
@@ -50,10 +50,10 @@ export default function Signup() {
 
     const postData = async () => {
       const postUrl = "/members/register/";
-      const postValue = {        
-        email: account.email,
+      const postValue = {     
+        nickname: account.nickname,   
         password: account.password,
-        nickname: account.id,
+        email: account.email,
         doctor_flag: isdoctor,
       }
       await axios.post(postUrl, postValue)  
@@ -63,8 +63,8 @@ export default function Signup() {
             setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
               navigate("/login",{replace:true});
             }});
-          } else {
-            setPopup({open: true, title: "실패!", message: "이상이 생겼습니다."});
+          } else if(response.data.status === 400){
+            setPopup({open: true, title: "실패!", message: (response.data.message)});
           }
       }).catch(function(error){
         console.log(error);
@@ -76,7 +76,7 @@ export default function Signup() {
       event.preventDefault()
       //잘 등록 되는지 콘솔로 확인
       console.log({
-        id: account.id,
+        nickname: account.nickname,
         email: account.email,
         password: account.password,
         confirmpassword: account.confirmpassword,
@@ -84,7 +84,7 @@ export default function Signup() {
       });
       // 위 주석부터 여기까지 나중에 지울 예정
 
-      if(!(account.id && account.email && account.password && account.confirmpassword)){
+      if(!(account.nickname && account.email && account.password && account.confirmpassword)){
         setPopup({open: true, title: "회원가입 에러!", message: "전부 입력하셔야 합니다."});
       }
       else if(account.password !== account.confirmpassword) {
@@ -158,9 +158,9 @@ export default function Signup() {
                   <TextField 
                     required
                     fullWidth
-                    id="id"
+                    id="nickname"
                     label="아이디"
-                    name="id"
+                    name="nickname"
                     type="id"
                     autoFocus
                     onChange={onAccountHandler}
