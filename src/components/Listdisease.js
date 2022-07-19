@@ -8,9 +8,9 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import {Link} from "react-router-dom";
-
+import { useSelector } from "react-redux";
+/*
 const ListitemData = [
-  
   {
     name: '여드름',
     eng_name: 'Acne',
@@ -31,9 +31,8 @@ const ListitemData = [
     name: '화상',
     eng_name: 'hwasang',
   },
-  
 ];
-
+*/
 export default function Listdisease() {
   const useGetData = () => {
     const [Listitem, setListItem] = useState([]);
@@ -48,8 +47,8 @@ export default function Listdisease() {
         description = response.data.description
         pk = response.data.pk
         */
-
-        console.log(response.data.kr_name);
+        setListItem(response.data);
+        console.log(response.data);
         console.log("성공");
       }).catch(function(error){
         console.log("실패");
@@ -63,12 +62,13 @@ export default function Listdisease() {
   }
   
   const { getListDisease, Listitem } = useGetData();
+  const Listitem2 = useSelector((state) => state);
 
   return (
     <Box sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
       <nav aria-label="secondary mailbox folders">
         <List>
-          {ListitemData.map((disease) => (
+          {Listitem2.map((disease) => (
             <>
             <Link to="/Infodisease" style={{ textDecoration: 'none', color:'black'}}>
               <ListItem disablePadding>

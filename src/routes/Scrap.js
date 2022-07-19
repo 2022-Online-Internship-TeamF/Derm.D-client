@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/Header"
 import Card from 'react-bootstrap/Card'
 import Box from '@mui/material/Box';
+import Button from 'react-bootstrap/Button'
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -25,7 +26,7 @@ const cardData = [
     {
       img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
       title: 'Burger',
-      link : '/login',
+      link : '/',
     },
     {
       img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
@@ -91,17 +92,24 @@ export default function Scrap(){
                                 스크랩 기록
                         </Typography>
                         <br />
-                        <Grid container spacing={8}>
+                        <Grid container spacing={8} >
                             {cardData.map((data) => (
                                 <Grid item xl={3} lg={6} sm={12}>
-                                    <Link to={data.link} style={{ textDecoration: 'none', color:'black'}}>
                                     <Card border='dark'>
+                                      <Link to={data.link} style={{ textDecoration: 'none', color:'black'}}>
                                         <Card.Img variant="top" src={data.img}/>
-                                        <Card.Body>
-                                            <Card.Title align='center' style={{ fontSize:'30px'}}>{data.title}</Card.Title>
-                                        </Card.Body>
-                                    </Card>
-                                    </Link>
+                                      </Link>
+                                        <Card.Body align='center'>
+                                            <Card.Title style={{ fontSize:'30px'}}>{data.title}</Card.Title>
+                                            <Button
+                                              style={{fontSize: "20px", textTransform: "none", padding: "10px 50px" }}
+                                              variant="danger" 
+                                              align-item="center"
+                                              /*onClick={() => deleteFileImage()} */>
+                                              삭제
+                                            </Button>    
+                                        </Card.Body>                                                                          
+                                    </Card>                                    
                                 </Grid>
                             ))}
                         </Grid>

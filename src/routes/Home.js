@@ -64,10 +64,12 @@ export default function Home() {
             alert(response.data.message);
         }
         else if (response.data.status === "success"){
-            localStorage.clear();
-            alert(response.data.message);
-            navigate("/Judgment",{replace:true});
+            setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
+              navigate("/Judgment",{replace:true});
+            }});
         }
+    }).catch(function(error){
+      console.log(error);
     });
   }
 
