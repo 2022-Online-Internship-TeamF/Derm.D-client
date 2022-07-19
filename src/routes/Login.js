@@ -27,7 +27,6 @@ const theme = createTheme();
 export default function Login() {
   const useGetData = () => {
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
-    //const [username, setUsername] = useState("");
     const [account, setAccount] = useState({
         nickname: "",
         password: "",
@@ -56,25 +55,13 @@ export default function Login() {
       postData();
      }
     };
-    /*
-    const getData = async () => {
-      const postUrl = "/members/nickname/";
-      await axios.get(postUrl)
-      .then((response) => {
-        setUsername(response.data);
-        console.log("성공");
-      }).catch(function(error){
-        console.log("실패");
-      });
-    }
-    */
+
     const postData = async () => {
       const postUrl = "/members/login/";
       const postValue = {
         nickname: account.nickname,
         password: account.password,
       }
-      // console.log(postVal);
       await axios.post(postUrl, postValue)
       .then((response) => {
           if (response.data.status === 400) {
@@ -84,9 +71,6 @@ export default function Login() {
           else if (response.data.status === 200){
             localStorage.clear();
             localStorage.setItem("token", response.data.access);
-            localStorage.setItem("username", response.data.username);
-            //getData();
-
             setPopup({open: true, title: "성공!", message: "안녕하세요! "+(response.data.username)+"님!", callback: function(){
               navigate("/",{replace:true});
             }});

@@ -57,20 +57,22 @@ function Header(){
   const useGetData = () => {
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
     const [authTokens, setAuthTokens] = useState("");
+    const [username, setUsername] = useState("");
     
     const cookies = new Cookies();
     
     useEffect(() => {
       if (localStorage.getItem('token') !== null){
         setAuthTokens(true);
+        getUserData();
       }
       else {
         setAuthTokens(false);
       }
     }, [localStorage.getItem('token')])
-/*
+
     useEffect(() => {
-      const fourMinutes = 1000 * 60 * 4
+      const fourMinutes = 1000 * 60 * 1
 
       const interval = setInterval(()=> {
         if(authTokens){
@@ -79,7 +81,20 @@ function Header(){
       }, fourMinutes)
       return ()=> clearInterval(interval)
     }, [authTokens])
-*/
+
+    const getUserData = async () => {
+      const postUrl = "/members/nickname/";
+      await axios.get(postUrl)
+      .then((response) => {
+        setUsername(response.data.nickname);
+        //혹시 모르니 일단 로컬 저장소에 닉네임 저장하는거 넣어둠(나중에 지움)
+        localStorage.setItem("username2", response.data.nickname);
+        console.log("성공");
+      }).catch(function(error){
+        console.log("실패");
+      });
+    }
+
     const updateToken = async ()=> {
       const postUrl = "/members/refresh/";
       const postValue = {
@@ -87,20 +102,23 @@ function Header(){
       }
       await axios.post(postUrl, postValue)
       .then((response) => {
-        if(response.data.status === 205){
-          localStorage.setItem("token", response.data.refresh);
-        }
-        else{
-          onLogoutHandler();
-        }
+        if (response.status === 200){
+          localStorage.setItem("token", response.data.access);
+          console.log("토큰 변경 성공");
+      }else{
+        onLogoutHandler()
+      }
       }).catch(function(error){
         console.log(error);
       });
     }
+    
+    const onClickLogout = async (event) => {
+      event.preventDefault();
+      onLogoutHandler();
+    };
 
-    const onLogoutHandler = async (event) => {
-      event.preventDefault()
-
+    const onLogoutHandler = async () => {
       const postUrl = "/members/logout/";
       const postValue = {
         refresh: localStorage.getItem('token'),
@@ -127,15 +145,16 @@ function Header(){
 
     return {
       authTokens,
-      onLogoutHandler,
+      onClickLogout,
       popup,
       setPopup,
+      username,
     }
   }
 
-  const username = localStorage.getItem('username');
+  const username2 = localStorage.getItem('username2');
   const navigate = useNavigate();
-  const { authTokens, onLogoutHandler, popup, setPopup } = useGetData();
+  const { authTokens, onClickLogout, popup, setPopup, username } = useGetData();
      
     return (
       <>
@@ -166,7 +185,7 @@ function Header(){
                 <Button 
                   style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
                   variant="outline-success"
-                  onClick={onLogoutHandler}>
+                  onClick={onClickLogout}>
                     로그아웃
                 </Button>
               </TopListItem>
