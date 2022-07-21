@@ -87,8 +87,6 @@ function Header(){
       await axios.get(postUrl)
       .then((response) => {
         setUsername(response.data.nickname);
-        //혹시 모르니 일단 로컬 저장소에 닉네임 저장하는거 넣어둠(나중에 지움)
-        localStorage.setItem("username2", response.data.nickname);
         console.log("성공");
       }).catch(function(error){
         console.log("실패");
@@ -125,7 +123,7 @@ function Header(){
       }
       await axios.post(postUrl, postValue)
       .then((response) => {
-        if(response.data.status === 205){
+        if(response.status === 205){
           setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
             navigate("/",{replace:true});
           }});
@@ -133,7 +131,7 @@ function Header(){
           cookies.remove("jwt");
           localStorage.clear();
         }
-        else if(response.data.status === 400){
+        else if(response.status === 400){
           setPopup({open: true, title: "실패!", message: (response.data.message), callback: function(){
             navigate("/",{replace:true});
           }});
@@ -152,7 +150,6 @@ function Header(){
     }
   }
 
-  const username2 = localStorage.getItem('username2');
   const navigate = useNavigate();
   const { authTokens, onClickLogout, popup, setPopup, username } = useGetData();
      
@@ -171,7 +168,7 @@ function Header(){
         <TopRight>
               {authTokens ? 
               <>
-              <TopListItem> 안녕하세요 {username}님! </TopListItem>    
+              <TopListItem> 로그인중입니다. </TopListItem>    
               <TopListItem>
                 <Link to="/Scrap" style={{ textDecoration: 'none' }}>
                   <Button 

@@ -9,22 +9,24 @@ import Answer from "./routes/Answer"
 import Scrap from "./routes/Scrap"
 import Qna from "./routes/Qna"
 import Judgment from "./routes/Judgment"
+import KakaoLogin from "./routes/KakaoLogin"
 import "bootstrap/dist/css/bootstrap.min.css";
-import {Routes, Route } from "react-router-dom";
+import {Routes, Route} from "react-router-dom";
 
 function App() {  
   return (
     <div>
         <Routes>
-          <Route path="/" element={<Home />}></Route>
+          <Route exact path="/" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>
-          <Route path="/Signup" element={<Signup />}></Route>
-          <Route path="/Scrap" element={<Scrap />}></Route>
-          <Route path="/Judgment" element={<Judgment />}></Route>
-          <Route path="/Question" element={<Question />}></Route>
-          <Route path="/Infodisease" element={<Infodisease />}></Route>
-          <Route path="/Answer" element={<Answer />}></Route>
-          <Route path="/Qna" element={<Qna />}></Route>
+          <Route path="/signup" element={<Signup />}></Route>
+          <Route path="/scrap" element={<Scrap />}></Route>
+          <Route path="/judgment" element={<Judgment />}></Route>
+          <Route path="/question" element={<Question />}></Route>          
+          <Route path="/answer" element={<Answer />}></Route>
+          <Route path="/qna" element={<Qna />}></Route>        
+          <Route path="/infodisease" element={<Infodisease />}></Route>
+          <Route path="/kakaoLogin" element={<KakaoLogin />}></Route>
         </Routes>
     </div>
   );

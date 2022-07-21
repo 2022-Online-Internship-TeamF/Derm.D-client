@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import axios from "axios";
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
+import Typography from '@mui/material/Typography';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
@@ -9,7 +10,7 @@ import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import {Link} from "react-router-dom";
 import { useSelector } from "react-redux";
-/*
+
 const ListitemData = [
   {
     name: '여드름',
@@ -32,13 +33,13 @@ const ListitemData = [
     eng_name: 'hwasang',
   },
 ];
-*/
+
 export default function Listdisease() {
   const useGetData = () => {
     const [Listitem, setListItem] = useState([]);
 
     const getListDisease = async () => {
-      const postUrl = "/conditions/";
+      const postUrl = "conditions/";
       await axios.get(postUrl)
       .then((response) => {
         /*
@@ -62,18 +63,17 @@ export default function Listdisease() {
   }
   
   const { getListDisease, Listitem } = useGetData();
-  const Listitem2 = useSelector((state) => state);
 
   return (
     <Box sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
       <nav aria-label="secondary mailbox folders">
         <List>
-          {Listitem2.map((disease) => (
+          {ListitemData.map((disease) => (
             <>
             <Link to="/Infodisease" style={{ textDecoration: 'none', color:'black'}}>
               <ListItem disablePadding>
                 <ListItemButton>
-                  <ListItemText primary={disease.name} />
+                  <ListItemText primary={<Typography variant="h5" component="div" align="left" style={{textDecoration: 'none' }}>{disease.name}</Typography>}/>
                 </ListItemButton>
               </ListItem>
             </Link>

@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { Provider } from "react-redux";
-import { createStore } from "redux";
 import axios from 'axios'
 import { CookiesProvider } from 'react-cookie';
 import './index.css';
@@ -17,19 +15,6 @@ const theme = createTheme({
   },
 })
 
-const ListitemData = [{name: '여드름',eng_name: 'Acne'},
-{name: '뾰루지', eng_name: 'bbyoruzi',},
-{name: '흉터', eng_name: 'hoongtur',},
-{name: '상처', eng_name: 'sangchu',},
-{name: '화상', eng_name: 'hwasang',},
-];
-
-function reducer(state = ListitemData, action){
-  return state
-}
-
-let store = createStore(reducer)
-
 axios.defaults.baseURL = "";
 axios.defaults.withCredentials = true;
 
@@ -39,9 +24,7 @@ root.render(
     <ThemeProvider theme={theme}>
       <CookiesProvider>
         <BrowserRouter>
-          <Provider store={store}>
-            <App/>
-          </Provider>
+          <App/>
         </BrowserRouter>
       </CookiesProvider>
     </ThemeProvider>

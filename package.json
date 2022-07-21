@@ -21,6 +21,7 @@
     "react-bootstrap": "^2.4.0",
     "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
+    "react-kakao-login": "^2.1.0",
     "react-redux": "^8.0.2",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
@@ -54,7 +55,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8000",
+  "proxy": "http://localhost:8000/api",
   "main": "index.js",
   "author": "Na Kyu Tae <ncb6206@gmail.com>",
   "license": "MIT"

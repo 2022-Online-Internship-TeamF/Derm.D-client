@@ -8,13 +8,14 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Button from 'react-bootstrap/Button'
 import Container from '@mui/material/Container';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useSelector } from "react-redux";
 
 const Wrapper = styled.div`
     height: auto;
@@ -24,12 +25,13 @@ const Wrapper = styled.div`
     margin-bottom : 50px;
 `;
 
+
 //임시 더미데이터
 const InfodiseaseData = [
   {
     name: '여드름',
     eng_name: 'Acne',
-    description: '나는 읽기 쉬운 마음이야 당신도 스윽 훑고 가셔요 달랠 길 없는 외로운 마음 있지 머물다 가셔요 음 내게 긴 여운을 남겨줘요 사랑을 사랑을 해줘요 할 수 있다면 그럴 수만 있다면 새하얀 빛으로 그댈 비춰 줄게요 그러다 밤이 찾아오면 우리 둘만의 비밀을 새겨요 추억할 그 밤 위에 갈피를 꽂고 선 남몰래 펼쳐보아요 나의 자라나는 마음을 못 본채 꺾어 버릴 수는 없네 미련 남길바엔 그리워 아픈 게 나아 서둘러 안겨본 그 품은 따스할 테니 그러다 밤이 찾아오면 우리 둘만의 비밀을 새겨요 추억할 그 밤 위에 갈피를 꽂고 선 남몰래 펼쳐보아요 언젠가 또 그날이 온대도 우린 서둘러 뒤돌지 말아요 마주보던 그대로 뒷걸음치면서 서로의 안녕을 보아요 피고 지는 마음을 알아요 다시 돌아온 계절도 난 한 동안 새 활짝 피었다 질래 또 한번 영원히 그럼에도 내 사랑은 또 같은 꿈을 꾸고 그럼에도 꾸던 꿈을 미루진 않을래',
+    description: '1',
     img : 'https://source.unsplash.com/random',
   },
   {
@@ -81,6 +83,7 @@ const QnaData = [
   },
 ];
 
+
 export default function Infodisease(){
   const [select, setSelect] = useState(1);
 
@@ -105,10 +108,10 @@ export default function Infodisease(){
                   <Container maxWidth={"xl"}>
                   <Grid container spacing={8}>
                       <Grid item xs={3.5}>
-                        <img src={InfodiseaseData[0].img}  width='100%' height='350px'/>
+                        <img src={InfodiseaseData[1].img}  width='100%' height='350px'/>
                         <br/> <br/> <br/>
                         <Typography variant="h2" gutterBottom component="div" align="center" style={{ textDecoration: 'none', color:'#168d63' }}>
-                          {InfodiseaseData[0].name}
+                          {InfodiseaseData[1].name}
                         </Typography>
                         <br/> <br/> <br/>
                         <Link to="/Question" style={{ textDecoration: 'none' }}>
@@ -134,7 +137,7 @@ export default function Infodisease(){
                             <Box sx={{ width: '100%'}}>
                               <Paper elevation={3}>
                               <Typography variant="h4" gutterBottom component="div" padding="20px 30px">
-                                {InfodiseaseData[0].description}
+                                {InfodiseaseData[1].description}
                               </Typography>
                               </Paper>
                             </Box>

@@ -49,7 +49,7 @@ export default function Signup() {
     });
 
     const postData = async () => {
-      const postUrl = "/members/register/";
+      const postUrl = "members/register/";
       const postValue = {     
         nickname: account.nickname,   
         password: account.password,
