@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography';
 import FormControl from '@mui/material/FormControl';
 import {createTheme, ThemeProvider } from '@mui/material/styles';
 import logo from "../images/Logo.png";
-import kakao from "../images/kakao_login_large_wide.png";
 import KakaoLogin from 'react-kakao-login';
 import styled from "styled-components";
 import { Link, useNavigate} from "react-router-dom";
@@ -60,7 +59,7 @@ export default function Login() {
     };
 
     const postData = async () => {
-      const postUrl = "/members/login/";
+      const postUrl = "members/login/";
       const postValue = {
         nickname: account.nickname,
         password: account.password,

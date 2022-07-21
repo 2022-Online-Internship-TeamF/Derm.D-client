@@ -83,7 +83,7 @@ function Header(){
     }, [authTokens])
 
     const getUserData = async () => {
-      const postUrl = "/members/nickname/";
+      const postUrl = "members/nickname/";
       await axios.get(postUrl)
       .then((response) => {
         setUsername(response.data.nickname);
@@ -94,7 +94,7 @@ function Header(){
     }
 
     const updateToken = async ()=> {
-      const postUrl = "/members/refresh/";
+      const postUrl = "members/refresh/";
       const postValue = {
         refresh : cookies.get("jwt"),
       }
@@ -117,24 +117,24 @@ function Header(){
     };
 
     const onLogoutHandler = async () => {
-      const postUrl = "/members/logout/";
+      const postUrl = "members/logout/";
       const postValue = {
         refresh: localStorage.getItem('token'),
       }
       await axios.post(postUrl, postValue)
       .then((response) => {
-        if(response.status === 205){
+        if(response.status === 400){
+          setPopup({open: true, title: "실패!", message: (response.data.message), callback: function(){
+            navigate("/",{replace:true});
+          }});
+        }
+        else if(response.status === 200){
           setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
             navigate("/",{replace:true});
           }});
           setAuthTokens(false);
           cookies.remove("jwt");
           localStorage.clear();
-        }
-        else if(response.status === 400){
-          setPopup({open: true, title: "실패!", message: (response.data.message), callback: function(){
-            navigate("/",{replace:true});
-          }});
         }
       }).catch(function(error){
         console.log(error);

@@ -58,12 +58,12 @@ export default function Signup() {
       }
       await axios.post(postUrl, postValue)  
       .then((response) => {
-          if (response.data.status === 200) {
+          if (response.status === 200) {
             localStorage.clear();
             setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
               navigate("/login",{replace:true});
             }});
-          } else if(response.data.status === 400){
+          } else if(response.status === 400){
             setPopup({open: true, title: "실패!", message: (response.data.message)});
           }
       }).catch(function(error){
@@ -90,11 +90,6 @@ export default function Signup() {
       else if(account.password !== account.confirmpassword) {
         setPopup({open: true, title: "회원가입 에러!", message: "비밀번호와 비밀번호확인은 같아야 합니다."});
       }
-      /*
-      else if(name === ){ //프론트에서 아이디 주면 백엔드에서 처리해서 에러 주기
-        return alert('이미 존재하는 아이디입니다.')
-      }
-      */
       else{
         postData();
       }

@@ -25,8 +25,8 @@ function App() {
           <Route path="/question" element={<Question />}></Route>          
           <Route path="/answer" element={<Answer />}></Route>
           <Route path="/qna" element={<Qna />}></Route>        
-          <Route path="/infodisease" element={<Infodisease />}></Route>
           <Route path="/kakaoLogin" element={<KakaoLogin />}></Route>
+          <Route path="/infodisease/:id" element={<Infodisease />}></Route>
         </Routes>
     </div>
   );
