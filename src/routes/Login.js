@@ -12,11 +12,9 @@ import Typography from '@mui/material/Typography';
 import FormControl from '@mui/material/FormControl';
 import {createTheme, ThemeProvider } from '@mui/material/styles';
 import logo from "../images/Logo.png";
-import KakaoLogin from 'react-kakao-login';
 import styled from "styled-components";
 import { Link, useNavigate} from "react-router-dom";
 import axios from 'axios'
-import { REST_API_KEY, REDIRECT_URI } from '../api/KaKaoLoginData';
 
 const Logo = styled.span`
     margin-top: 20px;
@@ -73,6 +71,7 @@ export default function Login() {
           else if (response.status === 200){
             localStorage.clear();
             localStorage.setItem("token", response.data.access);
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access;
             setPopup({open: true, title: "성공!", message: "안녕하세요! "+(response.data.username)+"님!", callback: function(){
               navigate("/",{replace:true});
             }});
@@ -93,8 +92,7 @@ export default function Login() {
 
   const navigate = useNavigate();
   const { onAccountHandler, onSubmit, popup, setPopup } = useGetData();
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-
+ 
   useEffect(() => {
     if (localStorage.getItem('token') !== null) {
       navigate("/",{replace:true});
@@ -181,13 +179,6 @@ export default function Login() {
                 </Grid>
               </FormControl>
               <br/><br/>
-              <a id="custom-login-btn" href={KAKAO_AUTH_URL}>
-                <img
-                  src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg"
-                  width="100%"
-                  height="100px"
-                  alt="카카오 로그인 버튼" />
-              </a>
               <Logo>
               <Link to="/" style={{ textDecoration: 'none' }}>
                   <img width="400px" height="100px" classname="camture" src={logo} alt="wrapkit" />

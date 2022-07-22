@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
+import axios from "axios";
 import Header from "../components/Header"
 import Card from 'react-bootstrap/Card'
-import Box from '@mui/material/Box';
 import Button from 'react-bootstrap/Button'
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -81,6 +81,73 @@ const cardData = [
   ];
 
 export default function Scrap(){
+  const useGetData = () => {
+    const [ListScrap, setListScrap] = useState("");
+    const [Imageurl, setImageurl] = useState("");
+
+    const getListScrap = async () => {
+      const postUrl = "archive/";
+      await axios.get(postUrl)
+      .then((response) => {
+        setListScrap(response.data);
+        setImageurl(response.data.condition.conditionMedia[0].img)
+        console.log(response.data);
+        console.log("성공");
+      }).catch(function(error){
+        console.log("실패");
+      });
+    }
+
+    useEffect(()=>{
+      getListScrap()
+    },[]);
+
+    return {
+      ListScrap,
+      Imageurl,
+    }
+  }
+  
+  const { ListScrap, Imageurl } = useGetData();
+
+/*
+    return (
+      <>
+          <div>
+              <Header />
+              <br /><br /><br /><br /><br />
+              <Scrapitem>
+                  <Container maxWidth={"false"}>
+                      <Typography variant="h2" gutterBottom component="div" align="left" style={{ textDecoration: 'none', color:'#168d63' }}>
+                              스크랩 기록
+                      </Typography>
+                      <br />
+                      <Grid container spacing={8} >
+                          {ListScrap.map((scrap) => (
+                              <Grid item xl={3} lg={6} sm={12}>
+                                  <Card border='dark'>
+                                    <Link to={`/infodisease/${scrap.condition.pk}`} style={{ textDecoration: 'none', color:'black'}}>
+                                      <Card.Img variant="top" src={Imageurl}/>
+                                    </Link>
+                                      <Card.Body align='center'>
+                                          <Card.Title style={{ fontSize:'30px'}}>{scrap.condition.kr_name}</Card.Title>
+                                          <Button
+                                            style={{fontSize: "20px", textTransform: "none", padding: "10px 50px" }}
+                                            variant="danger" 
+                                            align-item="center">
+                                            삭제
+                                          </Button>    
+                                      </Card.Body>                                                                          
+                                  </Card>                                    
+                              </Grid>
+                          ))}
+                      </Grid>
+                  </Container>
+              </Scrapitem>
+          </div>
+      </>
+  );
+*/
     return (
         <>
             <div>

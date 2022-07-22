@@ -26,15 +26,16 @@ const Wrapper = styled.div`
 export default function Home() { 
   const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
   const [fileImage, setFileImage] = useState(Defaultimage);
+  const Imageurl = new FormData();
   const navigate = useNavigate();
 
   const saveFileImage  = (event) => {
     setFileImage(URL.createObjectURL(event.target.files[0]));
-    const file = event.target.files[0];
-    console.log(file);
+    Imageurl.append("img", event.target.files[0]);
+    console.log(event.target.files[0]);
   };
 
-  const deleteFileImage = (event) => {
+  const deleteFileImage = () => {
     URL.revokeObjectURL(fileImage);
     setFileImage(Defaultimage);
   };
@@ -42,7 +43,7 @@ export default function Home() {
   const onTransmit = (event) => {
     event.preventDefault();
 
-    console.log(fileImage);
+    console.log(Imageurl);
 
     if(fileImage === Defaultimage){
       setPopup({open: true, title: "에러!", message: "사진을 넣어 주세요!"});
@@ -53,17 +54,18 @@ export default function Home() {
   }
 
   const postData = async () => {
-    const postUrl = "/conditions/classify/";
-    const postValue = {
-      img: fileImage,
-    }
+    const postUrl = "conditions/classify/";
     // console.log(postVal);
-    await axios.post(postUrl, postValue)
+    await axios.post(postUrl, Imageurl,{
+      headers:{
+        'Content-Type' : 'multipart/from-data'
+      }
+    })
     .then((response) => {
-        if (response.data.status === "fail") {
+        if (response.data.status === "400") {
             alert(response.data.message);
         }
-        else if (response.data.status === "success"){
+        else if (response.data.status === "200"){
             setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
               navigate("/Judgment",{replace:true});
             }});

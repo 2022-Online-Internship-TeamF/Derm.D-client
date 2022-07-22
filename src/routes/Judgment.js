@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Grid from '@mui/material/Grid';
 import Header from "../components/Header"
 import Button from 'react-bootstrap/Button'
@@ -60,6 +60,25 @@ const itemData = [
 
  // 이건 좀 수정해야됨
  export default function Judgment(){
+    const useGetData = () => {
+      const [authTokens, setAuthTokens] = useState("");
+
+      useEffect(() => {
+        if (localStorage.getItem('token') !== null){
+          setAuthTokens(true);
+        }
+        else {
+          setAuthTokens(false);
+        }
+      }, [localStorage.getItem('token')])
+
+      return {
+        authTokens,
+      }
+    }
+
+    const { authTokens } = useGetData();
+
     return(
         <div>
             <Header />
@@ -97,6 +116,7 @@ const itemData = [
                       </Grid>
                 </Grid> 
                 <br/><br/><br/>
+                {authTokens ? (
                 <Grid item xs={12} align="right">
                   <Link to="/Scrap" style={{ textDecoration: 'none' }}>
                     <Button                     
@@ -106,6 +126,8 @@ const itemData = [
                     </Button>
                   </Link>
                 </Grid>
+                )
+                : (<></>) }
                 </Container>               
             </Wrapper>
         </div>

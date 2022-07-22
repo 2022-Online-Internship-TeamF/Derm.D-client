@@ -9,7 +9,6 @@ import Answer from "./routes/Answer"
 import Scrap from "./routes/Scrap"
 import Qna from "./routes/Qna"
 import Judgment from "./routes/Judgment"
-import KakaoLogin from "./routes/KakaoLogin"
 import "bootstrap/dist/css/bootstrap.min.css";
 import {Routes, Route} from "react-router-dom";
 
@@ -25,7 +24,6 @@ function App() {
           <Route path="/question" element={<Question />}></Route>          
           <Route path="/answer" element={<Answer />}></Route>
           <Route path="/qna" element={<Qna />}></Route>        
-          <Route path="/kakaoLogin" element={<KakaoLogin />}></Route>
           <Route path="/infodisease/:id" element={<Infodisease />}></Route>
         </Routes>
     </div>
