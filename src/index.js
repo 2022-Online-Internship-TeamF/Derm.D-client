@@ -24,7 +24,7 @@ root.render(
     <ThemeProvider theme={theme}>
       <CookiesProvider>
         <BrowserRouter>
-          <App/>
+            <App/>
         </BrowserRouter>
       </CookiesProvider>
     </ThemeProvider>

@@ -57,7 +57,6 @@ function Header(){
   const useGetData = () => {
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
     const [authTokens, setAuthTokens] = useState("");
-    const [username, setUsername] = useState("");
     
     const cookies = new Cookies();
     
@@ -72,21 +71,21 @@ function Header(){
     }, [localStorage.getItem('token')])
 
     useEffect(() => {
-      const fourMinutes = 1000 * 60 * 1
+      const tenMinutes = 1000 * 60 * 10
 
       const interval = setInterval(()=> {
         if(authTokens){
           updateToken()
         }
-      }, fourMinutes)
+      }, tenMinutes)
       return ()=> clearInterval(interval)
     }, [authTokens])
 
     const getUserData = async () => {
-      const postUrl = "members/nickname/";
+      const postUrl = "user/";
       await axios.get(postUrl)
       .then((response) => {
-        setUsername(response.data.nickname);
+        console.log(response.data);
         console.log("성공");
       }).catch(function(error){
         console.log("실패");
@@ -146,12 +145,11 @@ function Header(){
       onClickLogout,
       popup,
       setPopup,
-      username,
     }
   }
 
   const navigate = useNavigate();
-  const { authTokens, onClickLogout, popup, setPopup, username } = useGetData();
+  const { authTokens, onClickLogout, popup, setPopup } = useGetData();
      
     return (
       <>
