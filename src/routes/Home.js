@@ -54,7 +54,7 @@ export default function Home() {
   }
 
   const postData = async () => {
-    const postUrl = "conditions/classify/";
+    const postUrl = "/conditions/classify/";
     // console.log(postVal);
     await axios.post(postUrl, Imageurl,{
       headers:{

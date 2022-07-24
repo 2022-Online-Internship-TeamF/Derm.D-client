@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header"
 import Popup from '../components/Popup'
 import Card from 'react-bootstrap/Card'
@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import ReactButton from 'react-bootstrap/Button'
 import TextField from '@mui/material/TextField';
 import styled from "styled-components";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {Formik } from "formik";
 import BootstrapForm from "react-bootstrap/Form";
 import axios from 'axios'
@@ -35,61 +35,99 @@ const Formquestion = styled.form`
 
 
 export default function Question(){
-    const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
-    const [fileImage, setFileImage] = useState('');
-    const [content, setContent] = useState('');
-    const navigate = useNavigate();
-  
-    const saveFileImage  = (event) => {
-      setFileImage(URL.createObjectURL(event.target.files[0]));
-      const file = event.target.files[0];
-      console.log(file);
-    };
-  
-    const deleteFileImage = (event) => {
-      URL.revokeObjectURL(fileImage);
-      setFileImage('');
-    };
+    const useGetData = () => {
+        const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
+        const [fileImage, setFileImage] = useState('');
+        const [content, setContent] = useState('');
+        const [user, setUser] = useState("")
+        const {diseaseid} = useParams();
+        const navigate = useNavigate();
 
-    const onContentHandler = (event) => {
-        setContent(event.target.value);
-      }
-  
-    const onSubmit = (event) => {
-      event.preventDefault();
-      //잘 등록 되는지 콘솔로 확인
-      console.log({
-        content : content,
-        img: fileImage,
-      })
-  
-      if(!(content)){
-        setPopup({open: true, title: "에러!", message: "내용을 입력해 주세요!"});
-      }
-      else {
-        postData();
-      }
+        const saveFileImage  = (event) => {
+            setFileImage(URL.createObjectURL(event.target.files[0]));
+            const file = event.target.files[0];
+            console.log(file);
+        };
+    
+        const deleteFileImage = (event) => {
+            URL.revokeObjectURL(fileImage);
+            setFileImage('');
+        };
+
+        const onContentHandler = (event) => {
+            setContent(event.target.value);
+        }
+        
+        const getUserData = async () => {
+            const postUrl = "/user/";
+            await axios.get(postUrl)
+            .then((response) => {
+                setUser(response.data);
+                console.log(response.data);
+                console.log("성공");
+            }).catch(function(error){
+                console.log("실패");
+            });
+        }
+
+        const onSubmit = (event) => {
+            event.preventDefault();
+            //잘 등록 되는지 콘솔로 확인
+            console.log({
+                condition_id : `${diseaseid}`,
+                user_id : user.user.id,
+                content : content,
+                img: fileImage,
+            })
+            
+            if(!(content)){
+                setPopup({open: true, title: "에러!", message: "내용을 입력해 주세요!"});
+            }
+            else {
+                postData();
+            }
+        }
+
+        const postData = async () => {
+            const postUrl = `/condition/${diseaseid}/question`;
+            const postValue = {
+                condition_id : `${diseaseid}`,
+                user_id : user.user.id,
+                content : content,
+                img: fileImage,
+            }
+            // console.log(postVal);
+            await axios.post(postUrl, postValue)
+            .then((response) => {
+                if (response.data.status === "fail") {
+                    alert(response.data.message);
+                }
+                else if (response.data.status === "success"){
+                    localStorage.clear();
+                    alert(response.data.message);
+                    navigate("/",{replace:true});
+                }
+            });
+        }
+        
+        useEffect(() => {
+            getUserData();
+        }, [])
+
+        return {
+            popup,
+            setPopup,
+            postData,
+            onSubmit,
+            saveFileImage,
+            deleteFileImage,
+            onContentHandler,
+            fileImage,
+        }
     }
-  
-    const postData = async () => {
-      const postUrl = "http://localhost:8000/boards";
-      const postValue = {
-        content : content,
-        img: fileImage,
-      }
-      // console.log(postVal);
-      await axios.post(postUrl, postValue)
-      .then((response) => {
-          if (response.data.status === "fail") {
-              alert(response.data.message);
-          }
-          else if (response.data.status === "success"){
-              localStorage.clear();
-              alert(response.data.message);
-              navigate("/",{replace:true});
-          }
-      });
-    }
+
+    const navigate = useNavigate();
+    const { popup, setPopup, postData, onSubmit, saveFileImage, deleteFileImage, onContentHandler, fileImage } = useGetData();
 
     return (
         <MaterialForm>

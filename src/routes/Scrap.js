@@ -88,7 +88,7 @@ export default function Scrap(){
     const [Imageurl, setImageurl] = useState("");
 
     const getListScrap = async () => {
-      const postUrl = "archive/";
+      const postUrl = "/archive/";
       await axios.get(postUrl)
       .then((response) => {
         setListScrap(response.data);
@@ -100,7 +100,7 @@ export default function Scrap(){
     }
 
     const deleteScrap = async () => {
-      const postUrl = `../archive/${ScrapId}/`;
+      const postUrl = `/archive/${ScrapId}/`;
       await axios.delete(postUrl)
       .then((response) => {
         setPopup({open: true, title: "성공!", message: (response.data.message)});
@@ -156,7 +156,8 @@ export default function Scrap(){
                                             align-item="center"
                                             onClick={ () => {
                                               setScrapId(scrap.id)
-                                              deleteScrap()
+                                              deleteScrap() 
+                                            }
                                             }>
                                             삭제
                                           </Button>    

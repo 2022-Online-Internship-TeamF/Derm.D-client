@@ -71,7 +71,7 @@ export default function Infodisease(){
 
 
     const getDisease = async () => {
-      const postUrl = `../condition/${diseaseid}/`;
+      const postUrl = `/condition/${diseaseid}/`;
       await axios.get(postUrl)
       .then((response) => {
         setDisease(response.data);
@@ -84,7 +84,7 @@ export default function Infodisease(){
     }
 
     const getQuestion = async () => {
-      const postUrl = `../condition/${diseaseid}/question/`;
+      const postUrl = `/condition/${diseaseid}/question/`;
       await axios.get(postUrl)
       .then((response) => {
         setQuestion(response.data);

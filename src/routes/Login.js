@@ -57,7 +57,7 @@ export default function Login() {
     };
 
     const postData = async () => {
-      const postUrl = "members/login/";
+      const postUrl = "/members/login/";
       const postValue = {
         nickname: account.nickname,
         password: account.password,
@@ -71,7 +71,7 @@ export default function Login() {
           else if (response.status === 200){
             localStorage.clear();
             localStorage.setItem("token", response.data.access);
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access;
+            axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
             setPopup({open: true, title: "성공!", message: "안녕하세요! "+(response.data.username)+"님!", callback: function(){
               navigate("/",{replace:true});
             }});

@@ -14,7 +14,7 @@ export default function Listdisease() {
     const [ListDisease, setListDisease] = useState("");
 
     const getListDisease = async () => {
-      const postUrl = "condition/";
+      const postUrl = "/condition/";
       await axios.get(postUrl)
       .then((response) => {
         setListDisease(response.data);
@@ -39,7 +39,7 @@ export default function Listdisease() {
     <Box sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
       <nav aria-label="secondary mailbox folders">
         <List>
-          {ListDisease && ListDisease.map((disease) => (
+          {ListDisease && ListDisease.data.map((disease) => (
             <>
             <Link to={`/infodisease/${disease.pk}`} style={{ textDecoration: 'none', color:'black'}}>
               <ListItem disablePadding>

@@ -63,7 +63,6 @@ function Header(){
     useEffect(() => {
       if (localStorage.getItem('token') !== null){
         setAuthTokens(true);
-        getUserData();
       }
       else {
         setAuthTokens(false);
@@ -81,19 +80,8 @@ function Header(){
       return ()=> clearInterval(interval)
     }, [authTokens])
 
-    const getUserData = async () => {
-      const postUrl = "user/";
-      await axios.get(postUrl)
-      .then((response) => {
-        console.log(response.data);
-        console.log("성공");
-      }).catch(function(error){
-        console.log("실패");
-      });
-    }
-
     const updateToken = async ()=> {
-      const postUrl = "members/refresh/";
+      const postUrl = "/members/refresh/";
       const postValue = {
         refresh : cookies.get("jwt"),
       }
@@ -116,7 +104,7 @@ function Header(){
     };
 
     const onLogoutHandler = async () => {
-      const postUrl = "members/logout/";
+      const postUrl = "/members/logout/";
       const postValue = {
         refresh: localStorage.getItem('token'),
       }
