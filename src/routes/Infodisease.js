@@ -52,6 +52,7 @@ export default function Infodisease(){
   const useGetData = () => {
     const [Disease, setDisease] = useState("");
     const [Imageurl, setImageurl] = useState("");
+    const [Question, setQuestion] = useState("");
     const [select, setSelect] = useState(1);
     const {diseaseid} = useParams();
     const location = useLocation();
@@ -68,6 +69,7 @@ export default function Infodisease(){
       setSelect(2);
     }
 
+
     const getDisease = async () => {
       const postUrl = `../condition/${diseaseid}/`;
       await axios.get(postUrl)
@@ -81,8 +83,21 @@ export default function Infodisease(){
       });
     }
 
+    const getQuestion = async () => {
+      const postUrl = `../condition/${diseaseid}/question/`;
+      await axios.get(postUrl)
+      .then((response) => {
+        setQuestion(response.data);
+        console.log(response.data);
+        console.log("성공");
+      }).catch(function(error){
+        console.log("실패");
+      });
+    }
+
     useEffect(()=>{
       getDisease()
+      getQuestion()
     },[]);
 
     return {
@@ -92,10 +107,11 @@ export default function Infodisease(){
       select,
       Imageurl,
       location,
+      Question,
     }
   }
   
-  const { Disease, onClickone, onClicktwo, select, Imageurl, location} = useGetData();
+  const { Disease, onClickone, onClicktwo, select, Imageurl, location, Question} = useGetData();
 
   return (
       <>
