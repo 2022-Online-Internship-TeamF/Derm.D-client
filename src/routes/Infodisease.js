@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import Button from 'react-bootstrap/Button'
 import Container from '@mui/material/Container';
 import Accordion from '@mui/material/Accordion';
@@ -53,7 +53,8 @@ export default function Infodisease(){
     const [Disease, setDisease] = useState("");
     const [Imageurl, setImageurl] = useState("");
     const [select, setSelect] = useState(1);
-    const {id} = useParams();
+    const {diseaseid} = useParams();
+    const location = useLocation();
 
     const onClickone = () => {
       console.log("상세내용입니다.");
@@ -68,7 +69,7 @@ export default function Infodisease(){
     }
 
     const getDisease = async () => {
-      const postUrl = `../condition/${id}/`;
+      const postUrl = `../condition/${diseaseid}/`;
       await axios.get(postUrl)
       .then((response) => {
         setDisease(response.data);
@@ -90,10 +91,11 @@ export default function Infodisease(){
       onClicktwo,
       select,
       Imageurl,
+      location,
     }
   }
   
-  const { Disease, onClickone, onClicktwo, select, Imageurl} = useGetData();
+  const { Disease, onClickone, onClicktwo, select, Imageurl, location} = useGetData();
 
   return (
       <>
@@ -113,7 +115,7 @@ export default function Infodisease(){
                           {Disease.eng_name}
                         </Typography>
                         <br/> <br/> <br/>
-                        <Link to="/Question" style={{ textDecoration: 'none' }}>
+                        <Link to={`${location.pathname}/Question`} style={{ textDecoration: 'none' }}>
                           <Button 
                           style={{fontSize: "40px", textTransform: "none", width: "100%", height: "150px" }} 
                           variant="success">
@@ -155,11 +157,13 @@ export default function Infodisease(){
                                     {qnaitem.contentquestion}
                                   </Typography>
                                 </AccordionSummary>                  
-                                <AccordionDetails>
-                                <Link to="/Qna" style={{ textDecoration: 'none' }}>
-                                  <Typography>
-                                    {qnaitem.contentanswer}
-                                  </Typography>
+                                <AccordionDetails align="center">
+                                  <Link to={`${location.pathname}/qna/3`} style={{ textDecoration: 'none' }}>
+                                    <Button 
+                                      style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
+                                      variant="outline-success">
+                                        Q&A 상세 페이지로
+                                    </Button>
                                 </Link>
                                 </AccordionDetails>                                
                             </Accordion>

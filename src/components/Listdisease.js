@@ -39,7 +39,7 @@ export default function Listdisease() {
     <Box sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
       <nav aria-label="secondary mailbox folders">
         <List>
-          {ListDisease && ListDisease.data.map((disease) => (
+          {ListDisease && ListDisease.map((disease) => (
             <>
             <Link to={`/infodisease/${disease.pk}`} style={{ textDecoration: 'none', color:'black'}}>
               <ListItem disablePadding>

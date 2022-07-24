@@ -21,10 +21,10 @@ function App() {
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/scrap" element={<Scrap />}></Route>
           <Route path="/judgment" element={<Judgment />}></Route>
-          <Route path="/question" element={<Question />}></Route>          
-          <Route path="/answer" element={<Answer />}></Route>
-          <Route path="/qna" element={<Qna />}></Route>        
-          <Route path="/infodisease/:id" element={<Infodisease />}></Route>
+          <Route path="/infodisease/:diseaseid" element={<Infodisease />}></Route>
+          <Route path="/infodisease/:diseaseid/question" element={<Question />}></Route> 
+          <Route path="/infodisease/:diseaseid/qna/:qnaid" element={<Qna />}></Route>                
+          <Route path="/infodisease/:diseaseid/qna/:qnaid/answer" element={<Answer />}></Route> 
         </Routes>
     </div>
   );

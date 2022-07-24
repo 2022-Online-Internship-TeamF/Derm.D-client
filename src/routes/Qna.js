@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button'
 import ReactButton from 'react-bootstrap/Button'
 import Container from '@mui/material/Container';
 import styled from "styled-components";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useLocation} from "react-router-dom";
 import {Formik } from "formik";
 import BootstrapForm from "react-bootstrap/Form";
 import axios from 'axios'
@@ -24,6 +24,7 @@ const Wrapper = styled.div`
 `;
 
 export default function Qna(){
+  const location = useLocation();
 
     return (
         <>
@@ -37,16 +38,29 @@ export default function Qna(){
                     <Container maxWidth={"xl"}>
                       <Grid container spacing={8}>
                         <Grid item xs={12}>
-                        <Typography variant="h2" gutterBottom component="div" align="left" style={{ textDecoration: 'none', color:'#168d63' }}>
-                              증상 질문
-                        </Typography>                    
-                        <Box sx={{ width: '100%'}}>
-                                  <Paper elevation={3}>
-                                  <Typography variant="h4" gutterBottom component="div" padding="20px 30px">
-                                    질문입니다
-                                  </Typography>
-                                  </Paper>
-                                </Box>
+                          <Typography variant="h2" gutterBottom component="div" align="left" style={{ textDecoration: 'none', color:'#168d63' }}>
+                                증상 질문
+                          </Typography>                    
+                          <Box sx={{ width: '100%'}}>
+                            <Paper elevation={3}>
+                            <Typography variant="h4" gutterBottom component="div" padding="10px 30px">
+                              질문입니다
+                            </Typography>
+                            <hr/>
+                            <Grid container spacing={1}>
+                              <Grid item xs={6}>
+                              <Typography variant="h6" gutterBottom component="div" padding="10px 20px">
+                                생성일자 : 
+                              </Typography>
+                              </Grid>
+                              <Grid item xs={6}>
+                              <Typography variant="h6" gutterBottom component="div" padding="10px 10px">
+                                수정일자 :
+                              </Typography>
+                              </Grid>
+                            </Grid>
+                            </Paper>
+                          </Box>
                         </Grid>
                         <Grid item xs={6}>
                           <Link to="/Question" style={{ textDecoration: 'none' }}>
@@ -64,6 +78,29 @@ export default function Qna(){
                             질문 삭제
                           </Button>
                         </Grid>
+
+                        <Grid item xs={12}>
+                        <Typography variant="h2" gutterBottom component="div" align="left" style={{ textDecoration: 'none', color:'#168d63' }}>
+                              증상 답변
+                        </Typography>                    
+                        <Box sx={{ width: '100%'}}>
+                          <Paper elevation={3}>
+                          <Typography variant="h4" gutterBottom component="div" padding="20px 30px">
+                            답변이 없습니다.
+                          </Typography>
+                          </Paper>
+                        </Box>
+                        </Grid>
+                        <Grid item xs={12} align="center">
+                          <Link to={`${location.pathname}/answer`} style={{ textDecoration: 'none' }}>
+                            <Button 
+                            style={{fontSize: "40px", textTransform: "none", width: "50%", height: "100px" }} 
+                            variant="success">
+                              답변 작성
+                            </Button>
+                          </Link>
+                        </Grid>
+
                         <Grid item xs={12}>
                         <Typography variant="h2" gutterBottom component="div" align="left" style={{ textDecoration: 'none', color:'#168d63' }}>
                               증상 답변
@@ -77,7 +114,7 @@ export default function Qna(){
                         </Box>
                         </Grid>
                         <Grid item xs={6}>
-                          <Link to="/Answer" style={{ textDecoration: 'none' }}>
+                          <Link to={`${location.pathname}/qna/3`} style={{ textDecoration: 'none' }}>
                             <Button 
                             style={{fontSize: "40px", textTransform: "none", width: "100%", height: "100px" }} 
                             variant="success">
