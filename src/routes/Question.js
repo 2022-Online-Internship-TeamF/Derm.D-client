@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header"
 import Popup from '../components/Popup'
-import Card from 'react-bootstrap/Card'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -39,7 +38,7 @@ export default function Question(){
         const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
         const [fileImage, setFileImage] = useState('');
         const [content, setContent] = useState('');
-        const [user, setUser] = useState("")
+        const [user, setUser] = useState('');
         const {diseaseid} = useParams();
         const formData = new FormData();
         const navigate = useNavigate();
@@ -78,6 +77,7 @@ export default function Question(){
                 condition_id : `${diseaseid}`,
                 user_id : user.user.id,
                 content : content,
+                img: fileImage,
             })
             
             if(!(content)){
@@ -171,7 +171,7 @@ export default function Question(){
                                 </BootstrapForm.Group>
                             </Grid>
                         <Box width="50%" height="40%" >
-                            {fileImage ? <img className="diseaseImage" alt="diseaseImage" src={fileImage} width="100%" height="100%"/> : <br/>}
+                            {fileImage ? <img className="referenceImage" alt="referenceImage" src={fileImage} width="100%" height="100%"/> : <br/>}
                         </Box>           
                         
                         <Box height={30} />

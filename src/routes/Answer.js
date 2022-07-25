@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header"
 import Popup from '../components/Popup'
 import Card from 'react-bootstrap/Card'
@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import ReactButton from 'react-bootstrap/Button'
 import TextField from '@mui/material/TextField';
 import styled from "styled-components";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {Formik } from "formik";
 import BootstrapForm from "react-bootstrap/Form";
 import axios from 'axios'
@@ -35,61 +35,97 @@ const Formquestion = styled.form`
 
 
 export default function Answer(){
-    const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
-    const [fileImage, setFileImage] = useState('');
-    const [content, setContent] = useState('');
-    const navigate = useNavigate();
-  
-    const saveFileImage  = (event) => {
-      setFileImage(URL.createObjectURL(event.target.files[0]));
-      const file = event.target.files[0];
-      console.log(file);
-    };
-  
-    const deleteFileImage = (event) => {
-      URL.revokeObjectURL(fileImage);
-      setFileImage('');
-    };
+    const useGetData = () => {
+        const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
+        const [fileImage, setFileImage] = useState('');
+        const [content, setContent] = useState('');
+        const [user, setUser] = useState('');
+        const {diseaseid, qnaid} = useParams();
+        const formData = new FormData();
+        const navigate = useNavigate();
+    
+        const saveFileImage  = (event) => {
+        setFileImage(URL.createObjectURL(event.target.files[0]));
+        formData.append("img", event.target.files[0]);
+        console.log(event.target.files[0]);
+        };
+    
+        const deleteFileImage = () => {
+            URL.revokeObjectURL(fileImage);
+            setFileImage('');
+        };
 
-    const onContentHandler = (event) => {
-        setContent(event.target.value);
-      }
-  
-    const onSubmit = (event) => {
-      event.preventDefault();
-      //잘 등록 되는지 콘솔로 확인
-      console.log({
-        content : content,
-        img: fileImage,
-      })
-  
-      if(!(content)){
-        setPopup({open: true, title: "에러!", message: "내용을 입력해 주세요!"});
-      }
-      else {
-        postData();
-      }
+        const onContentHandler = (event) => {
+            setContent(event.target.value);
+        }
+    
+        const getUserData = async () => {
+            const postUrl = "/user/";
+            await axios.get(postUrl)
+            .then((response) => {
+                setUser(response.data);
+                console.log(response.data);
+                console.log("성공");
+            }).catch(function(error){
+                console.log("실패");
+            });
+        }
+
+        const onSubmit = (event) => {
+            event.preventDefault();
+            //잘 등록 되는지 콘솔로 확인
+            console.log({
+                question_id : `${qnaid}`,
+                user_id : user.user.id,
+                content : content,
+                img: fileImage,
+            })
+        
+            if(!(content)){
+                setPopup({open: true, title: "에러!", message: "내용을 입력해 주세요!"});
+            }
+            else {
+                postAnswer();
+            }
+        }
+    
+        const postAnswer = async () => {
+            formData.append("question_id", `${qnaid}`);
+            formData.append("user_id", user.user.id);
+            formData.append("content", content);
+
+            const postUrl = `/condition/${diseaseid}/question/${qnaid}/answer`;
+            await axios.post(postUrl, formData,{
+                headers:{
+                    'Content-Type' : 'multipart/form-data'
+                  }
+              })
+            .then((response) => {
+                setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
+                    navigate(`/infodisease/${diseaseid}`,{replace:true});
+                  }});               
+            }).catch(function(error){
+                console.log(error);
+            });
+        }
+
+        useEffect(() => {
+            getUserData();
+        }, [])
+
+        return{
+            popup,
+            setPopup,
+            onSubmit,
+            saveFileImage,
+            deleteFileImage,
+            onContentHandler,
+            fileImage,
+            diseaseid,
+        }
     }
-  
-    const postData = async () => {
-      const postUrl = "/boards/";
-      const postValue = {
-        content : content,
-        img: fileImage,
-      }
-      // console.log(postVal);
-      await axios.post(postUrl, postValue)
-      .then((response) => {
-          if (response.data.status === "fail") {
-              alert(response.data.message);
-          }
-          else if (response.data.status === "success"){
-              localStorage.clear();
-              alert(response.data.message);
-              navigate("/",{replace:true});
-          }
-      });
-    }
+
+    const { popup, setPopup, onSubmit, saveFileImage, deleteFileImage, onContentHandler, fileImage, diseaseid } = useGetData();
 
     return (
         <MaterialForm>
@@ -136,7 +172,7 @@ export default function Answer(){
                                 </BootstrapForm.Group>
                             </Grid>
                         <Box width="50%" height="40%" >
-                            {fileImage ? <img className="diseaseImage" alt="diseaseImage" src={fileImage} width="100%" height="100%"/> : <br/>}
+                            {fileImage ? <img className="referenceImage" alt="referenceImage" src={fileImage} width="100%" height="100%"/> : <br/>}
                         </Box>           
                         
                         <Box height={30} />
@@ -147,7 +183,7 @@ export default function Answer(){
                                 </Button>
                             </Grid>
                             <Grid item xs={6}>
-                                <Link to="/Infodisease" style={{ textDecoration: 'none' }}>
+                                <Link to={`/infodisease/${diseaseid}`} style={{ textDecoration: 'none' }}>
                                     <Button style={{fontSize: "20px"}} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} size="large" color = "error">
                                         작성 취소
                                     </Button>

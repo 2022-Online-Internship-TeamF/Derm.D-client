@@ -51,12 +51,12 @@ const QnaData = [
 
 export default function Infodisease(){
   const useGetData = () => {
-    const [Disease, setDisease] = useState("");
-    const [Imageurl, setImageurl] = useState("");
-    const [Question, setQuestion] = useState("");
-    const [authTokens, setAuthTokens] = useState("");
+    const [Disease, setDisease] = useState('');
+    const [Imageurl, setImageurl] = useState('');
+    const [Question, setQuestion] = useState('');
+    const [authTokens, setAuthTokens] = useState('');
     const [select, setSelect] = useState(1);
-    const {diseaseid} = useParams();
+    const {diseaseid, qnaid} = useParams();
     const location = useLocation();
 
     const onClickone = () => {
@@ -71,7 +71,6 @@ export default function Infodisease(){
       setSelect(2);
     }
 
-    //질문하기 부분 로그인 안하면 못들어가게 하는거 추가
     const getDisease = async () => {
       const postUrl = `/condition/${diseaseid}/`;
       await axios.get(postUrl)
@@ -96,6 +95,7 @@ export default function Infodisease(){
         console.log("실패");
       });
     }
+
 
     useEffect(()=>{
       getDisease()
@@ -144,7 +144,7 @@ export default function Infodisease(){
                         </Typography>
                         <br/> <br/> <br/>
                         {authTokens ? (
-                        <Link to={`${location.pathname}/Question`} style={{ textDecoration: 'none' }}>
+                        <Link to={`${location.pathname}/question`} style={{ textDecoration: 'none' }}>
                           <Button 
                           style={{fontSize: "40px", textTransform: "none", width: "100%", height: "150px" }} 
                           variant="success">
@@ -195,6 +195,30 @@ export default function Infodisease(){
                                 </AccordionDetails>                                
                               </Accordion>
                             ))}
+                            {/* 
+                            {Question.map((qnaitem) => (
+                              <Accordion >
+                                <AccordionSummary
+                                  expandIcon={<ExpandMoreIcon />}
+                                  aria-controls="panel1a-content"
+                                  id="panel1a-header"
+                                >
+                                  <Typography> 
+                                    {qnaitem.content} 
+                                  </Typography>
+                                </AccordionSummary>                  
+                                <AccordionDetails align="center">                      
+                                  <Link to={`${location.pathname}/qna/${qnaitem.id}`} style={{ textDecoration: 'none' }}>
+                                    <Button 
+                                      style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
+                                      variant="outline-success">
+                                        Q&A 상세 페이지로
+                                    </Button>
+                                  </Link>
+                                </AccordionDetails>                                
+                              </Accordion>
+                            ))}
+                            */}
                             </div>
                             )
                           }
