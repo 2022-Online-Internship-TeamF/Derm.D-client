@@ -23,9 +23,7 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CookiesProvider>
-        <BrowserRouter>
-            <App/>
-        </BrowserRouter>
+        <App/>
       </CookiesProvider>
     </ThemeProvider>
   </React.StrictMode>

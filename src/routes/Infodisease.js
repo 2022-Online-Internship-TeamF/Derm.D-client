@@ -3,6 +3,7 @@ import axios from "axios";
 import Header from "../components/Header"
 import styled from "styled-components";
 import Grid from '@mui/material/Grid';
+import Explaindis from "../components/explaindis"
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
@@ -53,6 +54,7 @@ export default function Infodisease(){
     const [Disease, setDisease] = useState("");
     const [Imageurl, setImageurl] = useState("");
     const [Question, setQuestion] = useState("");
+    const [authTokens, setAuthTokens] = useState("");
     const [select, setSelect] = useState(1);
     const {diseaseid} = useParams();
     const location = useLocation();
@@ -69,7 +71,7 @@ export default function Infodisease(){
       setSelect(2);
     }
 
-
+    //질문하기 부분 로그인 안하면 못들어가게 하는거 추가
     const getDisease = async () => {
       const postUrl = `/condition/${diseaseid}/`;
       await axios.get(postUrl)
@@ -98,7 +100,16 @@ export default function Infodisease(){
     useEffect(()=>{
       getDisease()
       getQuestion()
-    },[]);
+    },[]);  
+
+    useEffect(() => {
+      if (localStorage.getItem('token') !== null){
+        setAuthTokens(true);
+      }
+      else {
+        setAuthTokens(false);
+      }
+    }, [localStorage.getItem('token')])  
 
     return {
       Disease,
@@ -108,10 +119,11 @@ export default function Infodisease(){
       Imageurl,
       location,
       Question,
+      authTokens,
     }
   }
   
-  const { Disease, onClickone, onClicktwo, select, Imageurl, location, Question} = useGetData();
+  const { Disease, onClickone, onClicktwo, select, Imageurl, location, Question, authTokens} = useGetData();
 
   return (
       <>
@@ -131,6 +143,7 @@ export default function Infodisease(){
                           {Disease.eng_name}
                         </Typography>
                         <br/> <br/> <br/>
+                        {authTokens ? (
                         <Link to={`${location.pathname}/Question`} style={{ textDecoration: 'none' }}>
                           <Button 
                           style={{fontSize: "40px", textTransform: "none", width: "100%", height: "150px" }} 
@@ -138,6 +151,10 @@ export default function Infodisease(){
                             질문하러 가기
                           </Button>
                         </Link>
+                        )
+                        :
+                        (<></>)
+                        }
                       </Grid>
 
                       <Grid item xs={8.5}>
@@ -150,18 +167,12 @@ export default function Infodisease(){
                           </ToggleButton>
                         </ToggleButtonGroup>
                         <br/><br/><br/><br/>
-                          {select === 1 ? (
-                            <Box sx={{ width: '100%'}}>
-                              <Paper elevation={3}>
-                              <Typography variant="h4" gutterBottom component="div" padding="20px 30px">
-                                {Disease.description}
-                              </Typography>
-                              </Paper>
-                            </Box>
+                          {select === 1 ? ( 
+                            <Explaindis/> 
                             )
                             :
                             (
-                            <>
+                            <div>
                             {QnaData.map((qnaitem) => (
                               <Accordion >
                                 <AccordionSummary
@@ -182,9 +193,9 @@ export default function Infodisease(){
                                     </Button>
                                 </Link>
                                 </AccordionDetails>                                
-                            </Accordion>
+                              </Accordion>
                             ))}
-                            </>
+                            </div>
                             )
                           }
                       </Grid>

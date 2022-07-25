@@ -25,6 +25,7 @@ const Wrapper = styled.div`
 
 export default function Qna(){
   const location = useLocation();
+  //질문 수정이랑 삭제, 답변 작성, 수정/삭제 로그인 안하면 못하는 거 추가
 
     return (
         <>

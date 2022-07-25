@@ -72,7 +72,7 @@ export default function Answer(){
     }
   
     const postData = async () => {
-      const postUrl = "boards/";
+      const postUrl = "/boards/";
       const postValue = {
         content : content,
         img: fileImage,

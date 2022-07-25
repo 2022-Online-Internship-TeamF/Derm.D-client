@@ -1,6 +1,7 @@
 import React, {useEffect, useState } from "react";
 import axios from "axios";
 import Header from "../components/Header"
+import Popup from '../components/Popup'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Grid from '@mui/material/Grid';
@@ -85,7 +86,6 @@ export default function Scrap(){
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
     const [ListScrap, setListScrap] = useState("");
     const [ScrapId, setScrapId] = useState("");
-    const [Imageurl, setImageurl] = useState("");
 
     const getListScrap = async () => {
       const postUrl = "/archive/";
@@ -117,7 +117,6 @@ export default function Scrap(){
 
     return {
       ListScrap,
-      Imageurl,
       popup,
       setPopup,
       deleteScrap,
@@ -125,7 +124,7 @@ export default function Scrap(){
     }
   }
   
-  const { ListScrap, Imageurl, popup, setPopup, deleteScrap, setScrapId } = useGetData();
+  const { ListScrap, popup, setPopup, deleteScrap, setScrapId } = useGetData();
 
 /*
     return (
@@ -145,7 +144,7 @@ export default function Scrap(){
                           {ListScrap.map((scrap) => (
                               <Grid item xl={3} lg={6} sm={12}>
                                   <Card border='dark'>
-                                    <Link to={`/infodisease/${scrap.condition.pk}`} style={{ textDecoration: 'none', color:'black'}}>
+                                    <Link to={`/infodisease/${scrap.condition.id}`} style={{ textDecoration: 'none', color:'black'}}>
                                       <Card.Img variant="top" src={scrap.condition.conditionMedia[0].img}/>
                                     </Link>
                                       <Card.Body align='center'>

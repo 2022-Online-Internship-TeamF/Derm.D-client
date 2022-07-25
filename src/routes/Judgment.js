@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Grid from '@mui/material/Grid';
+import Popup from '../components/Popup'
 import Header from "../components/Header"
 import Button from 'react-bootstrap/Button'
 import styled from "styled-components";
@@ -62,6 +63,7 @@ const itemData = [
  // 이건 좀 수정해야됨
  export default function Judgment(){
     const useGetData = () => {
+      const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
       const [authTokens, setAuthTokens] = useState("");
 
       useEffect(() => {
@@ -73,15 +75,35 @@ const itemData = [
         }
       }, [localStorage.getItem('token')])
 
+      const postScrap = async () => {
+        const postUrl = "/archive/";
+        const postValue = {
+          //condition : condition.kr_name,
+          condition : itemData.title,
+        }
+        await axios.post(postUrl, postValue)
+        .then((response) => {
+            if (response) {
+              setPopup({open: true, title: "성공!", message: "스크랩 되었습니다."});
+            }                    
+        }).catch(function(error){
+          console.log(error);
+        });
+      }
+
       return {
+        popup,
+        setPopup,
         authTokens,
+        postScrap,
       }
     }
 
-    const { authTokens } = useGetData();
+    const { popup, setPopup, authTokens, postScrap } = useGetData();
 
     return(
         <div>
+            <Popup open = {popup.open} setPopup = {setPopup} title = {popup.title} message = {popup.message} callback = {popup.callback}/>
             <Header />
             <br/><br/><br/><br/><br/>
             <Wrapper>

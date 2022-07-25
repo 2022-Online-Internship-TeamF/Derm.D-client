@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import ReactButton from 'react-bootstrap/Button'
 import TextField from '@mui/material/TextField';
 import styled from "styled-components";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link, useParams, useNavigate} from "react-router-dom";
 import {Formik } from "formik";
 import BootstrapForm from "react-bootstrap/Form";
 import axios from 'axios'
@@ -41,15 +41,16 @@ export default function Question(){
         const [content, setContent] = useState('');
         const [user, setUser] = useState("")
         const {diseaseid} = useParams();
+        const formData = new FormData();
         const navigate = useNavigate();
 
         const saveFileImage  = (event) => {
             setFileImage(URL.createObjectURL(event.target.files[0]));
-            const file = event.target.files[0];
-            console.log(file);
+            formData.append("img", event.target.files[0]);
+            console.log(event.target.files[0]);
         };
     
-        const deleteFileImage = (event) => {
+        const deleteFileImage = () => {
             URL.revokeObjectURL(fileImage);
             setFileImage('');
         };
@@ -77,36 +78,33 @@ export default function Question(){
                 condition_id : `${diseaseid}`,
                 user_id : user.user.id,
                 content : content,
-                img: fileImage,
             })
             
             if(!(content)){
                 setPopup({open: true, title: "에러!", message: "내용을 입력해 주세요!"});
             }
             else {
-                postData();
+                postQuestion();
             }
         }
 
-        const postData = async () => {
-            const postUrl = `/condition/${diseaseid}/question`;
-            const postValue = {
-                condition_id : `${diseaseid}`,
-                user_id : user.user.id,
-                content : content,
-                img: fileImage,
-            }
-            // console.log(postVal);
-            await axios.post(postUrl, postValue)
+        const postQuestion= async () => {
+            formData.append("condition_id", `${diseaseid}`);
+            formData.append("user_id", user.user.id);
+            formData.append("content", content);
+
+            const postUrl = `/condition/${diseaseid}/question/`;
+            await axios.post(postUrl, formData,{
+              headers:{
+                  'Content-Type' : 'multipart/form-data'
+                }
+            })
             .then((response) => {
-                if (response.data.status === "fail") {
-                    alert(response.data.message);
-                }
-                else if (response.data.status === "success"){
-                    localStorage.clear();
-                    alert(response.data.message);
-                    navigate("/",{replace:true});
-                }
+                setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
+                    navigate(`/infodisease/${diseaseid}`,{replace:true});
+                  }});               
+            }).catch(function(error){
+                console.log(error);
             });
         }
         
@@ -117,17 +115,16 @@ export default function Question(){
         return {
             popup,
             setPopup,
-            postData,
             onSubmit,
             saveFileImage,
             deleteFileImage,
             onContentHandler,
             fileImage,
+            diseaseid,
         }
     }
 
-    const navigate = useNavigate();
-    const { popup, setPopup, postData, onSubmit, saveFileImage, deleteFileImage, onContentHandler, fileImage } = useGetData();
+    const { popup, setPopup, onSubmit, saveFileImage, deleteFileImage, onContentHandler, fileImage, diseaseid } = useGetData();
 
     return (
         <MaterialForm>
@@ -185,7 +182,7 @@ export default function Question(){
                                 </Button>
                             </Grid>
                             <Grid item xs={6}>
-                                <Link to="/Infodisease" style={{ textDecoration: 'none' }}>
+                                <Link to={`/infodisease/${diseaseid}`} style={{ textDecoration: 'none' }}>
                                     <Button style={{fontSize: "20px"}} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} size="large" color = "error">
                                         작성 취소
                                     </Button>

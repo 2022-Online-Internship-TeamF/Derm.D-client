@@ -5,8 +5,6 @@ import Listdisease from "../components/Listdisease"
 import styled from "styled-components";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import ButtonBase from '@mui/material/ButtonBase';
-import Typography from '@mui/material/Typography';
 import { Link, useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -55,10 +53,9 @@ export default function Home() {
 
   const postData = async () => {
     const postUrl = "/conditions/classify/";
-    // console.log(postVal);
     await axios.post(postUrl, Imageurl,{
       headers:{
-        'Content-Type' : 'multipart/from-data'
+        'Content-Type' : 'multipart/form-data'
       }
     })
     .then((response) => {
@@ -71,7 +68,7 @@ export default function Home() {
             }});
         }
     }).catch(function(error){
-      console.log(error);
+        console.log(error);
     });
   }
 
