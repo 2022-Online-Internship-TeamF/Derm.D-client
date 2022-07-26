@@ -39,7 +39,7 @@ export default function Question(){
         const [fileImage, setFileImage] = useState('');
         const [content, setContent] = useState('');
         const [user, setUser] = useState('');
-        const {diseaseid} = useParams();
+        const {diseaseid, qnaid} = useParams();
         const formData = new FormData();
         const navigate = useNavigate();
 
@@ -107,6 +107,22 @@ export default function Question(){
                 console.log(error);
             });
         }
+        
+        const modifyQuestion = async () => {
+            const postUrl = `/condition/${diseaseid}/question/${qnaid}`;
+            const postValue = {
+              q_id : `${qnaid}`
+            }
+            await axios.put(postUrl, postValue)
+            .then((response) => {
+              setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
+                navigate(`/infodisease/${diseaseid}`,{replace:true});
+              }}); 
+              console.log("질문 삭제 성공");
+            }).catch(function(error){
+              console.log(error);
+            });
+          }
         
         useEffect(() => {
             getUserData();

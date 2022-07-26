@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header"
 import Popup from '../components/Popup'
+import Card from 'react-bootstrap/Card'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -9,7 +10,7 @@ import Button from '@mui/material/Button';
 import ReactButton from 'react-bootstrap/Button'
 import TextField from '@mui/material/TextField';
 import styled from "styled-components";
-import {Link, useParams, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {Formik } from "formik";
 import BootstrapForm from "react-bootstrap/Form";
 import axios from 'axios'
@@ -33,20 +34,20 @@ const Formquestion = styled.form`
 `;
 
 
-export default function Question(){
+export default function Answer(){
     const useGetData = () => {
         const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
         const [fileImage, setFileImage] = useState('');
         const [content, setContent] = useState('');
         const [user, setUser] = useState('');
-        const {diseaseid} = useParams();
+        const {diseaseid, qnaid} = useParams();
         const formData = new FormData();
         const navigate = useNavigate();
-
+    
         const saveFileImage  = (event) => {
-            setFileImage(URL.createObjectURL(event.target.files[0]));
-            formData.append("img", event.target.files[0]);
-            console.log(event.target.files[0]);
+        setFileImage(URL.createObjectURL(event.target.files[0]));
+        formData.append("img", event.target.files[0]);
+        console.log(event.target.files[0]);
         };
     
         const deleteFileImage = () => {
@@ -57,7 +58,7 @@ export default function Question(){
         const onContentHandler = (event) => {
             setContent(event.target.value);
         }
-        
+    
         const getUserData = async () => {
             const postUrl = "/user";
             await axios.get(postUrl)
@@ -74,31 +75,31 @@ export default function Question(){
             event.preventDefault();
             //잘 등록 되는지 콘솔로 확인
             console.log({
-                condition_id : `${diseaseid}`,
+                question_id : `${qnaid}`,
                 user_id : user.user.id,
                 content : content,
                 img: fileImage,
             })
-            
+        
             if(!(content)){
                 setPopup({open: true, title: "에러!", message: "내용을 입력해 주세요!"});
             }
             else {
-                postQuestion();
+                postAnswer();
             }
         }
-
-        const postQuestion= async () => {
-            formData.append("condition_id", `${diseaseid}`);
+    
+        const postAnswer = async () => {
+            formData.append("question_id", `${qnaid}`);
             formData.append("user_id", user.user.id);
             formData.append("content", content);
 
-            const postUrl = `/condition/${diseaseid}/question`;
+            const postUrl = `/condition/${diseaseid}/question/${qnaid}/answer`;
             await axios.post(postUrl, formData,{
-              headers:{
-                  'Content-Type' : 'multipart/form-data'
-                }
-            })
+                headers:{
+                    'Content-Type' : 'multipart/form-data'
+                  }
+              })
             .then((response) => {
                 setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
                     navigate(`/infodisease/${diseaseid}`,{replace:true});
@@ -107,12 +108,28 @@ export default function Question(){
                 console.log(error);
             });
         }
-        
+
+        const modifyAnswer = async () => {
+            const postUrl = `/condition/${diseaseid}/question/${qnaid}/answer/${qnaid}`;
+            const postValue = {
+              a_id : `${qnaid}`
+            }
+            await axios.put(postUrl, postValue)
+            .then((response) => {
+              setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
+                navigate(`/infodisease/${diseaseid}`,{replace:true});
+              }}); 
+              console.log("답변 삭제 성공");
+            }).catch(function(error){
+              console.log(error);
+            });
+          }
+
         useEffect(() => {
             getUserData();
         }, [])
 
-        return {
+        return{
             popup,
             setPopup,
             onSubmit,
@@ -132,7 +149,7 @@ export default function Question(){
             <Header/>
 
             <Typography variant="h2" gutterBottom component="div" align="center" style={{ textDecoration: 'none', color:'#168d63' }}>
-              증상 질문
+              증상 질문에 대한 답변
             </Typography>
 
             <Formik>
@@ -142,10 +159,10 @@ export default function Question(){
                         <Box height={20} />
                         <TextField
                             id="filled-multiline-static"
-                            label="질문 내용"
+                            label="답변 내용"
                             multiline
                             minRows={20}
-                            placeholder="질문하고 싶은 질환에 대해 적으세요."
+                            placeholder="답변을 적으세요."
                             variant="filled"
                             inputProps={{style: {fontSize: 20}}} 
                             InputLabelProps={{style: {fontSize: 20}}} 

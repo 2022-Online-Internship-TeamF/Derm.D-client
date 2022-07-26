@@ -26,7 +26,7 @@ export default function Home() {
   const [fileImage, setFileImage] = useState(Defaultimage);
   const Imageurl = new FormData();
   const navigate = useNavigate();
-
+  
   const saveFileImage  = (event) => {
     setFileImage(URL.createObjectURL(event.target.files[0]));
     Imageurl.append("img", event.target.files[0]);
@@ -52,7 +52,7 @@ export default function Home() {
   }
 
   const postData = async () => {
-    const postUrl = "/conditions/classify/";
+    const postUrl = "/condition/classify";
     await axios.post(postUrl, Imageurl,{
       headers:{
         'Content-Type' : 'multipart/form-data'

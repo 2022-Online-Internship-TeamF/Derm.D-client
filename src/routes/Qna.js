@@ -33,7 +33,7 @@ export default function Qna(){
     const navigate = useNavigate();
     
     const getUserData = async () => {
-      const postUrl = "/user/";
+      const postUrl = "/user";
       await axios.get(postUrl)
       .then((response) => {
           setUser(response.data);
@@ -45,7 +45,7 @@ export default function Qna(){
   }
 
     const getQuestion = async () => {
-      const postUrl = `/condition/${diseaseid}/question/${qnaid}/`;
+      const postUrl = `/condition/${diseaseid}/question/${qnaid}`;
       await axios.get(postUrl)
       .then((response) => {
         setQuestion(response.data);
@@ -56,29 +56,14 @@ export default function Qna(){
       });
     }
 
-    const modifyQuestion = async () => {
-      const postUrl = `/condition/${diseaseid}/question/${qnaid}/`;
-      const postValue = {
-        q_id : `${qnaid}`
-      }
-      await axios.put(postUrl, postValue)
-      .then((response) => {
-        setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
-          navigate(`/infodisease/${diseaseid}`,{replace:true});
-        }}); 
-        console.log("질문 삭제 성공");
-      }).catch(function(error){
-        console.log(error);
-      });
-    }
-
-    //delete와 modify는 아직 다 완성 된거 아니여서 좀 봐야댐
     const deleteQuestion = async () => {
-      const postUrl = `/condition/${diseaseid}/question/${qnaid}/`;
+      const postUrl = `/condition/${diseaseid}/question/${qnaid}`;
+      /*
       const postValue = {
         q_id : `${qnaid}`
       }
-      await axios.delete(postUrl, postValue)
+      */
+      await axios.delete(postUrl)
       .then((response) => {
         setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
           navigate(`/infodisease/${diseaseid}`,{replace:true});
@@ -90,7 +75,7 @@ export default function Qna(){
     }
 
     const getAnswer = async () => {
-      const postUrl = `/condition/${diseaseid}/question/${qnaid}/answer/${qnaid}/`;
+      const postUrl = `/condition/${diseaseid}/question/${qnaid}/answer/${qnaid}`;
       await axios.get(postUrl)
       .then((response) => {
         setAnswer(response.data);
@@ -101,28 +86,14 @@ export default function Qna(){
       });
     }
 
-    const modifyAnswer = async () => {
-      const postUrl = `/condition/${diseaseid}/question/${qnaid}/answer/${qnaid}/`;
-      const postValue = {
-        a_id : `${qnaid}`
-      }
-      await axios.put(postUrl, postValue)
-      .then((response) => {
-        setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
-          navigate(`/infodisease/${diseaseid}`,{replace:true});
-        }}); 
-        console.log("답변 삭제 성공");
-      }).catch(function(error){
-        console.log(error);
-      });
-    }
-
     const deleteAnswer = async () => {
-      const postUrl = `/condition/${diseaseid}/question/${qnaid}/answer/${qnaid}/`;
+      const postUrl = `/condition/${diseaseid}/question/${qnaid}/answer/${qnaid}`;
+      /*
       const postValue = {
         a_id : `${qnaid}`
       }
-      await axios.delete(postUrl, postValue)
+      */
+      await axios.delete(postUrl)
       .then((response) => {
         setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
           navigate(`/infodisease/${diseaseid}`,{replace:true});
@@ -144,15 +115,13 @@ export default function Qna(){
       setPopup,
       Question,
       Answer,
-      modifyQuestion,
       deleteQuestion,
-      modifyAnswer,
       deleteAnswer,
     }
   }
 
   const location = useLocation();
-  const {popup, setPopup, Question, Answer, modifyQuestion, deleteQuestion, modifyAnswer, deleteAnswer } = useGetData();
+  const {popup, setPopup, Question, Answer, deleteQuestion, deleteAnswer } = useGetData();
   
 
     return (
@@ -194,11 +163,10 @@ export default function Qna(){
                         </Grid>
                         {/* {user.id === Question.user ? (
                           <Grid item xs={6}>
-                            <Link to={`${location.pathname}/../../question`} style={{ textDecoration: 'none' }}>
+                            <Link to={`${location.pathname}/../../question/${qnaid}`} style={{ textDecoration: 'none' }}>
                               <Button 
                               style={{fontSize: "40px", textTransform: "none", width: "100%", height: "100px" }} 
                               variant="success"
-                              onClick={modifyQuestion}
                               >
                                 질문 수정
                               </Button>
@@ -275,7 +243,6 @@ export default function Qna(){
                                 <Button 
                                 style={{fontSize: "40px", textTransform: "none", width: "100%", height: "100px" }} 
                                 variant="success"
-                                onClick={modifyAnswer}
                                 >
                                   답변 수정
                                 </Button>

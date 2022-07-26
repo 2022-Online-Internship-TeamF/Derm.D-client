@@ -60,7 +60,7 @@ export default function Answer(){
         }
     
         const getUserData = async () => {
-            const postUrl = "/user/";
+            const postUrl = "/user";
             await axios.get(postUrl)
             .then((response) => {
                 setUser(response.data);

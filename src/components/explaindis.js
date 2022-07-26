@@ -46,7 +46,7 @@ export default function Infodisease(){
     const {diseaseid} = useParams();
 
     const getDisease = async () => {
-      const postUrl = `/condition/${diseaseid}/`;
+      const postUrl = `/condition/${diseaseid}`;
       await axios.get(postUrl)
       .then((response) => {
         setDisease(response.data);
