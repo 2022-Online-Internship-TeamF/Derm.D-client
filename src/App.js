@@ -26,10 +26,10 @@ function App() {
             <Route path="/judgment" element={<Judgment />}></Route>
             <Route path="/infodisease/:diseaseid" element={<Infodisease />}></Route>
             <Route path="/infodisease/:diseaseid/question" element={<Question />}></Route> 
-            <Route path="/infodisease/:diseaseid/question/:qnaid" element={<ModifyQuestion />}></Route> 
+            <Route path="/infodisease/:diseaseid/question/:qnaid" element={<Question />}></Route> 
             <Route path="/infodisease/:diseaseid/qna/:qnaid" element={<Qna />}></Route>                
             <Route path="/infodisease/:diseaseid/qna/:qnaid/answer" element={<Answer />}></Route> 
-            <Route path="/infodisease/:diseaseid/qna/:qnaid/answer/:answerid" element={<ModifyAnswer />}></Route>
+            <Route path="/infodisease/:diseaseid/qna/:qnaid/answer/:answerid" element={<Answer />}></Route>
           </Routes>
         </Router>
     </div>

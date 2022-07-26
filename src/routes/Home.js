@@ -35,6 +35,7 @@ export default function Home() {
 
   const deleteFileImage = () => {
     URL.revokeObjectURL(fileImage);
+    Imageurl.delete("img");
     setFileImage(Defaultimage);
   };
 

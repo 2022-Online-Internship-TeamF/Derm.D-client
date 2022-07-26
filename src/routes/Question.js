@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import Carousel from 'react-bootstrap/Carousel';
 import Button from '@mui/material/Button';
 import ReactButton from 'react-bootstrap/Button'
 import TextField from '@mui/material/TextField';
@@ -36,7 +37,7 @@ const Formquestion = styled.form`
 export default function Question(){
     const useGetData = () => {
         const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
-        const [fileImage, setFileImage] = useState('');
+        const [fileImage, setFileImage] = useState("");
         const [content, setContent] = useState('');
         const [user, setUser] = useState('');
         const {diseaseid} = useParams();
@@ -44,13 +45,22 @@ export default function Question(){
         const navigate = useNavigate();
 
         const saveFileImage  = (event) => {
-            setFileImage(URL.createObjectURL(event.target.files[0]));
-            formData.append("img", event.target.files[0]);
-            console.log(event.target.files[0]);
+            const nowSelectImageList = event.target.files;
+            const nowImageURLList = [...fileImage];
+            for(let i=0; i< nowSelectImageList.length; i++){
+                const nowImageUrl = URL.createObjectURL(nowSelectImageList[i]);
+                //formData.append("media", event.target.files[i]);
+                nowImageURLList.push(nowImageUrl);
+            }
+            setFileImage(nowImageURLList);
+            formData.append("media", event.target.files);
+            //formData.getAll("media");
+            console.log(event.target.files);
         };
     
         const deleteFileImage = () => {
             URL.revokeObjectURL(fileImage);
+            formData.delete("media");
             setFileImage('');
         };
 
@@ -73,12 +83,7 @@ export default function Question(){
         const onSubmit = (event) => {
             event.preventDefault();
             //잘 등록 되는지 콘솔로 확인
-            console.log({
-                condition_id : `${diseaseid}`,
-                user_id : user.user.id,
-                content : content,
-                img: fileImage,
-            })
+            formData.append("content", content);
             
             if(!(content)){
                 setPopup({open: true, title: "에러!", message: "내용을 입력해 주세요!"});
@@ -89,10 +94,6 @@ export default function Question(){
         }
 
         const postQuestion= async () => {
-            formData.append("condition_id", `${diseaseid}`);
-            formData.append("user_id", user.user.id);
-            formData.append("content", content);
-
             const postUrl = `/condition/${diseaseid}/question`;
             await axios.post(postUrl, formData,{
               headers:{
@@ -157,7 +158,15 @@ export default function Question(){
                                 <BootstrapForm.Label style={{fontSize: "30px"}}>(선택사항) 참고 사진을 선택하세요</BootstrapForm.Label>
                                 <Grid container spacing={2}>
                                     <Grid item xs={9} >
-                                    <BootstrapForm.Control type="file" size="lg" name="img" accept="image/*" onChange={saveFileImage}/>
+                                        { fileImage ? 
+                                        (
+                                            <Typography variant="h4" gutterBottom component="div" align="left" style={{ textDecoration: 'none', color:'#168d63' }}>
+                                                삭제를 누르셔야 다시 사진을 올리실 수 있습니다.
+                                            </Typography>
+                                        )
+                                        : 
+                                        <BootstrapForm.Control type="file" multiple size="lg" name="img" accept="image/*" onChange={saveFileImage}/>
+                                        }
                                     </Grid>   
                                     <Grid item xs={3} >
                                     <ReactButton
@@ -171,7 +180,21 @@ export default function Question(){
                                 </BootstrapForm.Group>
                             </Grid>
                         <Box width="50%" height="40%" >
-                            {fileImage ? <img className="referenceImage" alt="referenceImage" src={fileImage} width="100%" height="100%"/> : <br/>}
+                            {fileImage ? (
+                                <Carousel>
+                                    {fileImage && fileImage.map((imageitem) => (
+                                    <Carousel.Item>
+                                        <img
+                                        className="d-block w-100"
+                                        src={imageitem}
+                                        height="400px"
+                                        />
+                                    </Carousel.Item>
+                                    ))}
+                                </Carousel>
+                            )
+                            : <br/> }
+                            {/* {fileImage ? <img className="referenceImage" alt="referenceImage" src={fileImage} width="50%" height="50%"/> : <br/>} */}
                         </Box>           
                         
                         <Box height={30} />
