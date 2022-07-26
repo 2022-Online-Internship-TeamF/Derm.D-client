@@ -38,10 +38,10 @@ const Formquestion = styled.form`
 export default function Answer(){
     const useGetData = () => {
         const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
-        const [fileImage, setFileImage] = useState([]);
+        const [fileImage, setFileImage] = useState("");
         const [content, setContent] = useState('');
         const [user, setUser] = useState('');
-        const {diseaseid, qnaid} = useParams();
+        const {diseaseid, qnaid, answerid} = useParams();
         const formData = new FormData();
         const navigate = useNavigate();
     
@@ -80,7 +80,7 @@ export default function Answer(){
                 console.log("실패");
             });
         }
-
+        
         const onSubmit = (event) => {
             event.preventDefault();
             //잘 등록 되는지 콘솔로 확인
@@ -88,6 +88,9 @@ export default function Answer(){
         
             if(!(content)){
                 setPopup({open: true, title: "에러!", message: "내용을 입력해 주세요!"});
+            }
+            else if(answerid){
+                modifyAnswer();
             }
             else {
                 postAnswer();
@@ -110,6 +113,22 @@ export default function Answer(){
             });
         }
 
+        const modifyAnswer = async () => {
+            const postUrl = `/condition/${diseaseid}/question/${qnaid}/answer/${answerid}`;
+            const postValue = {
+              a_id : `${answerid}`
+            }
+            await axios.put(postUrl, postValue)
+            .then((response) => {
+              setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
+                navigate(`/infodisease/${diseaseid}`,{replace:true});
+              }}); 
+              console.log("답변 수정 성공");
+            }).catch(function(error){
+              console.log(error);
+            });
+          }
+
         useEffect(() => {
             getUserData();
         }, [])
@@ -123,10 +142,12 @@ export default function Answer(){
             onContentHandler,
             fileImage,
             diseaseid,
+            qnaid,
+            answerid,
         }
     }
 
-    const { popup, setPopup, onSubmit, saveFileImage, deleteFileImage, onContentHandler, fileImage, diseaseid } = useGetData();
+    const { popup, setPopup, onSubmit, saveFileImage, deleteFileImage, onContentHandler, fileImage, diseaseid, qnaid, answerid } = useGetData();
 
     return (
         <MaterialForm>
@@ -199,20 +220,40 @@ export default function Answer(){
                         </Box>           
                         
                         <Box height={30} />
+                        { answerid ? (
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                                 <Button style={{fontSize: "20px"}} type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} size="large" color = "success">
-                                    작성 완료!
+                                    답변 수정 완료!
                                 </Button>
                             </Grid>
                             <Grid item xs={6}>
                                 <Link to={`/infodisease/${diseaseid}`} style={{ textDecoration: 'none' }}>
                                     <Button style={{fontSize: "20px"}} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} size="large" color = "error">
-                                        작성 취소
+                                      답변 수정 취소
+                                    </Button>
+                                </Link>
+                            </Grid>
+                        </Grid> 
+                        )
+                        : (
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <Button style={{fontSize: "20px"}} type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} size="large" color = "success">
+                                    답변 작성 완료!
+                                </Button>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Link to={`/infodisease/${diseaseid}`} style={{ textDecoration: 'none' }}>
+                                    <Button style={{fontSize: "20px"}} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} size="large" color = "error">
+                                      답변 작성 취소
                                     </Button>
                                 </Link>
                             </Grid>
                         </Grid>
+                        )                
+                        }
+                        
                     </Formquestion>
                 </Paper>
             )}

@@ -40,7 +40,7 @@ export default function Question(){
         const [fileImage, setFileImage] = useState("");
         const [content, setContent] = useState('');
         const [user, setUser] = useState('');
-        const {diseaseid} = useParams();
+        const {diseaseid, qnaid} = useParams();
         const formData = new FormData();
         const navigate = useNavigate();
 
@@ -88,6 +88,9 @@ export default function Question(){
             if(!(content)){
                 setPopup({open: true, title: "에러!", message: "내용을 입력해 주세요!"});
             }
+            else if(qnaid){
+                modifyQuestion();
+            }
             else {
                 postQuestion();
             }
@@ -109,6 +112,22 @@ export default function Question(){
             });
         }
         
+        const modifyQuestion = async () => {
+            const postUrl = `/condition/${diseaseid}/question/${qnaid}`;
+            const postValue = {
+              q_id : `${qnaid}`
+            }
+            await axios.put(postUrl, postValue)
+            .then((response) => {
+              setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
+                navigate(`/infodisease/${diseaseid}`,{replace:true});
+              }}); 
+              console.log("질문 삭제 성공");
+            }).catch(function(error){
+              console.log(error);
+            });
+          }
+
         useEffect(() => {
             getUserData();
         }, [])
@@ -122,10 +141,11 @@ export default function Question(){
             onContentHandler,
             fileImage,
             diseaseid,
+            qnaid,
         }
     }
 
-    const { popup, setPopup, onSubmit, saveFileImage, deleteFileImage, onContentHandler, fileImage, diseaseid } = useGetData();
+    const { popup, setPopup, onSubmit, saveFileImage, deleteFileImage, onContentHandler, fileImage, diseaseid, qnaid } = useGetData();
 
     return (
         <MaterialForm>
@@ -165,7 +185,7 @@ export default function Question(){
                                             </Typography>
                                         )
                                         : 
-                                        <BootstrapForm.Control type="file" multiple size="lg" name="img" accept="image/*" onChange={saveFileImage}/>
+                                            <BootstrapForm.Control type="file" multiple size="lg" name="img" accept="image/*" onChange={saveFileImage}/>
                                         }
                                     </Grid>   
                                     <Grid item xs={3} >
@@ -198,20 +218,39 @@ export default function Question(){
                         </Box>           
                         
                         <Box height={30} />
-                        <Grid container spacing={2}>
-                            <Grid item xs={6}>
-                                <Button style={{fontSize: "20px"}} type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} size="large" color = "success">
-                                    작성 완료!
-                                </Button>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Link to={`/infodisease/${diseaseid}`} style={{ textDecoration: 'none' }}>
-                                    <Button style={{fontSize: "20px"}} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} size="large" color = "error">
-                                        작성 취소
+                        { qnaid ? (                          
+                            <Grid container spacing={2}>
+                                <Grid item xs={6}>
+                                    <Button style={{fontSize: "20px"}} type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} size="large" color = "success">
+                                        질문 수정 완료!
                                     </Button>
-                                </Link>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Link to={`/infodisease/${diseaseid}`} style={{ textDecoration: 'none' }}>
+                                        <Button style={{fontSize: "20px"}} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} size="large" color = "error">
+                                          질문 수정 취소
+                                        </Button>
+                                    </Link>
+                                </Grid>
+                            </Grid>                            
+                        )
+                        :(
+                            <Grid container spacing={2}>
+                                <Grid item xs={6}>
+                                    <Button style={{fontSize: "20px"}} type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} size="large" color = "success">
+                                        작성 완료!
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Link to={`/infodisease/${diseaseid}`} style={{ textDecoration: 'none' }}>
+                                        <Button style={{fontSize: "20px"}} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} size="large" color = "error">
+                                            작성 취소
+                                        </Button>
+                                    </Link>
+                                </Grid>
                             </Grid>
-                        </Grid>
+                        )
+                        }
                     </Formquestion>
                 </Paper>
             )}

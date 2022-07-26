@@ -117,11 +117,12 @@ export default function Qna(){
       Answer,
       deleteQuestion,
       deleteAnswer,
+      qnaid,
     }
   }
 
   const location = useLocation();
-  const {popup, setPopup, Question, Answer, deleteQuestion, deleteAnswer } = useGetData();
+  const {popup, setPopup, Question, Answer, deleteQuestion, deleteAnswer, qnaid } = useGetData();
   
 
     return (
@@ -183,7 +184,7 @@ export default function Qna(){
                           </Grid>
                         ) : <></> } */}
                         <Grid item xs={6}>
-                          <Link to={`${location.pathname}/../../question`} style={{ textDecoration: 'none' }}>
+                          <Link to={`${location.pathname}/../../question/${qnaid}`} style={{ textDecoration: 'none' }}>
                             <Button 
                             style={{fontSize: "40px", textTransform: "none", width: "100%", height: "100px" }} 
                             variant="success">
@@ -295,7 +296,7 @@ export default function Qna(){
                           </Box>
                         </Grid>
                         <Grid item xs={6}>
-                          <Link to={`${location.pathname}/answer`} style={{ textDecoration: 'none' }}>
+                          <Link to={`${location.pathname}/answer/3`} style={{ textDecoration: 'none' }}>
                             <Button 
                             style={{fontSize: "40px", textTransform: "none", width: "100%", height: "100px" }} 
                             variant="success">

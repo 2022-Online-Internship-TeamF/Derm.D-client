@@ -89,6 +89,7 @@ function Header(){
       .then((response) => {
         if (response.status === 200){
           localStorage.setItem("token", response.data.access);
+          axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
           console.log("토큰 변경 성공");
       }else{
         onLogoutHandler()
