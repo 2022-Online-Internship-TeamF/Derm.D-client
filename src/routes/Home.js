@@ -24,25 +24,27 @@ const Wrapper = styled.div`
 export default function Home() { 
   const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
   const [fileImage, setFileImage] = useState(Defaultimage);
+  const [postfile, setPostfile] = useState("");
   const Imageurl = new FormData();
   const navigate = useNavigate();
   
   const saveFileImage  = (event) => {
     setFileImage(URL.createObjectURL(event.target.files[0]));
-    Imageurl.append("img", event.target.files[0]);
+    setPostfile(event.target.files[0]);
     console.log(event.target.files[0]);
   };
 
   const deleteFileImage = () => {
     URL.revokeObjectURL(fileImage);
-    Imageurl.delete("img");
     setFileImage(Defaultimage);
+    setPostfile(null);
   };
 
   const onTransmit = (event) => {
     event.preventDefault();
 
     console.log(Imageurl);
+    Imageurl.append('media', postfile);
 
     if(fileImage === Defaultimage){
       setPopup({open: true, title: "에러!", message: "사진을 넣어 주세요!"});

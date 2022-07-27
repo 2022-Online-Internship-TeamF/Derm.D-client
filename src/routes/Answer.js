@@ -42,27 +42,33 @@ export default function Answer(){
         const [content, setContent] = useState('');
         const [user, setUser] = useState('');
         const {diseaseid, qnaid, answerid} = useParams();
+        const postfile = new Set();
         const formData = new FormData();
         const navigate = useNavigate();
     
         const saveFileImage  = (event) => {
             const nowSelectImageList = event.target.files;
             const nowImageURLList = [...fileImage];
+
             for(let i=0; i< nowSelectImageList.length; i++){
                 const nowImageUrl = URL.createObjectURL(nowSelectImageList[i]);
-                //formData.append("media", event.target.files[i]);
                 nowImageURLList.push(nowImageUrl);
+                postfile.add(event.target.files[i]);
             }
+
+            if(nowImageURLList.length > 10){
+                nowImageURLList = nowImageURLList.slice(0,10);
+            }
+
             setFileImage(nowImageURLList);
-            formData.append("media", event.target.files);
-            //formData.getAll("media");
             console.log(event.target.files);
+            console.log(postfile.size);
         };
     
         const deleteFileImage = () => {
             URL.revokeObjectURL(fileImage);
-            formData.delete("media");
             setFileImage('');
+            postfile.clear();
         };
 
         const onContentHandler = (event) => {
@@ -85,6 +91,12 @@ export default function Answer(){
             event.preventDefault();
             //잘 등록 되는지 콘솔로 확인
             formData.append("content", content);
+            //question이랑 answer 이미지 넣는 알고리즘 달라서 둘다 실험 해보고 되는 걸로 ㄱ 둘다 안되면 쓰읍
+            if(postfile){
+                for(let k=0; k< postfile.length; k++){
+                    formData.append("content", postfile[k]);
+                }
+            }
         
             if(!(content)){
                 setPopup({open: true, title: "에러!", message: "내용을 입력해 주세요!"});
@@ -98,6 +110,8 @@ export default function Answer(){
         }
     
         const postAnswer = async () => {
+            for (const keyValue of formData) console.log(keyValue);
+
             const postUrl = `/condition/${diseaseid}/question/${qnaid}/answer`;
             await axios.post(postUrl, formData,{
                 headers:{
@@ -107,7 +121,8 @@ export default function Answer(){
             .then((response) => {
                 setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
                     navigate(`/infodisease/${diseaseid}`,{replace:true});
-                  }});               
+                  }});  
+                  console.log("답변 작성 성공");                
             }).catch(function(error){
                 console.log(error);
             });
@@ -115,16 +130,22 @@ export default function Answer(){
 
         const modifyAnswer = async () => {
             const postUrl = `/condition/${diseaseid}/question/${qnaid}/answer/${answerid}`;
-            const postValue = {
-              a_id : `${answerid}`
-            }
-            await axios.put(postUrl, postValue)
+
+            await axios.put(postUrl, formData,{
+                headers:{
+                    'Content-Type' : 'multipart/form-data'
+                  }
+              })
             .then((response) => {
-              setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
-                navigate(`/infodisease/${diseaseid}`,{replace:true});
+              setPopup({open: true, title: "성공!", message: "답변이 수정 되었습니다!", callback: function(){
+                navigate(`/infodisease/${diseaseid}/qna/${qnaid}`,{replace:true});
               }}); 
               console.log("답변 수정 성공");
             }).catch(function(error){
+              setPopup({open: true, title: "실패!", message: "당신은 답변 작성자가 아닙니다!", callback: function(){
+                  navigate(`/infodisease/${diseaseid}/qna/${qnaid}`,{replace:true});
+                }}); 
+                console.log("답변 수정 실패");
               console.log(error);
             });
           }

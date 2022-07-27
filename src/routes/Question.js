@@ -41,28 +41,33 @@ export default function Question(){
         const [imagedummy, setimagedummy] = useState("");
         const [content, setContent] = useState('');
         const {diseaseid, qnaid} = useParams();
+        const postfile = new Set();
         const formData = new FormData();
         const navigate = useNavigate();
 
         const saveFileImage  = (event) => {
             const nowSelectImageList = event.target.files;
             const nowImageURLList = [...fileImage];
+
             for(let i=0; i< nowSelectImageList.length; i++){
                 const nowImageUrl = URL.createObjectURL(nowSelectImageList[i]);
-                //formData.append('media', event.target.files[i]);
                 nowImageURLList.push(nowImageUrl);
+                postfile.add(event.target.files[i]);
             }
+
+            if(nowImageURLList.length > 10){
+                nowImageURLList = nowImageURLList.slice(0,10);
+            }
+
             setFileImage(nowImageURLList);
-            //formData.append("media", event.target.files);
-            //formData.getAll("media");
-            setimagedummy(event.target.files)
             console.log(event.target.files);
+            console.log(postfile);
         };
     
         const deleteFileImage = () => {
             URL.revokeObjectURL(fileImage);
-            formData.delete("media");
             setFileImage('');
+            postfile.clear();
         };
 
         const onContentHandler = (event) => {
@@ -82,9 +87,11 @@ export default function Question(){
 
         const onSubmit = (event) => {
             event.preventDefault();
-            //잘 등록 되는지 콘솔로 확인
+            //question이랑 answer 이미지 넣는 알고리즘 달라서 둘다 실험 해보고 되는 걸로 ㄱ 둘다 안되면 쓰읍
             formData.append('content', content);
-            formData.append('media', imagedummy);
+            if(postfile){
+                postfile.map(file => formData.append("content", file));
+            }         
 
             if(!(content)){
                 setPopup({open: true, title: "에러!", message: "내용을 입력해 주세요!"});
@@ -109,7 +116,8 @@ export default function Question(){
             .then((response) => {
                 setPopup({open: true, title: "성공!", message: "질문이 작성 되었습니다!", callback: function(){
                     navigate(`/infodisease/${diseaseid}`,{replace:true});
-                  }});               
+                  }}); 
+                  console.log("질문 작성 성공");              
             }).catch(function(error){
                 console.log(error);
             });
@@ -117,16 +125,22 @@ export default function Question(){
         
         const modifyQuestion = async () => {
             const postUrl = `/condition/${diseaseid}/question/${qnaid}`;
-            const postValue = {
-              q_id : `${qnaid}`
-            }
-            await axios.put(postUrl, postValue)
+
+            await axios.put(postUrl, formData,{
+                headers:{
+                    'Content-Type' : 'multipart/form-data'
+                  }
+              })
             .then((response) => {
-              setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
-                navigate(`/infodisease/${diseaseid}`,{replace:true});
+              setPopup({open: true, title: "성공!", message: "질문이 수정 되었습니다!", callback: function(){
+                navigate(`/infodisease/${diseaseid}/qna/${qnaid}`,{replace:true});
               }}); 
-              console.log("질문 삭제 성공");
+              console.log("질문 수정 성공");
             }).catch(function(error){
+              setPopup({open: true, title: "실패!", message: "당신은 질문 작성자가 아닙니다!", callback: function(){
+                  navigate(`/infodisease/${diseaseid}/qna/${qnaid}`,{replace:true});
+                }}); 
+                console.log("질문 수정 실패");
               console.log(error);
             });
           }

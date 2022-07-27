@@ -68,6 +68,7 @@ export default function Qna(){
         }}); 
         console.log("질문 삭제 성공");
       }).catch(function(error){
+        setPopup({open: true, title: "실패!", message: "삭제 권한이 없습니다!"});
         console.log(error);
       });
     }
@@ -155,27 +156,7 @@ export default function Qna(){
                             </Paper>
                           </Box>
                         </Grid>
-                        {/* {user.id === Question.user ? (
-                          <Grid item xs={6}>
-                            <Link to={`${location.pathname}/../../question/${qnaid}`} style={{ textDecoration: 'none' }}>
-                              <Button 
-                              style={{fontSize: "40px", textTransform: "none", width: "100%", height: "100px" }} 
-                              variant="success"
-                              >
-                                질문 수정
-                              </Button>
-                            </Link>
-                          </Grid>
-                          <Grid item xs={6}>
-                            <Button 
-                            style={{fontSize: "40px", textTransform: "none", width: "100%", height: "100px" }} 
-                            variant="danger"
-                            onClick={deleteQuestion}
-                            >
-                              질문 삭제
-                            </Button>
-                          </Grid>
-                        ) : <></> } */}
+
                         <Grid item xs={6}>
                           <Link to={`${location.pathname}/../../question/${qnaid}`} style={{ textDecoration: 'none' }}>
                             <Button 
@@ -197,7 +178,7 @@ export default function Qna(){
 
                         <Grid item xs={12}>
                           <Typography variant="h2" gutterBottom component="div" align="left" style={{ textDecoration: 'none', color:'#168d63' }}>
-                                증상 답변
+                            증상 답변
                           </Typography>
                           {Answer ? 
                           (
@@ -240,133 +221,6 @@ export default function Qna(){
                           </Link>
                         </Grid>
 
-                        {/*
-                        {Answer ? (
-                          <Grid item xs={12}>
-                          <Typography variant="h2" gutterBottom component="div" align="left" style={{ textDecoration: 'none', color:'#168d63' }}>
-                                증상 답변
-                          </Typography>                    
-                          <Box sx={{ width: '100%'}}>
-                            <Paper elevation={3}>
-                            <Typography variant="h4" gutterBottom component="div" padding="20px 30px">
-                              {Answer.content}
-                            </Typography>
-                            </Paper>
-                          </Box>
-                        </Grid>
-                        ( user.id === Answer.user ? 
-                          (
-                          <>
-                          <Grid item xs={6}>
-                            <Link to={`${location.pathname}/answer`} style={{ textDecoration: 'none' }}>
-                              <Button 
-                              style={{fontSize: "40px", textTransform: "none", width: "100%", height: "100px" }} 
-                              variant="success"
-                              >
-                                답변 수정
-                              </Button>
-                            </Link>
-                          </Grid>
-                          <Grid item xs={6}>
-                            <Button 
-                            style={{fontSize: "40px", textTransform: "none", width: "100%", height: "100px" }} 
-                            variant="danger"
-                            onClick={deleteAnswer}
-                            >
-                              답변 삭제
-                            </Button>
-                          </Grid>
-                          </>
-                          )
-                          : (<></>)
-                        ))
-                        : 
-                        (
-                          <>
-                          <Grid item xs={12}>
-                            <Typography variant="h2" gutterBottom component="div" align="left" style={{ textDecoration: 'none', color:'#168d63' }}>
-                                  증상 답변
-                            </Typography>                    
-                            <Box sx={{ width: '100%'}}>
-                              <Paper elevation={3}>
-                              <Typography variant="h4" gutterBottom component="div" padding="20px 30px">
-                                답변이 없습니다.
-                              </Typography>
-                              </Paper>
-                            </Box>
-                          </Grid>
-                        </>)
-                        
-                        (user.doctor === true ?
-                          ( 
-                          <>
-                            <Grid item xs={12} align="center">
-                              <Link to={`${location.pathname}/answer`} style={{ textDecoration: 'none' }}>
-                                <Button 
-                                style={{fontSize: "40px", textTransform: "none", width: "50%", height: "100px" }} 
-                                variant="success">
-                                  답변 작성
-                                </Button>
-                              </Link>
-                            </Grid>
-                          </> 
-                          )
-                        : (<></>)
-                        )
-                        }
-                         */}
-                        {/* 
-                        <Grid item xs={12}>
-                          <Typography variant="h2" gutterBottom component="div" align="left" style={{ textDecoration: 'none', color:'#168d63' }}>
-                                증상 답변
-                          </Typography>                    
-                          <Box sx={{ width: '100%'}}>
-                            <Paper elevation={3}>
-                            <Typography variant="h4" gutterBottom component="div" padding="20px 30px">
-                              답변이 없습니다.
-                            </Typography>
-                            </Paper>
-                          </Box>
-                        </Grid>
-                        <Grid item xs={12} align="center">
-                          <Link to={`${location.pathname}/answer`} style={{ textDecoration: 'none' }}>
-                            <Button 
-                            style={{fontSize: "40px", textTransform: "none", width: "50%", height: "100px" }} 
-                            variant="success">
-                              답변 작성
-                            </Button>
-                          </Link>
-                        </Grid>
-
-                        <Grid item xs={12}>
-                          <Typography variant="h2" gutterBottom component="div" align="left" style={{ textDecoration: 'none', color:'#168d63' }}>
-                                증상 답변
-                          </Typography>                    
-                          <Box sx={{ width: '100%'}}>
-                            <Paper elevation={3}>
-                            <Typography variant="h4" gutterBottom component="div" padding="20px 30px">
-                              답변입니다
-                            </Typography>
-                            </Paper>
-                          </Box>
-                        </Grid>
-                        <Grid item xs={6}>
-                          <Link to={`${location.pathname}/answer/3`} style={{ textDecoration: 'none' }}>
-                            <Button 
-                            style={{fontSize: "40px", textTransform: "none", width: "100%", height: "100px" }} 
-                            variant="success">
-                              답변 수정
-                            </Button>
-                          </Link>
-                        </Grid>
-                        <Grid item xs={6}>
-                          <Button 
-                          style={{fontSize: "40px", textTransform: "none", width: "100%", height: "100px" }} 
-                          variant="danger">
-                            답변 삭제
-                          </Button>
-                        </Grid>
-                        */}
                       </Grid>
                     </Container>
                 </Wrapper>

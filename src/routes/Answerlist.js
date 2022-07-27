@@ -67,6 +67,7 @@ export default function Qna(){
         }}); 
         console.log("답변 삭제 성공");
       }).catch(function(error){
+        setPopup({open: true, title: "실패!", message: "삭제 권한이 없습니다!"});
         console.log(error);
       });
     }
