@@ -78,7 +78,7 @@ export default function Home() {
           <Popup open = {popup.open} setPopup = {setPopup} title = {popup.title} message = {popup.message} callback = {popup.callback}/>
 
           <Header />
-          <br /><br /><br /><br /><br />
+          <br /><br /><br />
           <Wrapper>
           <Container maxWidth={"xl"}>
             <Grid container spacing={2}>
@@ -134,8 +134,6 @@ export default function Home() {
             </Grid> 
           </Container>
           </Wrapper>
-          <>
-          </>
       </div>
     );
   }

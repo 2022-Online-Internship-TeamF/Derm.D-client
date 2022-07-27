@@ -18,69 +18,6 @@ const Scrapitem = styled.div`
     margin-bottom : 50px;
 `;
 
-const cardData = [
-    {
-      img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      title: '여드름',
-      link : '/',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-      title: 'Burger',
-      link : '/',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-      title: 'Camera',
-      link : '/',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-      title: 'Coffee',
-      link : '/',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-      title: 'Hats',
-      link : '/',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-      title: 'Honey',
-      link : '/',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-      title: 'Basketball',
-      link : '/',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-      title: 'Fern',
-      link : '/',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-      title: 'Mushrooms',
-      link : '/',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-      title: 'Tomato basil',
-      link : '/',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-      title: 'Sea star',
-      link : '/',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-      title: 'Bike',
-      link : '/',
-    },
-  ];
-
 export default function Scrap(){
   const useGetData = () => {
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
@@ -126,7 +63,7 @@ export default function Scrap(){
   
   const { ListScrap, popup, setPopup, deleteScrap, setScrapId } = useGetData();
 
-/*
+
     return (
       <>
           <div>
@@ -144,7 +81,7 @@ export default function Scrap(){
                           {ListScrap.map((scrap) => (
                               <Grid item xl={3} lg={6} sm={12}>
                                   <Card border='dark'>
-                                    <Link to={`/infodisease/${scrap.condition.id}`} style={{ textDecoration: 'none', color:'black'}}>
+                                    <Link to={`/infodisease/${scrap.condition.kr_name}`} style={{ textDecoration: 'none', color:'black'}}>
                                       <Card.Img variant="top" src={scrap.condition.conditionMedia[0].img}/>
                                     </Link>
                                       <Card.Body align='center'>
@@ -170,7 +107,7 @@ export default function Scrap(){
           </div>
       </>
   );
-*/
+/*    
     return (
         <>
             <div>
@@ -195,7 +132,7 @@ export default function Scrap(){
                                               style={{fontSize: "20px", textTransform: "none", padding: "10px 50px" }}
                                               variant="danger" 
                                               align-item="center"
-                                              /*onClick={() => deleteFileImage()} */>
+                                              onClick={() => deleteFileImage()}>
                                               삭제
                                             </Button>    
                                         </Card.Body>                                                                          
@@ -208,4 +145,5 @@ export default function Scrap(){
             </div>
         </>
     );
+  */
 }

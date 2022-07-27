@@ -62,10 +62,10 @@ function Header(){
     
     useEffect(() => {
       if (localStorage.getItem('token') !== null){
-        setAuthTokens(true);
+        setAuthTokens(localStorage.getItem('token'));
       }
       else {
-        setAuthTokens(false);
+        setAuthTokens(null);
       }
     }, [localStorage.getItem('token')])
 
@@ -120,7 +120,7 @@ function Header(){
           setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
             navigate("/",{replace:true});
           }});
-          setAuthTokens(false);
+          setAuthTokens(null);
           cookies.remove("jwt");
           localStorage.clear();
         }
