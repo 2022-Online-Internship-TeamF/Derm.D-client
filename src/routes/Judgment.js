@@ -67,9 +67,9 @@ const itemData = [
       const postScrap = async (event) => {
         event.preventDefault();
 
-        const postUrl = "/archive";
+        const postUrl = "/user/archive";
         const postValue = {
-          //condition : condition.kr_name,
+          //condition : condition.eng_name,
           condition : itemData.title,
         }
         await axios.post(postUrl, postValue)

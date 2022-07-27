@@ -38,8 +38,8 @@ export default function Question(){
     const useGetData = () => {
         const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
         const [fileImage, setFileImage] = useState("");
+        const [imagedummy, setimagedummy] = useState("");
         const [content, setContent] = useState('');
-        const [user, setUser] = useState('');
         const {diseaseid, qnaid} = useParams();
         const formData = new FormData();
         const navigate = useNavigate();
@@ -49,12 +49,13 @@ export default function Question(){
             const nowImageURLList = [...fileImage];
             for(let i=0; i< nowSelectImageList.length; i++){
                 const nowImageUrl = URL.createObjectURL(nowSelectImageList[i]);
-                //formData.append("media", event.target.files[i]);
+                //formData.append('media', event.target.files[i]);
                 nowImageURLList.push(nowImageUrl);
             }
             setFileImage(nowImageURLList);
-            formData.append("media", event.target.files);
+            //formData.append("media", event.target.files);
             //formData.getAll("media");
+            setimagedummy(event.target.files)
             console.log(event.target.files);
         };
     
@@ -72,7 +73,6 @@ export default function Question(){
             const postUrl = "/user";
             await axios.get(postUrl)
             .then((response) => {
-                setUser(response.data);
                 console.log(response.data);
                 console.log("성공");
             }).catch(function(error){
@@ -83,8 +83,9 @@ export default function Question(){
         const onSubmit = (event) => {
             event.preventDefault();
             //잘 등록 되는지 콘솔로 확인
-            formData.append("content", content);
-            
+            formData.append('content', content);
+            formData.append('media', imagedummy);
+
             if(!(content)){
                 setPopup({open: true, title: "에러!", message: "내용을 입력해 주세요!"});
             }
@@ -97,6 +98,8 @@ export default function Question(){
         }
 
         const postQuestion= async () => {
+            for (const keyValue of formData) console.log(keyValue);
+
             const postUrl = `/condition/${diseaseid}/question`;
             await axios.post(postUrl, formData,{
               headers:{
@@ -104,7 +107,7 @@ export default function Question(){
                 }
             })
             .then((response) => {
-                setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
+                setPopup({open: true, title: "성공!", message: "질문이 작성 되었습니다!", callback: function(){
                     navigate(`/infodisease/${diseaseid}`,{replace:true});
                   }});               
             }).catch(function(error){
@@ -175,32 +178,33 @@ export default function Question(){
                         <Box height={20} />
                             <Grid item xs={12} >
                                 <BootstrapForm.Group controlId="formFileLg" className="mb-3">
-                                <BootstrapForm.Label style={{fontSize: "30px"}}>(선택사항) 참고 사진을 선택하세요</BootstrapForm.Label>
-                                <Grid container spacing={2}>
-                                    <Grid item xs={9} >
-                                        { fileImage ? 
-                                        (
-                                            <Typography variant="h4" gutterBottom component="div" align="left" style={{ textDecoration: 'none', color:'#168d63' }}>
-                                                삭제를 누르셔야 다시 사진을 올리실 수 있습니다.
-                                            </Typography>
-                                        )
-                                        : 
-                                            <BootstrapForm.Control type="file" multiple size="lg" name="img" accept="image/*" onChange={saveFileImage}/>
-                                        }
-                                    </Grid>   
-                                    <Grid item xs={3} >
-                                    <ReactButton
-                                        style={{fontSize: "20px", textTransform: "none", padding: "10px 20px" }}
-                                        variant="secondary" 
-                                        onClick={() => deleteFileImage()}>
-                                        삭제
-                                    </ReactButton>
-                                    </Grid>     
-                                </Grid>
+                                    <BootstrapForm.Label style={{fontSize: "30px"}}>(선택사항) 참고 사진을 선택하세요</BootstrapForm.Label>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={9} >
+                                            { fileImage ? 
+                                            (
+                                                <Typography variant="h4" gutterBottom component="div" align="left" style={{ textDecoration: 'none', color:'#168d63' }}>
+                                                    삭제를 누르셔야 다시 사진을 올리실 수 있습니다.
+                                                </Typography>
+                                            )
+                                            : 
+                                                <BootstrapForm.Control type="file" multiple size="lg" name="media" accept="image/*" onChange={saveFileImage}/>
+                                            }
+                                        </Grid>   
+                                        <Grid item xs={3} >
+                                            <ReactButton
+                                                style={{fontSize: "20px", textTransform: "none", padding: "10px 20px" }}
+                                                variant="secondary" 
+                                                onClick={() => deleteFileImage()}>
+                                                삭제
+                                            </ReactButton>
+                                        </Grid>     
+                                    </Grid>
                                 </BootstrapForm.Group>
                             </Grid>
                         <Box width="50%" height="40%" >
-                            {fileImage ? (
+                            {fileImage ? 
+                            (
                                 <Carousel>
                                     {fileImage && fileImage.map((imageitem) => (
                                     <Carousel.Item>
@@ -213,12 +217,15 @@ export default function Question(){
                                     ))}
                                 </Carousel>
                             )
-                            : <br/> }
+                            : 
+                            <br/> 
+                            }
                             {/* {fileImage ? <img className="referenceImage" alt="referenceImage" src={fileImage} width="50%" height="50%"/> : <br/>} */}
                         </Box>           
                         
                         <Box height={30} />
-                        { qnaid ? (                          
+                        { qnaid ? 
+                        (                          
                             <Grid container spacing={2}>
                                 <Grid item xs={6}>
                                     <Button style={{fontSize: "20px"}} type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} size="large" color = "success">
@@ -234,7 +241,8 @@ export default function Question(){
                                 </Grid>
                             </Grid>                            
                         )
-                        :(
+                        :
+                        (
                             <Grid container spacing={2}>
                                 <Grid item xs={6}>
                                     <Button style={{fontSize: "20px"}} type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} size="large" color = "success">

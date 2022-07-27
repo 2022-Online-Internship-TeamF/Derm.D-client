@@ -6,6 +6,7 @@ import Home from "./routes/Home"
 import Infodisease from "./routes/Infodisease"
 import Question from "./routes/Question"
 import Answer from "./routes/Answer"
+import Answerlist from "./routes/Answerlist"
 import Scrap from "./routes/Scrap"
 import Qna from "./routes/Qna"
 import Judgment from "./routes/Judgment"
@@ -28,6 +29,7 @@ function App() {
             <Route path="/infodisease/:diseaseid/qna/:qnaid" element={<Qna />}></Route>                
             <Route path="/infodisease/:diseaseid/qna/:qnaid/answer" element={<Answer />}></Route> 
             <Route path="/infodisease/:diseaseid/qna/:qnaid/answer/:answerid" element={<Answer />}></Route>
+            <Route path="/infodisease/:diseaseid/qna/:qnaid/answerlist/:answerid" element={<Answerlist />}></Route>
           </Routes>
         </Router>
     </div>

@@ -70,7 +70,7 @@ function Header(){
     }, [localStorage.getItem('token')])
 
     useEffect(() => {
-      const fiveMinutes = 1000 * 60 * 4
+      const fiveMinutes = 1000 * 60 * 30
 
       const interval = setInterval(()=> {
         if(authTokens){
