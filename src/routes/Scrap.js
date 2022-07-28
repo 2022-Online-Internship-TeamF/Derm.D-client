@@ -22,7 +22,6 @@ const Scrapitem = styled.div`
 export default function Scrap(){
   const useGetData = () => {
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
-    const [Image, setImage] = useState('');
     const [ListScrap, setListScrap] = useState("");
     const [ScrapId, setScrapId] = useState("");
 
@@ -31,14 +30,24 @@ export default function Scrap(){
       await axios.get(postUrl)
       .then((response) => {
         setListScrap(response.data);
-        setImage(response.data.condition_conditionmedia);
         console.log(response.data);
-        console.log(response.data.condition_conditionmedia);
         console.log("성공");
       }).catch(function(error){
         console.log(error);
       });
     }
+    
+    
+    const setScrapname = (params) => {
+      setScrapId(params);
+
+      console.log(ScrapId);
+
+      if(ScrapId){
+        deleteScrap();
+      }
+    }
+    
 
     const deleteScrap = async () => {
       const postUrl = `/user/archive/${ScrapId}`;
@@ -46,6 +55,7 @@ export default function Scrap(){
       .then((response) => {
         setPopup({open: true, title: "성공!", message: "스크랩이 삭제되었습니다!"});
         setScrapId(null);
+        getListScrap();
         console.log("삭제 성공");
       }).catch(function(error){
         console.log(error);
@@ -60,13 +70,11 @@ export default function Scrap(){
       ListScrap,
       popup,
       setPopup,
-      deleteScrap,
-      setScrapId,
-      Image
+      setScrapname,
     }
   }
   
-  const { ListScrap, popup, setPopup, deleteScrap, setScrapId, Image } = useGetData();
+  const { ListScrap, popup, setPopup, setScrapname } = useGetData();
 
 
     return (
@@ -85,32 +93,21 @@ export default function Scrap(){
                       <Grid container spacing={8} >
                           {ListScrap && ListScrap.map((scrap) => (
                               <Grid item xl={3} lg={6} sm={12}>
-                                  <Card border='dark'>
-                                    {Image && Image.map((imageitem) => (
-                                      <Carousel.Item>
-                                        <img
-                                          className="d-block w-100"
-                                          src={imageitem.img}
-                                          height="400px"
-                                        />
-                                      </Carousel.Item>
-                                    ))}
-                                    {/* 
+                                  <Card border='dark'>                                    
                                     <Link to={`/infodisease/${scrap.eng_name}`} style={{ textDecoration: 'none', color:'black'}}>
                                       <Card.Img variant="top" src={scrap.condition_conditionmedia[0].img}/>
                                     </Link>
-                                    */}
                                       <Card.Body align='center'>
+                                        <Link to={`/infodisease/${scrap.eng_name}`} style={{ textDecoration: 'none', color:'black'}}>
                                           <Card.Title style={{ fontSize:'30px'}}>{scrap.kr_name}</Card.Title>
+                                        </Link>
+                                        <br/>
                                           <Button
-                                            style={{fontSize: "20px", textTransform: "none", padding: "10px 50px" }}
+                                            style={{fontSize: "25px", textTransform: "none", padding: "10px 60px" }}
                                             variant="danger" 
                                             align-item="center"
-                                            onClick={ () => {
-                                              setScrapId(scrap.eng_name)
-                                              deleteScrap() 
-                                            }
-                                            }>
+                                            onClick={() => setScrapname(`${scrap.eng_name}`)}
+                                            >
                                             삭제
                                           </Button>    
                                       </Card.Body>                                                                          
@@ -123,43 +120,4 @@ export default function Scrap(){
           </div>
       </>
   );
-/*    
-    return (
-        <>
-            <div>
-                <Header />
-                <br /><br /><br /><br /><br />
-                <Scrapitem>
-                    <Container maxWidth={"false"}>
-                        <Typography variant="h2" gutterBottom component="div" align="left" style={{ textDecoration: 'none', color:'#168d63' }}>
-                                스크랩 기록
-                        </Typography>
-                        <br />
-                        <Grid container spacing={8} >
-                            {cardData.map((data) => (
-                                <Grid item xl={3} lg={6} sm={12}>
-                                    <Card border='dark'>
-                                      <Link to={data.link} style={{ textDecoration: 'none', color:'black'}}>
-                                        <Card.Img variant="top" src={data.img}/>
-                                      </Link>
-                                        <Card.Body align='center'>
-                                            <Card.Title style={{ fontSize:'30px'}}>{data.title}</Card.Title>
-                                            <Button
-                                              style={{fontSize: "20px", textTransform: "none", padding: "10px 50px" }}
-                                              variant="danger" 
-                                              align-item="center"
-                                              onClick={() => deleteFileImage()}>
-                                              삭제
-                                            </Button>    
-                                        </Card.Body>                                                                          
-                                    </Card>                                    
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Container>
-                </Scrapitem>
-            </div>
-        </>
-    );
-  */
 }

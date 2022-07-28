@@ -1,6 +1,7 @@
 import React, {useEffect, useState } from "react";
 import axios from "axios";
 import Header from "../components/Header"
+import Popup from '../components/Popup'
 import styled from "styled-components";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -23,6 +24,7 @@ const Wrapper = styled.div`
 
 export default function Infodisease(){
   const useGetData = () => {
+    const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
     const [Disease, setDisease] = useState('');
     const [Image, setImage] = useState('');
     const [Question, setQuestion] = useState('');
@@ -34,6 +36,15 @@ export default function Infodisease(){
     const handleChange = (val) => {
       setSelect(val);
     }
+
+    useEffect(() => {
+      if (localStorage.getItem('token') !== null){
+        setAuthTokens(true);
+      }
+      else {
+        setAuthTokens(false);
+      }
+    }, [localStorage.getItem('token')])
 
     const getDisease = async () => {
       const postUrl = `/condition/${diseaseid}`;
@@ -61,6 +72,21 @@ export default function Infodisease(){
       });
     }
 
+    const postScrap = async () => {
+      const postUrl = "/user/archive";
+      const postValue = {
+        condition : Disease.eng_name,
+      }
+      await axios.post(postUrl, postValue)
+      .then((response) => {
+          if (response) {
+            setPopup({open: true, title: "성공!", message: "스크랩 되었습니다."});
+          }                    
+      }).catch(function(error){
+        console.log(error);
+      });
+    }
+
 
     useEffect(()=>{
       getDisease()
@@ -77,6 +103,8 @@ export default function Infodisease(){
     }, [localStorage.getItem('token')])  
 
     return {
+      popup, 
+      setPopup,
       Disease,
       select,
       Image,
@@ -84,13 +112,15 @@ export default function Infodisease(){
       Question,
       authTokens,
       handleChange,
+      postScrap,
     }
   }
   
-  const { Disease, select, Image, location, Question, authTokens, handleChange} = useGetData();
+  const { popup, setPopup, Disease, select, Image, location, Question, authTokens, handleChange, postScrap} = useGetData();
 
   return (
       <>
+      <Popup open = {popup.open} setPopup = {setPopup} title = {popup.title} message = {popup.message} callback = {popup.callback}/>
           <div>
               <Header />
               <br /><br /><br />
@@ -118,13 +148,24 @@ export default function Infodisease(){
                         </Typography>
                         <br/> <br/> <br/>
                         {authTokens ? (
-                        <Link to={`${location.pathname}/question`} style={{ textDecoration: 'none' }}>
-                          <Button 
-                          style={{fontSize: "40px", textTransform: "none", width: "100%", height: "150px" }} 
-                          variant="success">
-                            질문하러 가기
-                          </Button>
-                        </Link>
+                          <>
+                            <Link to={`${location.pathname}/question`} style={{ textDecoration: 'none' }}>
+                              <Button 
+                              style={{fontSize: "40px", textTransform: "none", width: "100%", height: "150px" }} 
+                              variant="success">
+                                질문하러 가기
+                              </Button>
+                            </Link>
+                            <br/><br/>
+                            <Grid item xs={12} align="right">
+                              <Button                     
+                                style={{fontSize: "60px", textTransform: "none", padding: "30px 40px" }} 
+                                variant="outline-success"
+                                onClick={postScrap}>
+                                  스크랩 하기
+                              </Button>             
+                            </Grid>
+                          </>
                         )
                         :
                         (<></>)
@@ -199,21 +240,7 @@ export default function Infodisease(){
                             )
                             :
                             (
-                            <Grid container direction="row-reverse" justifyContent="flex-start" alignItems="stretch" spacing={2}>
-                              {/*
-                              {QnaData.map((qnaitem) => (
-                                <Grid item xs={12}>
-                                <Paper elevation={3} style={{overflowWrap: 'break-word'}}>
-                                  <Link to={`${location.pathname}/qna/3`} style={{ textDecoration: 'none', color:'black' }}>
-                                    <Typography variant="h6" gutterBottom component="div" padding="10px 20px">
-                                      {qnaitem.contentquestion}
-                                    </Typography>
-                                  </Link>
-                                </Paper>
-                                </Grid>
-                              ))} 
-                              */}
-                              
+                            <Grid container direction="row-reverse" justifyContent="flex-start" alignItems="stretch" spacing={2}>                              
                               {Question.map((qnaitem) => (
                                 <Grid item xs={12}>
                                 <Paper elevation={3} style={{overflowWrap: 'break-word'}}>

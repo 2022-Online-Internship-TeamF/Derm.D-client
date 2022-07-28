@@ -94,7 +94,7 @@ export default function Answer(){
             //question이랑 answer 이미지 넣는 알고리즘 달라서 둘다 실험 해보고 되는 걸로 ㄱ 둘다 안되면 쓰읍
             if(postfile){
                 for(let k=0; k< postfile.length; k++){
-                    formData.append("content", postfile[k]);
+                    formData.append("media", postfile[k]);
                 }
             }
         

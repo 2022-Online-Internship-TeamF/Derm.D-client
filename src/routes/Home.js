@@ -43,7 +43,7 @@ export default function Home() {
   const onTransmit = (event) => {
     event.preventDefault();
 
-    console.log(Imageurl);
+    console.log(postfile);
     Imageurl.append('media', postfile);
 
     if(fileImage === Defaultimage){
@@ -56,20 +56,16 @@ export default function Home() {
 
   const postData = async () => {
     const postUrl = "/condition/classify";
-    await axios.post(postUrl, Imageurl,{
+    await axios.post(postUrl, Imageurl, {
       headers:{
-        'Content-Type' : 'multipart/form-data'
-      }
+          'Content-Type' : 'multipart/form-data'
+        }
     })
     .then((response) => {
-        if (response.data.status === "400") {
-            alert(response.data.message);
-        }
-        else if (response.data.status === "200"){
-            setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
-              navigate("/Judgment",{replace:true});
-            }});
-        }
+      console.log(response.data);
+      setPopup({open: true, title: "성공!", message: "증상이 판별 되었습니다!", callback: function(){
+        navigate("/Judgment",{replace:true});
+      }});
     }).catch(function(error){
         console.log(error);
     });

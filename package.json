@@ -55,7 +55,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://ec2-13-124-176-240.ap-northeast-2.compute.amazonaws.com/api/",
+  "proxy": "http://127.0.0.1:8000/api/",
   "main": "index.js",
   "author": "Na Kyu Tae <ncb6206@gmail.com>",
   "license": "MIT"

@@ -80,7 +80,6 @@ export default function Qna(){
     return {
       popup,
       setPopup,
-      Question,
       Answer,
       deleteAnswer,
       qnaid,
@@ -91,7 +90,7 @@ export default function Qna(){
   }
 
   const location = useLocation();
-  const {popup, setPopup, Question, Answer, deleteAnswer, qnaid, user, AnswerImage, answerid } = useGetData();
+  const {popup, setPopup, Answer, deleteAnswer, qnaid, user, AnswerImage, answerid } = useGetData();
   
 
     return (

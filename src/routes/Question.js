@@ -38,10 +38,10 @@ export default function Question(){
     const useGetData = () => {
         const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
         const [fileImage, setFileImage] = useState("");
-        const [imagedummy, setimagedummy] = useState("");
+        const [imagedummy, setimagedummy] = useState([]);
         const [content, setContent] = useState('');
         const {diseaseid, qnaid} = useParams();
-        const postfile = new Set();
+        const postfile = new Array();
         const formData = new FormData();
         const navigate = useNavigate();
 
@@ -52,7 +52,7 @@ export default function Question(){
             for(let i=0; i< nowSelectImageList.length; i++){
                 const nowImageUrl = URL.createObjectURL(nowSelectImageList[i]);
                 nowImageURLList.push(nowImageUrl);
-                postfile.add(event.target.files[i]);
+                postfile.push(event.target.files[i]);
             }
 
             if(nowImageURLList.length > 10){
@@ -61,13 +61,16 @@ export default function Question(){
 
             setFileImage(nowImageURLList);
             console.log(event.target.files);
-            console.log(postfile);
+            console.log(postfile.size);
+            setimagedummy([...imagedummy,postfile]);
+            //setimagedummy(event.target.files[0]);
         };
     
         const deleteFileImage = () => {
             URL.revokeObjectURL(fileImage);
             setFileImage('');
-            postfile.clear();
+            setimagedummy(null);
+            //postfile.clear();
         };
 
         const onContentHandler = (event) => {
@@ -87,12 +90,14 @@ export default function Question(){
 
         const onSubmit = (event) => {
             event.preventDefault();
+            console.log(imagedummy);
             //question이랑 answer 이미지 넣는 알고리즘 달라서 둘다 실험 해보고 되는 걸로 ㄱ 둘다 안되면 쓰읍
+            for(let k=0; k < imagedummy.length; k++){
+                formData.append('media', imagedummy[k])
+            }
+            //formData.append('media', imagedummy)
             formData.append('content', content);
-            if(postfile){
-                postfile.map(file => formData.append("content", file));
-            }         
-
+          
             if(!(content)){
                 setPopup({open: true, title: "에러!", message: "내용을 입력해 주세요!"});
             }
@@ -225,6 +230,7 @@ export default function Question(){
                                         <img
                                         className="d-block w-100"
                                         src={imageitem}
+                                        width="400px"
                                         height="400px"
                                         />
                                     </Carousel.Item>

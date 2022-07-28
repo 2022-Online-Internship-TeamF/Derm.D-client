@@ -9,7 +9,7 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Carousel from 'react-bootstrap/Carousel';
-import { Link} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Wrapper = styled.div`
   height: auto;
@@ -51,50 +51,18 @@ const itemData = [
 
  // 이건 좀 수정해야됨
  export default function Judgment(){
-    const useGetData = () => {
-      const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
-      const [authTokens, setAuthTokens] = useState("");
+  /*
+  const getDiscriminate = () => {
+    const { state } = useLocation();
+    console.log(state);
+  }
 
-      useEffect(() => {
-        if (localStorage.getItem('token') !== null){
-          setAuthTokens(true);
-        }
-        else {
-          setAuthTokens(false);
-        }
-      }, [localStorage.getItem('token')])
-
-      const postScrap = async (event) => {
-        event.preventDefault();
-
-        const postUrl = "/user/archive";
-        const postValue = {
-          //condition : condition.eng_name,
-          condition : itemData.title,
-        }
-        await axios.post(postUrl, postValue)
-        .then((response) => {
-            if (response) {
-              setPopup({open: true, title: "성공!", message: "스크랩 되었습니다."});
-            }                    
-        }).catch(function(error){
-          console.log(error);
-        });
-      }
-
-      return {
-        popup,
-        setPopup,
-        authTokens,
-        postScrap,
-      }
-    }
-
-    const { popup, setPopup, authTokens, postScrap } = useGetData();
-
+  useEffect(()=>{
+    getDiscriminate()
+  },[]);
+*/
     return(
         <div>
-          <Popup open = {popup.open} setPopup = {setPopup} title = {popup.title} message = {popup.message} callback = {popup.callback}/>
           <Header />
           <br/>
           <Wrapper>
@@ -136,17 +104,6 @@ const itemData = [
                 </Grid>
               </Grid> 
               <br/><br/>
-              {authTokens ? (
-              <Grid item xs={12} align="right">
-                <Button                     
-                  style={{fontSize: "60px", textTransform: "none", padding: "30px 40px" }} 
-                  variant="outline-success"
-                  onClick={postScrap}>
-                    스크랩 하기
-                </Button>             
-              </Grid>
-              )
-              : (<></>) }
             </Container>               
           </Wrapper>
         </div>
