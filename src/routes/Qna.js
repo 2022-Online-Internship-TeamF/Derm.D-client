@@ -125,35 +125,38 @@ export default function Qna(){
                           </Typography>                    
                           <Box sx={{ width: '100%'}}>
                             <Paper elevation={3} style={{overflowWrap: 'break-word'}}>
+                              {/* 
                               <Grid container spacing={1}>
                                 <Grid item xs={6}>
-                                <Typography variant="h6" component="div" padding="10px 20px">
+                                <Typography variant="h5" component="div" padding="10px 20px">
                                   생성일자 : {Question.created_at}
                                 </Typography>
                                 </Grid>
                                 <Grid item xs={6}>
-                                <Typography variant="h6" component="div" padding="10px 10px">
+                                <Typography variant="h5" component="div" padding="10px 10px">
                                   수정일자 : {Question.modified_at}
                                 </Typography>
                                 </Grid>
                               </Grid>
                               <hr/>
+                              */}
                               <Typography variant="h4" gutterBottom component="div" padding="10px 20px">
                                 {Question.content}
                               </Typography>
-                              <hr/>
+                            </Paper>
+                            <Box sx={{ width: '50%'}}>
                               <Carousel>
                                 {QuestionImage && QuestionImage.map((imageitem) => (
                                   <Carousel.Item>
                                     <img
                                       className="d-block w-100"
                                       src={imageitem.img}
-                                      height="400px"
+                                      height="500px"                                   
                                     />
                                   </Carousel.Item>
                                 ))}
                               </Carousel>
-                            </Paper>
+                            </Box>
                           </Box>
                         </Grid>
 

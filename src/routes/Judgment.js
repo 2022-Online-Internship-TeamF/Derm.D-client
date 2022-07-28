@@ -60,14 +60,14 @@ const Wrapper = styled.div`
                     ))}
                 </Paper>                 
               </Grid>
-              <Grid item xs={12}>                   
+              <Grid item xs={3}></Grid>
+              <Grid item xs={9}>                   
                 {diseaseitem && diseaseitem.map((disease, index) => (
-                  <Typography variant="h2" gutterBottom component="div" align="center">
-                    {index+1}번째로 이 환부는 "
+                  <Typography variant="h2" gutterBottom component="div" align="left">
+                    {index+1} 순위로 판별된 증상 : {}
                     <Link to={`/infodisease/${disease.eng_name}`} style={{ textDecoration: 'none', color:'#168d63' }} variant="body2"> 
                       {disease.kr_name}
                     </Link> 
-                    " 으로 보여집니다.
                   </Typography>
                     ))}
               </Grid>

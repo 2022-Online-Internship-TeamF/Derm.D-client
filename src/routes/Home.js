@@ -114,19 +114,6 @@ export default function Home() {
                     진단하기
                   </Button>     
                 </Grid>         
-
-                {/* 여기부터 */}           
-                <Grid item xs={12} align='center'>    
-                  <br/><br/>
-                  <Link to="/Judgment" style={{ textDecoration: 'none' }}>
-                    <Button 
-                    style={{fontSize: "20px", textTransform: "none", padding: "20px 40px" }} 
-                    variant="success">
-                      진단하기로 가기 
-                    </Button>
-                  </Link>
-                </Grid>
-                {/* 여기까지 나중에 삭제 */}  
                 
               </Grid>
             </Grid> 

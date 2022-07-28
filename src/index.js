@@ -5,7 +5,6 @@ import { CookiesProvider } from 'react-cookie';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from "react-router-dom";
 import {createTheme, ThemeProvider} from "@mui/material";
 import "bootstrap/dist/css/bootstrap.min.css";
 

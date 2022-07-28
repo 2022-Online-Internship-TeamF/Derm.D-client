@@ -159,7 +159,7 @@ export default function Infodisease(){
                             <br/><br/>
                             <Grid item xs={12} align="right">
                               <Button                     
-                                style={{fontSize: "60px", textTransform: "none", padding: "30px 40px" }} 
+                                style={{fontSize: "60px", textTransform: "none", width: "100%", height: "150px" }} 
                                 variant="outline-success"
                                 onClick={postScrap}>
                                   스크랩 하기

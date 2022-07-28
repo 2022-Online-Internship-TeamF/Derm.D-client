@@ -25,25 +25,12 @@ const Wrapper = styled.div`
 `;
 
 export default function Qna(){
-  const useGetData = () => { //질문 수정이랑 삭제, 답변 작성, 수정/삭제 로그인 안하면 못하는 거 추가
+  const useGetData = () => { 
     const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
     const [Answer, setAnswer] = useState("");
     const [AnswerImage, setAnswerImage] = useState("");
-    const [user, setUser] = useState("")
     const {diseaseid, qnaid, answerid} = useParams();
     const navigate = useNavigate();
-    
-    const getUserData = async () => {
-      const postUrl = "/user";
-      await axios.get(postUrl)
-      .then((response) => {
-          setUser(response.data);
-          console.log(response.data);
-          console.log("성공");
-      }).catch(function(error){
-          console.log("실패");
-      });
-  }
 
     const getAnswer = async () => {
       const postUrl = `/condition/${diseaseid}/question/${qnaid}/answer/${answerid}`;
@@ -73,7 +60,6 @@ export default function Qna(){
     }
     
     useEffect(()=>{
-      getUserData();
       getAnswer()
     },[]);
 
@@ -82,15 +68,13 @@ export default function Qna(){
       setPopup,
       Answer,
       deleteAnswer,
-      qnaid,
-      user,
       AnswerImage,
       answerid,
     }
   }
 
   const location = useLocation();
-  const {popup, setPopup, Answer, deleteAnswer, qnaid, user, AnswerImage, answerid } = useGetData();
+  const {popup, setPopup, Answer, deleteAnswer, AnswerImage, answerid } = useGetData();
   
 
     return (
@@ -111,6 +95,7 @@ export default function Qna(){
                           </Typography>
                           <Box sx={{ width: '100%'}}>
                             <Paper elevation={3} style={{overflowWrap: 'break-word'}}>
+                              {/* 
                               <Grid container spacing={1}>
                                 <Grid item xs={6}>
                                 <Typography variant="h6" component="div" padding="10px 20px">
@@ -124,22 +109,24 @@ export default function Qna(){
                                 </Grid>
                               </Grid>
                               <hr/>
+                              */}
                               <Typography variant="h4" gutterBottom component="div" padding="10px 20px">
                                 {Answer.content}
                               </Typography>
-                              <hr/>
-                              <Carousel>
-                                {AnswerImage && AnswerImage.map((imageitem) => (
-                                  <Carousel.Item>
-                                    <img
-                                      className="d-block w-100"
-                                      src={imageitem.img}
-                                      height="400px"
-                                    />
-                                  </Carousel.Item>
-                                ))}
-                              </Carousel>
                             </Paper>
+                            <Box sx={{ width: '50%'}}>
+                                <Carousel>
+                                  {AnswerImage && AnswerImage.map((imageitem) => (
+                                    <Carousel.Item>
+                                      <img
+                                        className="d-block w-100"
+                                        src={imageitem.img}
+                                        height="400px"
+                                      />
+                                    </Carousel.Item>
+                                  ))}
+                                </Carousel>
+                            </Box>
                           </Box>
                         </Grid>
 

@@ -52,7 +52,8 @@ export default function Question(){
             for(let i=0; i< nowSelectImageList.length; i++){
                 const nowImageUrl = URL.createObjectURL(nowSelectImageList[i]);
                 nowImageURLList.push(nowImageUrl);
-                postfile.push(event.target.files[i]);
+                setimagedummy(event.target.files[i]);
+                //postfile.push(event.target.files[i]);
             }
 
             if(nowImageURLList.length > 10){
@@ -62,7 +63,7 @@ export default function Question(){
             setFileImage(nowImageURLList);
             console.log(event.target.files);
             console.log(postfile.size);
-            setimagedummy([...imagedummy,postfile]);
+            //setimagedummy([...imagedummy,postfile]);
             //setimagedummy(event.target.files[0]);
         };
     
@@ -76,26 +77,13 @@ export default function Question(){
         const onContentHandler = (event) => {
             setContent(event.target.value);
         }
-        
-        const getUserData = async () => {
-            const postUrl = "/user";
-            await axios.get(postUrl)
-            .then((response) => {
-                console.log(response.data);
-                console.log("성공");
-            }).catch(function(error){
-                console.log("실패");
-            });
-        }
 
         const onSubmit = (event) => {
             event.preventDefault();
             console.log(imagedummy);
-            //question이랑 answer 이미지 넣는 알고리즘 달라서 둘다 실험 해보고 되는 걸로 ㄱ 둘다 안되면 쓰읍
-            for(let k=0; k < imagedummy.length; k++){
-                formData.append('media', imagedummy[k])
-            }
-            //formData.append('media', imagedummy)
+            
+            formData.append('media', imagedummy);
+
             formData.append('content', content);
           
             if(!(content)){
@@ -149,10 +137,6 @@ export default function Question(){
               console.log(error);
             });
           }
-
-        useEffect(() => {
-            getUserData();
-        }, [])
 
         return {
             popup,

@@ -40,7 +40,7 @@ export default function Answer(){
         const [popup, setPopup] = useState({open: false, title: "", message: "", callback: false});
         const [fileImage, setFileImage] = useState("");
         const [content, setContent] = useState('');
-        const [user, setUser] = useState('');
+        const [imagedummy, setimagedummy] = useState([]);
         const {diseaseid, qnaid, answerid} = useParams();
         const postfile = new Set();
         const formData = new FormData();
@@ -53,7 +53,8 @@ export default function Answer(){
             for(let i=0; i< nowSelectImageList.length; i++){
                 const nowImageUrl = URL.createObjectURL(nowSelectImageList[i]);
                 nowImageURLList.push(nowImageUrl);
-                postfile.add(event.target.files[i]);
+                setimagedummy(event.target.files[i]);
+                //postfile.add(event.target.files[i]);
             }
 
             if(nowImageURLList.length > 10){
@@ -75,28 +76,12 @@ export default function Answer(){
             setContent(event.target.value);
         }
     
-        const getUserData = async () => {
-            const postUrl = "/user";
-            await axios.get(postUrl)
-            .then((response) => {
-                setUser(response.data);
-                console.log(response.data);
-                console.log("성공");
-            }).catch(function(error){
-                console.log("실패");
-            });
-        }
-        
         const onSubmit = (event) => {
             event.preventDefault();
-            //잘 등록 되는지 콘솔로 확인
+            
             formData.append("content", content);
-            //question이랑 answer 이미지 넣는 알고리즘 달라서 둘다 실험 해보고 되는 걸로 ㄱ 둘다 안되면 쓰읍
-            if(postfile){
-                for(let k=0; k< postfile.length; k++){
-                    formData.append("media", postfile[k]);
-                }
-            }
+            
+            formData.append('media', imagedummy);
         
             if(!(content)){
                 setPopup({open: true, title: "에러!", message: "내용을 입력해 주세요!"});
@@ -119,12 +104,16 @@ export default function Answer(){
                   }
               })
             .then((response) => {
-                setPopup({open: true, title: "성공!", message: (response.data.message), callback: function(){
+                setPopup({open: true, title: "성공!", message: "답변 작성하였습니다!", callback: function(){
                     navigate(`/infodisease/${diseaseid}`,{replace:true});
                   }});  
                   console.log("답변 작성 성공");                
             }).catch(function(error){
                 console.log(error);
+                setPopup({open: true, title: "실패!", message: "답변 작성 권한이 없습니다!", callback: function(){
+                    navigate(`/infodisease/${diseaseid}`,{replace:true});
+                  }});  
+                console.log("답변 작성 권한이 없습니다!");       
             });
         }
 
@@ -149,10 +138,6 @@ export default function Answer(){
               console.log(error);
             });
           }
-
-        useEffect(() => {
-            getUserData();
-        }, [])
 
         return{
             popup,
