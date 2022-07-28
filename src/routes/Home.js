@@ -64,7 +64,7 @@ export default function Home() {
     .then((response) => {
       console.log(response.data);
       setPopup({open: true, title: "성공!", message: "증상이 판별 되었습니다!", callback: function(){
-        navigate("/Judgment",{replace:true});
+        navigate("/Judgment",{ state : { imageurl : fileImage, discriminate : response.data } });
       }});
     }).catch(function(error){
         console.log(error);

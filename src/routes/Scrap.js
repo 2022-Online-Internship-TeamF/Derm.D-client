@@ -38,9 +38,9 @@ export default function Scrap(){
     }
     
     
-    const setScrapname = (params) => {
-      setScrapId(params);
-
+    const setScrapname = (value) => {
+      setScrapId(value);
+      //setTimeout(()=> console.log("after",3000))
       console.log(ScrapId);
 
       if(ScrapId){
