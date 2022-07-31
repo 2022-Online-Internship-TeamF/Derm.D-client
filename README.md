@@ -7,7 +7,8 @@
 ## Installation Process  
 ```bash
 $ git clone https://github.com/2022-Online-Internship-TeamF/Derm.D-client.git 
-$ 추후수정
+$ npm update
+$ npm run start
 ```  
 
 ## Tech stack
