@@ -1,14 +1,13 @@
-# Frontend
+# Dumdi Dumdi
 
 ## Architecture - frontend
 ![다운로드](https://user-images.githubusercontent.com/62326659/181936227-757ade3f-70b6-49cb-9140-a4a3a87288b4.png)
 
 
-## Installation Process  
+## 프로젝트 시작
 ```bash
-$ git clone https://github.com/2022-Online-Internship-TeamF/Derm.D-client.git 
-$ npm update
-$ npm run start
+$ npm install
+$ npm start
 ```  
 
 ## Tech stack
