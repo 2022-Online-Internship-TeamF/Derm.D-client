@@ -62,10 +62,12 @@ $ npm install
 $ npm start
 ```  
 
-## 기술스택
+## 기술 스택
 |   범위    | 스택 |
-| :-------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| Front End | <img src="https://cdn.simpleicons.org/javascript/#F7DF1E" alt="" height="50"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="" height="50"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="https://cdn.simpleicons.org/mui/#007FFF" alt="" height="50"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="https://images.velog.io/images/vi2920va/post/9b15f05e-6a45-4490-9003-2250397ecf58/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C.png" alt="" height="50"/> |
+| ------- | ------ |
+| 언어 | <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white"> |
+| 메인 라이브러리 | <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white"> |
+| 기타 라이브러리 | <img src="https://img.shields.io/badge/mui-007FFF?style=for-the-badge&logo=mui&logoColor=white"> <img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=black"> |
 
 ## Contact Information  
 |Name|나규태|
